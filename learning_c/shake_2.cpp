@@ -11,6 +11,34 @@ void printVector(const std::vector<int>& v) {
     std::cout << std::endl;
 }
 
+double getMeanVector(const vector<int>& v) {
+    int sum = 0;
+    int length = v.size();
+
+    for (int num : v) {
+
+        sum = sum + num;
+    }
+
+    double mean = static_cast<double>(sum) / length;
+
+    return mean;
+
+}
+
+double findMaxElement(const vector<double>& v) {
+
+    double maxElement = numeric_limits<double>::lowest();
+
+    for (double num : v) {
+        if (num > maxElement) {
+            maxElement = num;
+        }
+    }
+
+    return maxElement;
+}
+
 struct Result {
     vector<int> index_list;
     int score;
@@ -81,32 +109,82 @@ string changeCharInString(string test, Result result){
     return test;
 }
 
-int main() {
-    bool stop = true;
-    int i = 0;
+string getString() {
     string goal;
 
     cout << "Enter a string: ";
     getline(cin, goal);
+
+    return goal;
+
+}
+int runTest(string goal) {
+    bool stop = true;
+    int i = 0;
+
+    // string goal = getString();
     int goal_length = goal.size();
+    
     string test = genRandomString(goal_length);
 
+    Result* resultPtr = nullptr;
+
     while (stop) {
-        Result result = compareStrings(test, goal);
-        if (result.score == goal_length) {
+        delete resultPtr; // Clean up previous allocation
+        resultPtr = new Result(compareStrings(test, goal));
+        
+        if (i == 0) {
+            cout << "Try " << i << ' ' << "Score " << resultPtr->score << endl;
+            cout << test << std::endl;
+        }
+        else if (resultPtr->score == goal_length) {
             stop = false;
         }
         else if (i == 3000) {
             stop = false;
         }
         else {
-            test = changeCharInString(test, result);
+            test = changeCharInString(test, *resultPtr);
         }
         
-        cout << "Try " << i << ' ' << "Score " << result.score << endl;
-        cout << test << endl;
         i = i + 1;
     }
+
+    cout << "Try " << i << ' ' << "Score " << resultPtr->score << endl;
+    cout << test << endl;
+
+    delete resultPtr; // Clean up final allocation
+    return i;
+}
+
+double run() {
+
+    vector<int> tries;
+
+    for (int i = 0; i < 10; i++) {
+        int num = runTest("Hello I am Ben");
+        cout << "---------------------------" << endl;
+        tries.push_back(num);
+    }
+
+    double mean = getMeanVector(tries);
+    printVector(tries);
+    cout << "Mean Number of Tries: " << mean << endl;
+
+    return mean;
+}
+
+int main() {
+
+    vector<double> means;
+
+    for (int i = 0; i < 500; i++) {
+
+        means.push_back(run());
+    }
+
+cout << "Maximum mean number of tries: " << findMaxElement(means) << endl;
+    
 
     return 0;
 }
