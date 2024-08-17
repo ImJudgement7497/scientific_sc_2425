@@ -162,7 +162,7 @@ double run() {
     vector<int> tries;
 
     for (int i = 0; i < 10; i++) {
-        int num = runTest("Hello I am Ben");
+        int num = runTest("jasdkjaslkdjklasndmasndasnsdsdadlkjfjhbnbtnewiueqwemcxdjkashjdhasjkdhkasjnjcn");
         cout << "---------------------------" << endl;
         tries.push_back(num);
     }
@@ -178,7 +178,7 @@ int main() {
 
     vector<double> means;
 
-    for (int i = 0; i < 500; i++) {
+    for (int i = 0; i < 100; i++) {
 
         means.push_back(run());
     }
