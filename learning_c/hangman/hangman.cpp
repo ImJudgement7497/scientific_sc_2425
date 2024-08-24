@@ -12,6 +12,7 @@ struct Play {
     string goal; // goal word for the game
     string unknown; // Gets replaced with letters as they are guessed (starts as "___")
     vector<char> letters; // Capital Alphabet
+    int score = 0; // Score
 
 };
 
@@ -155,14 +156,23 @@ void get_string_from_user(Play& current_play) {
 }
 
 // Initalise the guess with "____"
-void initalise_guess(Play& current_play) {
+int initalise_guess(Play& current_play) {
 
-    int goal_length = current_play.goal.size();
-    for (int i = 0; i < goal_length; i++) {
+    int length_change = 0;
 
-        current_play.unknown = current_play.unknown + "_";
+    for (int i = 0; i < current_play.goal.size(); i++) {
+        if (current_play.goal[i] == ' ') {
 
+            current_play.unknown = current_play.unknown + " ";
+            length_change++;
+        }
+
+        else {
+
+            current_play.unknown = current_play.unknown + "_";
+        }
     }
+    return length_change;
 }
 
 // Initalise the alphabet
@@ -183,15 +193,15 @@ void get_inital_info(Play& current_play) {
 
         string start_string;
 
-        cout << "Would you like a random word or to enter your own phrase (Y/N): " << endl;
+        cout << "Would you like a random word (Y) or to enter your own phrase (N): " << endl;
         cin >> start_string;
 
-        if (start_string == "Y") {
+        if (start_string == "N") {
             get_string_from_user(current_play);
             to_lower_case(current_play.goal);
             stop = false;
         }
-        else if (start_string == "N") {
+        else if (start_string == "Y") {
             get_random_word(current_play);
             stop = false;
         }
@@ -209,7 +219,6 @@ char* get_guesses(char* guess_ptr){
     cout << "Please enter your guess: " << endl;
     cin >> *guess_ptr; // Assign the user inputted string to the reference of the pointer
     to_lower_case(*guess_ptr);
-    cout << "Your guess was: " << *guess_ptr << endl; 
 
     return guess_ptr;
 }
@@ -234,10 +243,25 @@ vector<int>* check_guess(Play& current_play, const char* guess_ptr) {
 }
 
 // Change the letters in unknown to the guessed letter through the indice pointer
-void change_unknown(Play& current_play, char* guess_ptr, vector<int>* indice_ptr) {
+int change_unknown(Play& current_play, char* guess_ptr, vector<int>* indice_ptr) {
     
+    int score = 0;
+
     for (int i : *indice_ptr) {
         current_play.unknown[i] = *guess_ptr;
+        score++;
+    }
+
+    return score;
+}
+
+// Change letters in alphabet to empty character
+void remove_letters(Play& current_play, char* guess_ptr) {
+
+    for (int i = 0; i < current_play.letters.size(); i++) {
+        if (current_play.letters[i] == *guess_ptr) {
+            current_play.letters[i] = ' ';
+        }
     }
 
 }
@@ -248,42 +272,52 @@ void start_game() {
 
     get_inital_info(play);
     initialise_alphabet(play);
-    initalise_guess(play);
-    print_vector(play.letters);
+    int length_change = initalise_guess(play);
 
     bool stop = true;
     int life = 0;
     char* guess_ptr = nullptr; // Create a new pointer
     vector<int>* indice_ptr = nullptr;
-    int test = 0;
 
     while (stop) {
         delete guess_ptr; // Clean up previous memory allocation (use delete[] for arrays)
         delete indice_ptr;
-        print_hangman(life);
-        cout << "Word/Phrase: " << play.unknown << endl;
-        guess_ptr = get_guesses(guess_ptr); // Create new pointer pointing to guess string
 
-        indice_ptr = check_guess(play, guess_ptr);
-        cout << "Indice " << endl;
-        // print_vector(*indice_ptr);
+        if (life >= 7) {
+            cout << "YOU HAVE LOST! The word was: " << play.goal << endl;
+            break;
+        }
 
-        if (indice_ptr) {
-
-            change_unknown(play, guess_ptr, indice_ptr);
-            // delete[] indice_ptr;
+        else if (play.score >= (play.goal.size() - length_change)) {
+            cout << "YOU HAVE WON! The word was: " << play.goal << endl;
+            break;
         }
         else {
-            delete indice_ptr;
-            stop = false;
+            print_vector(play.letters);
+            print_hangman(life);
+            cout << "Word/Phrase: " << play.unknown << endl;
+            guess_ptr = get_guesses(guess_ptr); // Create new pointer pointing to guess string
+
+            indice_ptr = check_guess(play, guess_ptr);
+
+            if (indice_ptr) {
+                int score = change_unknown(play, guess_ptr, indice_ptr); // No change in life
+                play.score = play.score + score;
+            }
+            else { // Change in life
+                delete indice_ptr;
+                life++;
+            }
+
+            remove_letters(play, guess_ptr);
+
         }
 
-        cout << "Test Run: " << test << endl;
-        test++;
 
     }
 
-    delete guess_ptr; // Clean up guess_ptr
+    // delete guess_ptr; // Clean up guess_ptr
+    cout << "Thanks for playing!" << endl;
 }
 
 int main() {
