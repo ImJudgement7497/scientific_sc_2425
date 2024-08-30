@@ -52,94 +52,221 @@ public:
 
 class Player
 {
-public:
-    vector<vector<int>> grid;
-    vector<Ship> ships;
-    string name;
 
-    void create_ships()
+private:
+    void print_vector_of_pairs(const vector<pair<int, int>> &vec)
     {
-        vector<int> sizes = {5, 4, 3, 3, 2};
-
-        for (int size : sizes)
+        for (const auto &p : vec)
         {
-            Ship ship(size);       // Create a Ship object directly
-            ships.push_back(ship); // Push the object into the vector
+            cout << "(" << p.first << ", " << p.second << ")" << endl;
         }
     }
 
-    // Find the coordinates from the first corner and orientation
-    pair<int, int> find_coordinates(const pair<int, int> &first_coor, char &orientation, Ship &ship)
+    void print_grid(const vector<vector<char>> &grid)
     {
+        for (const auto &row : grid)
+        {
+            for (const auto &cell : row)
+            {
+                cout << cell << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    // Change grid at a given coordinate with a specfied change
+    // Handles out of bounds exceptions
+    void change_grid(pair<int, int> &coor, char change)
+    {
+
+        grid[coor.first + 1][coor.second + 1] = change;
+        print_grid(grid);
+    }
+
+    void change_grid(vector<pair<int, int>> &positions, char change)
+    {
+        for (auto &pos : positions)
+        {
+            grid[pos.first + 1][pos.second + 1] = change;
+        }
+        print_grid(grid);
+    }
+
+    // Add all the coordinates to a vector of coordinates
+    vector<pair<int, int>> fill_position(const pair<int, int> &first_coor, char &orientation, Ship &ship)
+    {
+
+        vector<pair<int, int>> positions;
         pair<int, int> second_coor;
 
-        if (orientation == 'V')
+        for (int i = 1; i <= ship.size; i++)
         {
-            second_coor.first = first_coor.first + ship.size - 1;
-            second_coor.second = first_coor.second;
-        }
-
-        else
-        {
-            second_coor.first = first_coor.first;
-            second_coor.second = second_coor.second + ship.size - 1;
-        }
-
-        return second_coor;
-    }
-
-    void place_ships()
-    {
-        int row;
-        int column;
-        pair<int, int> first_coor;
-        char orientation;
-        int i = 0;
-        bool stop = true;
-
-        while (i <= ships.size())
-        {
-            cout << "Enter row (integer): ";
-            cin >> first_coor.first;
-
-            // Check if input failed (e.g., user didn't enter an integer)
-            if (cin.fail())
+            if (orientation == 'V')
             {
-                cin.clear();                                         // Clear the error flag
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
-                cout << "Invalid input. Please enter an integer for the row." << endl;
-                continue; // Restart the loop
+                second_coor.first = first_coor.first + i - 1;
+                second_coor.second = first_coor.second;
             }
 
-            cout << "Enter column (integer): ";
-            cin >> first_coor.second;
+            else
+            {
+                second_coor.first = first_coor.first;
+                second_coor.second = first_coor.second + i - 1;
+            }
+
+            positions.push_back(second_coor);
+        }
+
+        return positions;
+    }
+
+    // Helper function to get and validate coordinate input
+    int get_coordinate(const string &prompt)
+    {
+        int coord;
+        while (true)
+        {
+            cout << prompt;
+            cin >> coord;
 
             if (cin.fail())
             {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cout << "Invalid input. Please enter an integer for the column." << endl;
-                continue;
+                cout << "Invalid input. Please enter an integer." << endl;
             }
+            else
+            {
+                return coord;
+            }
+        }
+    }
 
+    // Helper function to get and validate orientation input
+    char get_orientation()
+    {
+        char orientation;
+        while (true)
+        {
             cout << "Would you like to place it vertically (V) or horizontally (H)? ";
             cin >> orientation;
 
-            // Check the orientation input
-            if (orientation != 'V' && orientation != 'H')
+            if (orientation == 'V' || orientation == 'H')
+            {
+                return orientation;
+            }
+            else
             {
                 cout << "Error: Please enter 'V' or 'H'." << endl;
-                continue;
             }
+        }
+    }
 
-            cout << "Ship size" << ships[i].size << ": " << i << endl;
-            cout << "1st " << first_coor.first << first_coor.second << endl;
+    // Function to check if the ship's positions are valid and do not overlap with other ships
+    bool check_ship_positions(const Ship &ship)
+    {
+        // Check if all positions are within bounds
+        for (const auto &pos : ship.positions)
+        {
+            if (pos.first < 0 || pos.first >= 11 || pos.second < 0 || pos.second >= 11)
+            {
+                return false;
+            }
+        }
 
-            pair<int, int> second_coor = find_coordinates(first_coor, orientation, ships[i]);
+        // Check for overlaps with other ships
+        for (const auto &other_ship : ships_vector)
+        {
+            for (const auto &pos : ship.positions)
+            {
+                // If pos is found in other_ship.positions, return false
+                if (find(other_ship.positions.begin(), other_ship.positions.end(), pos) != other_ship.positions.end())
+                {
+                    return false;
+                }
+            }
+        }
 
-            cout << "2nd " << second_coor.first << second_coor.second << endl;
+        return true;
+    }
 
-            i++;
+    // Function to place a single ship
+    void place_single_ship(int size)
+    {
+        Ship ship(size);
+
+        bool stop = true;
+
+        while (stop)
+        {
+            pair<int, int> first_coor;
+            cout << "Player Name: " << name << endl;
+
+            // Get and validate coordinates
+            first_coor.first = get_coordinate("Enter row (integer): ");
+            first_coor.second = get_coordinate("Enter column (integer): ");
+
+            char orientation = get_orientation();
+
+            // Set ship position
+            ship.set_position(fill_position(first_coor, orientation, ship));
+
+            if (check_ship_positions(ship))
+            {
+                stop = false; // Exit the loop if all positions are valid
+                change_grid(ship.positions, 'S');
+            }
+            else
+            {
+                cout << "Error: Some positions are out of bounds. Please enter the coordinates again." << endl;
+            }
+        }
+
+        ships_vector.push_back(ship);
+    }
+
+public:
+    vector<vector<char>> grid;
+    vector<Ship> ships_vector;
+    string name;
+
+    // Function to initialize the grid and print it
+    void initalise_grid()
+    {
+        // Initialize a 11x11 grid with the character '~'
+        vector<vector<char>> inital_grid(11, vector<char>(11, '~'));
+        inital_grid[0][0] = ' ';
+
+        for (int col = 1; col < 11; col++)
+        {
+
+            inital_grid[0][col] = col + 47; // Need ASCI for int '0-9'
+        }
+
+        for (int row = 1; row < 11; row++)
+        {
+            inital_grid[row][0] = row + 47;
+        }
+
+        print_grid(inital_grid);
+        grid = inital_grid;
+    }
+
+    // Get name input
+    void get_name()
+    {
+        cout << "What is your name?" << endl;
+        cin >> name;
+    }
+
+    // Main function to place all ships
+    void place_ships()
+    {
+        vector<int> sizes = {5, 4, 3, 3, 2};
+        for (int size : sizes)
+        {
+            cout << "-------------------------------------------------------------------------------------------" << endl;
+            cout << "Placing Ship of size " << size << endl;
+            place_single_ship(size);
         }
     }
 
@@ -159,7 +286,8 @@ int main()
 {
 
     Player player;
-    player.create_ships();
+    player.initalise_grid();
+    player.get_name();
     player.place_ships();
     return 0;
 }
