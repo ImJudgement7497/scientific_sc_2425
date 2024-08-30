@@ -2,7 +2,7 @@
     "files.associations": {
         "iostream": "cpp",
         "*.tcc": "cpp",
-        "clang-format.style": "Google",
+        "clang-format.style": "Microsoft",
         "editor.formatOnSave": true,
         "new": "cpp",
         "array": "cpp",
