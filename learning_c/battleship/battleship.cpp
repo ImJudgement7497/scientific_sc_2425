@@ -31,11 +31,11 @@ public:
     }
 
     // Checks if a coordinate is equal to the position of ship
-    bool occupies_position(int x, int y) const
+    bool occupies_position(pair<int, int> target) const
     {
         for (const auto &pos : positions)
         {
-            if (pos.first == x && pos.second == y)
+            if (pos.first == target.first && pos.second == target.second)
             {
                 return true;
             }
@@ -72,24 +72,6 @@ private:
             }
             cout << endl;
         }
-    }
-
-    // Change grid at a given coordinate with a specfied change
-    // Handles out of bounds exceptions
-    void change_grid(pair<int, int> &coor, char change)
-    {
-
-        grid[coor.first + 1][coor.second + 1] = change;
-        print_grid(grid);
-    }
-
-    void change_grid(vector<pair<int, int>> &positions, char change)
-    {
-        for (auto &pos : positions)
-        {
-            grid[pos.first + 1][pos.second + 1] = change;
-        }
-        print_grid(grid);
     }
 
     // Add all the coordinates to a vector of coordinates
@@ -213,7 +195,7 @@ private:
             if (check_ship_positions(ship))
             {
                 stop = false; // Exit the loop if all positions are valid
-                change_grid(ship.positions, 'S');
+                change_grid(ship.positions, 'S', player_grid);
             }
             else
             {
@@ -225,30 +207,74 @@ private:
     }
 
 public:
-    vector<vector<char>> grid;
+    vector<vector<char>> player_grid;
+    vector<vector<char>> opponent_grid;
     vector<Ship> ships_vector;
     string name;
+
+    void print_player_grid()
+    {
+        for (const auto &row : player_grid)
+        {
+            for (const auto &cell : row)
+            {
+                cout << cell << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    void print_opponent_grid()
+    {
+        for (const auto &row : opponent_grid)
+        {
+            for (const auto &cell : row)
+            {
+                cout << cell << " ";
+            }
+            cout << endl;
+        }
+    }
 
     // Function to initialize the grid and print it
     void initalise_grid()
     {
         // Initialize a 11x11 grid with the character '~'
-        vector<vector<char>> inital_grid(11, vector<char>(11, '~'));
-        inital_grid[0][0] = ' ';
+        vector<vector<char>> template_grid(11, vector<char>(11, '~'));
+        template_grid[0][0] = ' ';
 
         for (int col = 1; col < 11; col++)
         {
 
-            inital_grid[0][col] = col + 47; // Need ASCI for int '0-9'
+            template_grid[0][col] = col + 47; // Need ASCI for int '0-9'
         }
 
         for (int row = 1; row < 11; row++)
         {
-            inital_grid[row][0] = row + 47;
+            template_grid[row][0] = row + 47;
         }
 
-        print_grid(inital_grid);
-        grid = inital_grid;
+        // print_grid(inital_grid);
+        player_grid = template_grid;
+        opponent_grid = template_grid;
+    }
+
+    // Change grid at a given coordinate with a specfied change
+    // Handles out of bounds exceptions
+    void change_grid(pair<int, int> &coor, char change, vector<vector<char>> &grid)
+    {
+
+        grid[coor.first + 1][coor.second + 1] = change;
+        print_grid(grid);
+    }
+
+    void change_grid(vector<pair<int, int>> &positions, char change, vector<vector<char>> &grid)
+    {
+        for (auto &pos : positions)
+        {
+            grid[pos.first + 1][pos.second + 1] = change;
+        }
+        print_grid(grid);
     }
 
     // Get name input
@@ -270,24 +296,94 @@ public:
         }
     }
 
-    void recieve_shot()
+    pair<int, int> shoot()
     {
+
+        pair<int, int> target_coor;
+        target_coor.first = get_coordinate("Enter target row (integer): ");
+        target_coor.second = get_coordinate("Enter target column (integer): ");
+
+        return target_coor;
+    }
+
+    // Returns true if hit
+    bool recieve_shot(pair<int, int> &target_coor)
+    {
+        for (auto &ship : ships_vector)
+        {
+            if (ship.occupies_position(target_coor))
+            {
+                change_grid(target_coor, 'X', player_grid);
+                ship.hits++;
+                return true;
+            }
+            else
+            {
+                change_grid(target_coor, 'M', player_grid);
+                return false;
+            }
+        }
     }
 };
 
-// class BattleshipGame {
+class BattleshipGame
+{
+private:
+    void clear_terminal()
+    {
+        cout << "Clearing: " << endl;
+        cin.get();
+        system("clear");
+    }
 
-// private:
-//     static const int grid_size = 10; // static ensures all functions within the class use the same object
+    void print_battleship_title()
+    {
+        std::cout << R"(
+------------------------------------------------
+  ____        _   _   _          _     _       
+ |  _ \      | | | | | |        | |   (_)      
+ | |_) | __ _| |_| |_| | ___ ___| |__  _ _ __  
+ |  _ < / _` | __| __| |/ _ / __| '_ \| | '_ \ 
+ | |_) | (_| | |_| |_| |  __\__ | | | | | |_) |
+ |____/ \__,_|\__|\__|_|\___|___|_| |_|_| .__/ 
+                                        | |    
+                                        |_|    
+------------------------------------------------    
+    )" << std::endl;
+    }
 
-// };
+public:
+    Player player_1;
+    Player player_2;
+    int player_tracker = 1; 
+
+    void start_game()
+    {
+
+        player_1.initalise_grid();
+        cout << "Player 1" << endl;
+        player_1.get_name();
+
+        player_2.initalise_grid();
+        cout << "Player 2" << endl;
+        player_2.get_name();
+        clear_terminal();
+        print_battleship_title();
+
+        player_1.place_ships();
+        clear_terminal();
+        player_2.place_ships();
+        clear_terminal();
+
+        
+    }
+};
 
 int main()
 {
 
-    Player player;
-    player.initalise_grid();
-    player.get_name();
-    player.place_ships();
+    BattleshipGame game;
+    game.start_game();
+
     return 0;
 }
