@@ -4,6 +4,8 @@
 #include <fstream>
 #include <algorithm>
 #include <cctype>
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
@@ -59,18 +61,6 @@ private:
         for (const auto &p : vec)
         {
             cout << "(" << p.first << ", " << p.second << ")" << endl;
-        }
-    }
-
-    void print_grid(const vector<vector<char>> &grid)
-    {
-        for (const auto &row : grid)
-        {
-            for (const auto &cell : row)
-            {
-                cout << cell << " ";
-            }
-            cout << endl;
         }
     }
 
@@ -196,6 +186,7 @@ private:
             {
                 stop = false; // Exit the loop if all positions are valid
                 change_grid(ship.positions, 'S', player_grid);
+                print_player_grid();
             }
             else
             {
@@ -212,6 +203,17 @@ public:
     vector<Ship> ships_vector;
     string name;
 
+    void print_grid(const vector<vector<char>> &grid)
+    {
+        for (const auto &row : grid)
+        {
+            for (const auto &cell : row)
+            {
+                cout << cell << " ";
+            }
+            cout << endl;
+        }
+    }
     void print_player_grid()
     {
         for (const auto &row : player_grid)
@@ -265,7 +267,6 @@ public:
     {
 
         grid[coor.first + 1][coor.second + 1] = change;
-        print_grid(grid);
     }
 
     void change_grid(vector<pair<int, int>> &positions, char change, vector<vector<char>> &grid)
@@ -274,7 +275,15 @@ public:
         {
             grid[pos.first + 1][pos.second + 1] = change;
         }
-        print_grid(grid);
+    }
+
+    void change_player_grid(pair<int, int> &coor, char change)
+    {
+        player_grid[coor.first + 1][coor.second + 1] = change;
+    }
+    void change_opponent_grid(pair<int, int> &coor, char change)
+    {
+        opponent_grid[coor.first + 1][coor.second + 1] = change;
     }
 
     // Get name input
@@ -313,13 +322,13 @@ public:
         {
             if (ship.occupies_position(target_coor))
             {
-                change_grid(target_coor, 'X', player_grid);
+                change_player_grid(target_coor, 'X');
                 ship.hits++;
                 return true;
             }
             else
             {
-                change_grid(target_coor, 'M', player_grid);
+                change_player_grid(target_coor, 'M');
                 return false;
             }
         }
@@ -329,13 +338,16 @@ public:
 class BattleshipGame
 {
 private:
-    void clear_terminal()
+    // Clears the terminal completly
+    void clear_terminal(int delay)
     {
-        cout << "Clearing: " << endl;
+        cout << "Clearing Terminal" << endl;
         cin.get();
+        delay_function(delay);
         system("clear");
     }
 
+    // Prints the Battleship ACSI art
     void print_battleship_title()
     {
         std::cout << R"(
@@ -352,14 +364,33 @@ private:
     )" << std::endl;
     }
 
-public:
-    Player player_1;
-    Player player_2;
-    int player_tracker = 1; 
-
-    void start_game()
+    void delay_function(int delay)
     {
+        this_thread::sleep_for(std::chrono::seconds(delay));
+    }
+    void print_dash_lines()
+    {
+        cout << "--------------------------------------------------------------------------------------------" << endl;
+    }
 
+    void print_turn_info(int &current, int &opponent)
+    {
+        print_dash_lines();
+        cout << "------------------------------OPPONENT GRID------------------------------" << endl;
+        pl_vec[current].print_opponent_grid();
+        print_dash_lines();
+        cout << "------------------------------YOUR GRID------------------------------" << endl;
+        pl_vec[current].print_player_grid();
+        print_dash_lines();
+    }
+
+    void initalise_player_vector(Player &player_1, Player &player_2)
+    {
+        pl_vec = {player_1, player_2};
+    }
+
+    void initalise_all()
+    {
         player_1.initalise_grid();
         cout << "Player 1" << endl;
         player_1.get_name();
@@ -367,15 +398,84 @@ public:
         player_2.initalise_grid();
         cout << "Player 2" << endl;
         player_2.get_name();
-        clear_terminal();
+        clear_terminal(2);
         print_battleship_title();
 
         player_1.place_ships();
-        clear_terminal();
+        clear_terminal(2);
         player_2.place_ships();
-        clear_terminal();
+        clear_terminal(2);
 
-        
+        initalise_player_vector(player_1, player_2);
+    }
+    void play_turn()
+    {
+
+        bool is_turn_over = true;
+        int current;
+        int opponent;
+
+        // whose turn is it?
+        if (player_tracker == 0)
+        {
+            // player 1's turn, so does the shooting and player 2 does the reciving
+            current = 0;
+            opponent = 1;
+        }
+        else
+        {
+            // player 2's turn, so does the shooting and player 1 does the reciving
+            current = 1;
+            opponent = 0;
+        }
+
+        cout << "Loading " << pl_vec[current].name << "'s turn!" << endl;
+        delay_function(5);
+        /*
+        -Display current players grid and opponent grid
+        -Shoot
+        -If hit, mark H on reciving players grid and on current players opponent grid and continue turn
+        -If miss, mark M on reciving players grid and on current players opponenet grid and end turn*/
+        print_dash_lines();
+        print_battleship_title();
+        print_dash_lines();
+
+        while (is_turn_over)
+        {
+            print_turn_info(current, opponent);
+
+            pair<int, int> target = pl_vec[current].shoot();
+            is_turn_over = pl_vec[opponent].recieve_shot(target);
+            if (is_turn_over)
+            {
+                cout << pl_vec[current].name << ", you hit " << pl_vec[opponent].name << "'s ship at (" << target.first << "," << target.second << ")!" << endl;
+                pl_vec[current].change_opponent_grid(target, 'H');
+                delay_function(3);
+            }
+            else
+            {
+                cout << pl_vec[current].name << ", you missed (" << target.first << "," << target.second << ")!" << endl;
+                pl_vec[current].change_opponent_grid(target, 'M');
+                delay_function(3);
+            }
+        }
+    }
+
+public:
+    Player player_1;
+    Player player_2;
+    vector<Player> pl_vec;
+    int player_tracker = 0;
+
+    void start_game()
+    {
+        initalise_all();
+        for (int i = 0; i < 2; i++)
+        {
+            play_turn();
+
+            player_tracker = 1;
+        }
     }
 };
 
