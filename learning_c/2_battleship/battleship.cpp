@@ -59,27 +59,30 @@ private:
         print_dash_lines();
     }
 
-    void initalise_player_vector(Player &player_1, Player &player_2)
-    {
+    void initalise_player_vector()
+    {   
+        Player player_1;
+        Player player_2;
+
         pl_vec = {player_1, player_2};
     }
 
     void initalise_all()
     {
+        initalise_player_vector();
         cout << "Player 1" << endl;
-        player_1.get_name();
+        pl_vec[0].get_name();
 
         cout << "Player 2" << endl;
-        player_2.get_name();
+        pl_vec[1].get_name();
         clear_terminal("Loading", 2);
         print_battleship_title();
 
-        player_1.place_ships();
+        pl_vec[0].place_ships();
         clear_terminal("Loading", 2);
-        player_2.place_ships();
+        pl_vec[1].place_ships();
         clear_terminal("Loading", 2);
 
-        initalise_player_vector(player_1, player_2);
     }
     void play_turn()
     {
@@ -135,8 +138,8 @@ private:
     }
 
 public:
-    Player player_1;
-    Player player_2;
+    // Player player_1;
+    // Player player_2;
     vector<Player> pl_vec;
     bool player_tracker = true; // PLayer 1 is true, player 2 is false
 
