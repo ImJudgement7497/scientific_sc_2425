@@ -66,11 +66,9 @@ private:
 
     void initalise_all()
     {
-        player_1.initalise_grid();
         cout << "Player 1" << endl;
         player_1.get_name();
 
-        player_2.initalise_grid();
         cout << "Player 2" << endl;
         player_2.get_name();
         clear_terminal("Loading", 2);
