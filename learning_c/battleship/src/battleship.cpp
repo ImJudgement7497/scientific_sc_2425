@@ -184,7 +184,7 @@ public:
         {
             play_turn();
 
-            if (is_game_over)
+            if (is_game_over())
             {
                 break;
             }
