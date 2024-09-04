@@ -38,11 +38,11 @@ private:
     )" << std::endl;
     }
 
-   
     void delay_function(int delay)
     {
         this_thread::sleep_for(std::chrono::seconds(delay));
     }
+
     void print_dash_lines()
     {
         cout << "--------------------------------------------------------------------------------------------" << endl;
@@ -60,7 +60,7 @@ private:
     }
 
     void initalise_player_vector()
-    {   
+    {
         Player player_1;
         Player player_2;
 
@@ -82,8 +82,8 @@ private:
         clear_terminal("Loading", 2);
         pl_vec[1].place_ships();
         clear_terminal("Loading", 2);
-
     }
+
     void play_turn()
     {
 
@@ -137,6 +137,39 @@ private:
         }
     }
 
+    bool is_game_over()
+    {
+        int player;
+        int ships_destroyed = 0;
+
+        if (player_tracker)
+        {
+            player = 0;
+        }
+        else
+        {
+            player = 1;
+        }
+
+        for (const auto &ship : pl_vec[player].ships_vector)
+        {
+            if (ship.is_sunk())
+            {
+                ships_destroyed = ships_destroyed + 1;
+            }
+
+            if (ships_destroyed == 5)
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+        }
+    }
+
 public:
     // Player player_1;
     // Player player_2;
@@ -144,13 +177,17 @@ public:
     bool player_tracker = true; // PLayer 1 is true, player 2 is false
 
     void start_game()
-    {   
+    {
         clear_terminal("", 1);
         initalise_all();
         while (true)
         {
             play_turn();
 
+            if (is_game_over)
+            {
+                break;
+            }
             player_tracker = !player_tracker;
         }
     }
