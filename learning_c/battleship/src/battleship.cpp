@@ -126,13 +126,13 @@ private:
             {
                 cout << pl_vec[current].name << ", you hit " << pl_vec[opponent].name << "'s ship at (" << target.first << "," << target.second << ")!" << endl;
                 pl_vec[current].change_opponent_grid(target, 'H');
-                delay_function(3);
+                // delay_function(3);
             }
             else
             {
                 cout << pl_vec[current].name << ", you missed at (" << target.first << "," << target.second << ")!" << endl;
                 pl_vec[current].change_opponent_grid(target, 'M');
-                delay_function(3);
+                // delay_function(3);
             }
         }
     }
@@ -144,11 +144,12 @@ private:
 
         if (player_tracker)
         {
-            player = 0;
+            // if pllayer 1's turn, it needs to be player 2's ship checked if destroyed
+            player = 1;
         }
         else
         {
-            player = 1;
+            player = 0;
         }
 
         for (const auto &ship : pl_vec[player].ships_vector)
@@ -165,9 +166,11 @@ private:
 
             else
             {
-                return false;
+                continue;
             }
         }
+
+        return false;
     }
 
 public:
