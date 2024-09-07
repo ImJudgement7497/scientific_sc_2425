@@ -1,0 +1,61 @@
+#ifndef BATTLESHIPGAME_H
+#define BATTLESHIPGAME_H
+
+#include <iostream>
+#include <random>
+#include <vector>
+#include <fstream>
+#include <algorithm>
+#include <cctype>
+#include <thread>
+#include <chrono>
+#include "Player.h"
+
+using namespace std;
+
+class BattleshipGame
+{
+private:
+    // Clears the terminal completely
+    void clear_terminal(string message, int delay);
+
+    // Prints the Battleship ASCII art
+    void print_battleship_title();
+
+    // Introduces delay in seconds
+    void delay_function(int delay);
+
+    // Prints a dashed line
+    void print_dash_lines();
+
+    // Prints the player's grid and opponent's grid
+    void print_turn_info(int &current, int &opponent);
+
+    // Initializes the player vector
+    void initalise_player_vector();
+
+    // Initializes the game and sets player names and ships
+    void initalise_all();
+
+    // Handles the turn for the current player
+    void play_turn();
+
+    // Checks if the game is over (i.e., all ships of a player are sunk)
+    bool is_game_over();
+
+public:
+    // Vector to store players
+    vector<Player> pl_vec;
+
+    // Tracks the current player (true for Player 1, false for Player 2)
+    bool player_tracker = true;
+
+    // Tracks whether the game is over
+    bool game_over = false;
+
+    // Starts the game loop
+    void start_game();
+};
+
+#endif // BATTLESHIPGAME_H
+
