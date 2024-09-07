@@ -120,6 +120,8 @@ private:
         {
             print_turn_info(current, opponent);
 
+            // Shoot then recieve then decide what happens after
+
             pair<int, int> target = pl_vec[current].shoot();
             is_turn_over = pl_vec[opponent].recieve_shot(target);
             if (is_turn_over)
@@ -134,6 +136,13 @@ private:
                 pl_vec[current].change_opponent_grid(target, 'M');
                 // delay_function(3);
             }
+
+            if (is_game_over()) {
+                cout << "Congratulations " << pl_vec[current].name << ", you have won!" << endl;
+                game_over = true;
+                break;
+            }
+
         }
     }
 
@@ -178,19 +187,15 @@ public:
     // Player player_2;
     vector<Player> pl_vec;
     bool player_tracker = true; // PLayer 1 is true, player 2 is false
+    bool game_over = false;
 
     void start_game()
     {
         clear_terminal("", 1);
         initalise_all();
-        while (true)
+        while (!game_over)
         {
             play_turn();
-
-            if (is_game_over())
-            {
-                break;
-            }
             player_tracker = !player_tracker;
         }
     }
