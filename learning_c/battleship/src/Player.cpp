@@ -55,6 +55,26 @@ int Player::get_coordinate(const string &prompt)
     }
 }
 
+int Player::get_target_coordinate(const string &prompt)
+{
+
+    while (true)
+    {
+
+        int coord = get_coordinate(prompt);
+
+        if (coord < 0 || coord >= 11)
+        {
+            cout << "Invalid input. Out of bounds" << endl;
+        }
+
+        else
+        {
+            return coord;
+        }
+    }
+}
+
 // Helper function to get and validate orientation input
 char Player::get_orientation()
 {
@@ -241,8 +261,8 @@ void Player::place_ships()
 pair<int, int> Player::shoot()
 {
     pair<int, int> target_coor;
-    target_coor.first = get_coordinate("Enter target row (integer): ");
-    target_coor.second = get_coordinate("Enter target column (integer): ");
+    target_coor.first = get_target_coordinate("Enter target row (integer): ");
+    target_coor.second = get_target_coordinate("Enter target column (integer): ");
     return target_coor;
 }
 

@@ -18,6 +18,7 @@ private:
     void print_vector_of_pairs(const vector<pair<int, int>> &vec);
     vector<pair<int, int>> fill_position(const pair<int, int> &first_coor, char &orientation, Ship &ship);
     int get_coordinate(const string &prompt);
+    int get_target_coordinate(const string &prompt);
     char get_orientation();
     bool check_ship_positions(const Ship &ship);
     void place_single_ship(int size);
