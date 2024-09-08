@@ -58,4 +58,3 @@ public:
 };
 
 #endif // BATTLESHIPGAME_H
-
