@@ -75,6 +75,20 @@ void BattleshipGame::initalise_all()
     clear_terminal("Loading", 2);
 }
 
+bool BattleshipGame::is_ship_destroyed(int &opponent)
+{
+    for (const auto &ship : pl_vec[opponent].ships_vector)
+    {
+        if (ship.is_sunk())
+        {
+            cout << pl_vec[opponent].name << "'s " << ship.name << " has been destroyed!" << endl;
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void BattleshipGame::play_turn()
 {
     bool is_turn_over = true;
@@ -113,12 +127,17 @@ void BattleshipGame::play_turn()
             cout << pl_vec[current].name << ", you hit " << pl_vec[opponent].name << "'s ship at (" << target.first << "," << target.second << ")!" << endl;
             pl_vec[current].change_opponent_grid(target, 'H');
             delay_function(3);
+            if (is_ship_destroyed(opponent))
+            {
+                delay_function(3);
+                break;
+            }
         }
         else
         {
             cout << pl_vec[current].name << ", you missed at (" << target.first << "," << target.second << ")!" << endl;
             pl_vec[current].change_opponent_grid(target, 'M');
-            delay_function(3);
+            // delay_function(3);
         }
 
         if (is_game_over())

@@ -37,6 +37,8 @@ private:
     // Initializes the game and sets player names and ships
     void initalise_all();
 
+    bool is_ship_destroyed(int &opponent);
+
     // Handles the turn for the current player
     void play_turn();
 

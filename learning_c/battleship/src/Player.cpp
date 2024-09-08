@@ -1,5 +1,14 @@
 #include "Player.h"
 
+Player::Player()
+{
+
+    name_info[5] = "Carrier";
+    name_info[4] = "Battleship";
+    name_info[3] = "Submarine";
+    name_info[2] = "Patrol Boat";
+}
+
 // Helper function to print a vector of pairs (used internally)
 void Player::print_vector_of_pairs(const vector<pair<int, int>> &vec)
 {
@@ -124,12 +133,14 @@ bool Player::check_ship_positions(const Ship &ship)
 void Player::place_single_ship(int size)
 {
     Ship ship(size);
+    ship.set_name(name_info[size]);
     bool stop = true;
 
     while (stop)
     {
         pair<int, int> first_coor;
         cout << "Player Name: " << name << endl;
+        cout << "Placing " << ship.name << " (size " << size << ")" << endl;
 
         first_coor.first = get_coordinate("Enter row (integer): ");
         first_coor.second = get_coordinate("Enter column (integer): ");
@@ -245,7 +256,6 @@ void Player::place_ships()
         for (int size : sizes)
         {
             cout << "-------------------------------------------------------------------------------------------" << endl;
-            cout << "Placing Ship of size " << size << endl;
             place_single_ship(size);
         }
         cout << "Are you happy?" << endl;

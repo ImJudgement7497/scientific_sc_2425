@@ -7,7 +7,7 @@
 #include <iostream>
 #include <limits>
 #include <algorithm>
-#include "Ship.h"  // Include the header file for the Ship class
+#include "Ship.h" // Include the header file for the Ship class
 
 using namespace std;
 
@@ -29,6 +29,9 @@ public:
     vector<vector<char>> opponent_grid;
     vector<Ship> ships_vector;
     string name;
+    unordered_map<int, string> name_info;
+
+    Player();
 
     // Public member functions
     void print_grid(const vector<vector<char>> &grid);

@@ -25,6 +25,11 @@ bool Ship::occupies_position(std::pair<int, int> target) const
     return false;
 }
 
+void Ship::set_name(std::string &ship_name)
+{
+    name = ship_name;
+}
+
 bool Ship::is_sunk() const
 {
     return hits >= size;
