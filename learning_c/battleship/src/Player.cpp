@@ -26,7 +26,7 @@ vector<pair<int, int>> Player::fill_position(const pair<int, int> &first_coor, c
 
     for (int i = 1; i <= ship.size; i++)
     {
-        if (orientation == 'V')
+        if (orientation == 'V' || orientation == 'v')
         {
             second_coor.first = first_coor.first + i - 1;
             second_coor.second = first_coor.second;
