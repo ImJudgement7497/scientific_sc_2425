@@ -106,7 +106,7 @@ void BattleshipGame::play_turn()
         current = 1;  // player 2's turn
         opponent = 0; // player 1 is the opponent
     }
-
+    clear_terminal("", 3);
     cout << "Loading " << pl_vec[current].name << "'s turn!" << endl;
     clear_terminal("", 5);
 

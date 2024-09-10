@@ -93,7 +93,7 @@ char Player::get_orientation()
         cout << "Would you like to place it vertically (V) or horizontally (H)? ";
         cin >> orientation;
 
-        if (orientation == 'V' || orientation == 'H')
+        if (orientation == 'V' || orientation == 'H' || orientation == 'v' || orientation == 'h')
         {
             return orientation;
         }
