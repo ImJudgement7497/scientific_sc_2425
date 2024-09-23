@@ -34,4 +34,5 @@ int main()
         double approx = calculate_pi(n);
         cout << n << " iterations: " << approx << ": Percent Error: " << percent_error_calc(approx) << endl;
     }
+    return 0;
 }
