@@ -1,0 +1,8 @@
+{
+    "type": "cppdbg",
+    "request": "launch",
+    "name": "C++ Launch",
+    "program": "${workspaceFolder}/ppq_1/Q1_bmjm501",
+    "cwd": "${workspaceFolder}",
+    "MIMode": "gdb" // or "lldb" for macOS
+}
