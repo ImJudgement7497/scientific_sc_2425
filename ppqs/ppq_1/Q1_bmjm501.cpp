@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 using namespace std;
 
@@ -17,20 +18,20 @@ double calculate_pi(const int &N)
     return (pi * 4) / N;
 }
 
-double error_calc(const double& approx) {
-    cout << M_PI;
-    return 0.0;
-    
-} 
+double percent_error_calc(const double &approx)
+{
+    double error = abs((M_PI - approx) / (M_PI)) * 100.0;
+    return error;
+}
 
 int main()
 {
-    error_calc(1.90);
+    vector<int> n_values = {10, 100, 1000, 10000, 100000, 999999999};
     cout.precision(20);
-    cout << calculate_pi(10) << endl;
-    cout << calculate_pi(100) << endl;
-    cout << calculate_pi(1000) << endl;
-    cout << calculate_pi(10000) << endl;
-    cout << calculate_pi(100000) << endl;
-    cout << calculate_pi(500000) << endl;
+
+    for (int n : n_values)
+    {
+        double approx = calculate_pi(n);
+        cout << n << " iterations: " << approx << ": Percent Error: " << percent_error_calc(approx) << endl;
+    }
 }
