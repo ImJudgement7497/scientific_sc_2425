@@ -26,8 +26,8 @@ double percent_error_calc(const double &approx)
 
 int main()
 {
-    vector<int> n_values = {10, 100, 1000, 10000, 100000, 999999999};
-    cout.precision(20);
+    vector<int> n_values = {10, 100, 1000, 10000, 100000, 999999999, 2147483647}; // Note the last number is the largest number that can be stored in int
+    cout.precision(15); // Maximum number of decimal places a double can hold without roundinng error
 
     for (int n : n_values)
     {
