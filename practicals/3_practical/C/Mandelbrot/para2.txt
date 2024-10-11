@@ -1,0 +1,2 @@
+Area of Mandelbrot set =   5.62500000 +/-   0.00281250
+Area of Mandelbrot set =   5.62500000 +/-   0.00281250
