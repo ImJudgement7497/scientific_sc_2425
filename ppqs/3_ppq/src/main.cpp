@@ -5,14 +5,12 @@
 #include <numeric>
 #include <omp.h>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
-void serial()
+void serial(vector<int> &N_values)
 {
-
-    vector<int> N_values = {1000, 2000, 5000, 10000, 20000, 50000,
-                            100000, 200000, 500000, 1000000, 2000000, 5000000};
 
     vtimer_t timer;
     for (int j = 0; j < N_values.size(); ++j)
@@ -57,10 +55,8 @@ double kahan_sum(const vector<double> &input)
     return sum;
 }
 
-void parallel()
+void parallel(vector<int> &N_values)
 {
-    vector<int> N_values = {1000, 2000, 5000, 10000, 20000, 50000,
-                            100000, 200000, 500000, 1000000, 2000000, 5000000};
 
     for (int j = 0; j < N_values.size(); ++j)
     {
@@ -101,15 +97,97 @@ void parallel()
 
         printf("N value: %d Sum: %f Time: %f\n", N, total_sum,
                end_time - start_time);
+
+        // if (N == 1000000)
+        // {
+        //     ofstream file;
+        //     string file_path = "./results/parra_times.txt";
+        //     file.open(file_path, ios::app);
+
+        //     file << end_time - start_time << endl;
+        //     file.close();
+        // }
     }
 }
 
+double parallel_for_mean(int &N)
+{
+
+    vector<double> A(N, 0.0), B(N, 0.0);
+    double start_time = omp_get_wtime();
+
+    vector<double> thread_sums(omp_get_max_threads(), 0.0);
+    vector<double> thread_compensations(omp_get_max_threads(), 0.0);
+
+#pragma omp parallel default(none) \
+    shared(A, B, N, thread_sums, thread_compensations)
+    {
+        int tid = omp_get_thread_num();
+        double local_sum = 0.0;
+        double local_compensation = 0.0;
+
+#pragma omp for
+        for (int i = 0; i < N; ++i)
+        {
+            A[i] = i + 1;
+            B[i] = A[i] * A[i];
+            A[i] = A[i] + sqrt(abs(sin(B[i]))) * 2.34;
+
+            double y = A[i] - local_compensation;
+            double t = local_sum + y;
+            local_compensation = (t - local_sum) - y;
+            local_sum = t;
+        }
+
+        thread_sums[tid] = local_sum;
+        thread_compensations[tid] = local_compensation;
+    }
+
+    double total_sum = kahan_sum(thread_sums);
+
+    double end_time = omp_get_wtime();
+
+    return end_time - start_time;
+}
+
+void analysis()
+{
+    int N = 1000000;
+    vector<double> times;
+    double sum = 0.0;
+
+    for (int i = 0; i < 100; i++)
+    {
+        times.push_back(parallel_for_mean(N));
+    }
+
+    for (double num : times)
+    {
+
+        sum += num;
+    }
+
+    ofstream file;
+    string file_path = "./results/parra_times.txt";
+    file.open(file_path, ios::app);
+
+    file << (sum / times.size()) << endl;
+    file.close();
+}
+
+// int main()
+// {
+//     vector<int> N_values = {1000, 2000, 5000, 10000, 20000, 50000,
+//                             100000, 200000, 500000, 1000000, 2000000, 5000000};
+//     cout << "RUNNING ON " << omp_get_max_threads() << " THREADS" << endl;
+//     cout << "------------SERIAL----------------" << endl;
+//     serial(N_values);
+//     cout << "------------PARALLEL--------------" << endl;
+//     parallel(N_values);
+//     return 0;
+// }
+
 int main()
 {
-    cout << "RUNNING ON " << omp_get_max_threads() << " THREADS" << endl;
-    cout << "------------SERIAL----------------" << endl;
-    serial();
-    cout << "------------PARALLEL--------------" << endl;
-    parallel();
-    return 0;
+    analysis();
 }
