@@ -88,9 +88,8 @@ void question_1()
                 printf("%d %s \n", i, message.c_str());
             }
         }
-
-        printf("%d, %d, %d, %d, %d \n", sum, sum1, sum2, sum3, sum4);
     }
+    printf("%d, %d, %d, %d, %d \n", sum, sum1, sum2, sum3, sum4);
 }
 
 // long question_2(const long N) {
