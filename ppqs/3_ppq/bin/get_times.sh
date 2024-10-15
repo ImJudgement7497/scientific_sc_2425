@@ -3,7 +3,7 @@ clear
 rm ./results/parra_times_teaching0.txt
 
 # Loop from 1 to 12 to set OMP_NUM_THREADS
-for num_threads in {1..48}
+for num_threads in {1..20}
 do
     # Export the number of threads to OMP_NUM_THREADS
     export OMP_NUM_THREADS=$num_threads
