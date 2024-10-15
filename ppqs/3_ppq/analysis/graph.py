@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-with open("./results/parra_times.txt", "r") as file:
+with open("./results/parra_times_teaching0.txt", "r") as file:
     times = [float(line.strip()) for line in file]
 
 x = np.arange(1, len(times) + 1, 1)
