@@ -5,7 +5,7 @@
 #SBATCH --mail-user=bmjm501@york.ac.uk         # NB change uid to your username if wanting to send mail
 
 #need ONE of the following two lines:
-#SBATCH --partition=PET-TEACH-2024         # priority queue for class work
+#SBATCH --partition=teach         # priority queue for class work
 ##SBATCH --account=dept-proj-year           # specify your project account if NOT doing class work
 
 #customise these according to job size and time required:
