@@ -171,7 +171,7 @@ void analysis()
     }
 
     ofstream file;
-    string file_path = "./results/parra_times_teaching0.txt";
+    string file_path = "./results/parra_times_VIKING.txt";
     file.open(file_path, ios::app);
 
     file << (time_sum / times.size()) << endl;
