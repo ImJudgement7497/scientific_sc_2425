@@ -39,17 +39,17 @@ int main(int argc, char **argv)
     {
         int ierr = MPI_Send(&mydata, 1, MPI_INT, 1, 178, MPI_COMM_WORLD);
         cout << "Rank 0 sent: " << mydata << endl;
-        int ierr = MPI_Recv(&mydata, 1, MPI_INT, 1, 178, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        int ierr2 = MPI_Recv(&mydata, 1, MPI_INT, 1, 178, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         cout << "Rank 0 recieved: " << mydata << endl;
     }
 
     if (myrank == 1)
     {   
     
-        int ierr = MPI_Recv(&mydata, 1, MPI_INT, 0, 178, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        int ierr3 = MPI_Recv(&mydata, 1, MPI_INT, 0, 178, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         cout << "Rank 1 recieved: " << mydata << endl;
         mydata = myrank;
-        int ierr = MPI_Send(&mydata, 1, MPI_INT, 0, 178, MPI_COMM_WORLD);
+        int ierr4 = MPI_Send(&mydata, 1, MPI_INT, 0, 178, MPI_COMM_WORLD);
         cout << "Rank 1 sent: " << mydata << endl;
     }
 

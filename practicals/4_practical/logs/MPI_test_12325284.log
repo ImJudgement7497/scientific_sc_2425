@@ -1,0 +1,52 @@
+mpic++ -std=c++17 -ggdb -Iinclude -fopenmp -Iinclude src/main.cpp -o bin/main 
+src/main.cpp: In function ‘int main(int, char**)’:
+src/main.cpp:42:13: error: redeclaration of ‘int ierr’
+   42 |         int ierr = MPI_Recv(&mydata, 1, MPI_INT, 1, 178, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      |             ^~~~
+src/main.cpp:40:13: note: ‘int ierr’ previously declared here
+   40 |         int ierr = MPI_Send(&mydata, 1, MPI_INT, 1, 178, MPI_COMM_WORLD);
+      |             ^~~~
+src/main.cpp:52:13: error: redeclaration of ‘int ierr’
+   52 |         int ierr = MPI_Send(&mydata, 1, MPI_INT, 0, 178, MPI_COMM_WORLD);
+      |             ^~~~
+src/main.cpp:49:13: note: ‘int ierr’ previously declared here
+   49 |         int ierr = MPI_Recv(&mydata, 1, MPI_INT, 0, 178, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      |             ^~~~
+make: *** [Makefile:16: bin/main] Error 1
+My working directory is /users/bmjm501/scratch/scientific_sc_2425/practicals/4_practical
+Running job on host:
+	node002.viking2.yor.alces.network at Fri 18 Oct 14:35:08 BST 2024
+	using 4 MPI tasks
+
+--------------------------------------------------------------------------
+mpiexec was unable to launch the specified application as it could not access
+or execute an executable:
+
+Executable: ./bin/main
+Node: node002
+
+while attempting to start process rank 0.
+--------------------------------------------------------------------------
+4 total processes failed to start
+
+Job completed at Fri 18 Oct 14:35:09 BST 2024
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 12325284
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 4
+CPU Utilized: 00:00:01
+CPU Efficiency: 6.25% of 00:00:16 core-walltime
+Job Wall-clock time: 00:00:04
+Memory Utilized: 3.96 MB
+Memory Efficiency: 0.02% of 20.96 GB
+ Requested wall clock time: 00:05:00
+    Actual wall clock time: 00:00:04
+Wall clock time efficiency: 1.3%
+           Job queued time: 00:00:07

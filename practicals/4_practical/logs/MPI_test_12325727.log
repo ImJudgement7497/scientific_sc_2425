@@ -1,0 +1,33 @@
+rm: cannot remove './bin/main': No such file or directory
+mpic++ -std=c++17 -ggdb -Iinclude -fopenmp -Iinclude src/main.cpp -o bin/main 
+My working directory is /users/bmjm501/scratch/scientific_sc_2425/practicals/4_practical
+Running job on host:
+	node002.viking2.yor.alces.network at Fri 18 Oct 14:37:42 BST 2024
+	using 4 MPI tasks
+
+Rank 1 recieved: 0
+Rank 1 sent: 1
+Rank 0 sent: 0
+Rank 0 recieved: 1
+
+Job completed at Fri 18 Oct 14:37:42 BST 2024
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 12325727
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 4
+CPU Utilized: 00:00:02
+CPU Efficiency: 16.67% of 00:00:12 core-walltime
+Job Wall-clock time: 00:00:03
+Memory Utilized: 3.96 MB
+Memory Efficiency: 0.02% of 20.96 GB
+ Requested wall clock time: 00:05:00
+    Actual wall clock time: 00:00:03
+Wall clock time efficiency: 1.0%
+           Job queued time: 00:00:06
