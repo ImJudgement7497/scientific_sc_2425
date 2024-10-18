@@ -1,8 +1,8 @@
 g++ -std=c++17 -ggdb -Iinclude -fopenmp -Iinclude src/vtimer_t.cpp src/main.cpp -o bin/main 
 My working directory is /users/bmjm501/scratch/scientific_sc_2425/ppqs/3_ppq
 Running job on host:
-	node002.viking2.yor.alces.network at Fri Oct 18 17:15:47 BST 2024
-	with 4 CPU cores available
+	node002.viking2.yor.alces.network at Fri Oct 18 17:19:55 BST 2024
+	with 20 CPU cores available
 	using OMP threads
 
 [H[2J[3JRunning main with OMP_NUM_THREADS=1
@@ -26,24 +26,24 @@ Running main with OMP_NUM_THREADS=18
 Running main with OMP_NUM_THREADS=19
 Running main with OMP_NUM_THREADS=20
 
-Job completed at Fri Oct 18 17:17:16 BST 2024
+Job completed at Fri Oct 18 17:20:49 BST 2024
 
 ============================
  Job utilisation efficiency
 ============================
 
-Job ID: 12376209
+Job ID: 12376210
 Cluster: viking2.yor.alces.network
 User/Group: bmjm501/clusterusers
 State: COMPLETED (exit code 0)
 Nodes: 1
-Cores per node: 4
-CPU Utilized: 00:03:54
-CPU Efficiency: 63.59% of 00:06:08 core-walltime
-Job Wall-clock time: 00:01:32
-Memory Utilized: 39.26 MB
-Memory Efficiency: 0.18% of 20.96 GB
+Cores per node: 20
+CPU Utilized: 00:05:53
+CPU Efficiency: 30.96% of 00:19:00 core-walltime
+Job Wall-clock time: 00:00:57
+Memory Utilized: 27.66 MB
+Memory Efficiency: 0.03% of 104.79 GB
  Requested wall clock time: 00:05:00
-    Actual wall clock time: 00:01:32
-Wall clock time efficiency: 30.7%
-           Job queued time: 00:00:07
+    Actual wall clock time: 00:00:57
+Wall clock time efficiency: 19.0%
+           Job queued time: 00:00:01
