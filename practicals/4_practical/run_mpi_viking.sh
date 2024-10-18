@@ -1,6 +1,6 @@
 #!/bin/sh
 #SBATCH --job-name=MPI_test                # Job name
-#SBATCH --output=MPI_test_%j.log           # Standard out and error log
+#SBATCH --output=./logs/MPI_test_%j.log           # Standard out and error log
 #SBATCH --mail-type=NONE                   # Specify when to mail (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=bmjm501@york.ac.uk         # NB change uid to your username if wanting to send mail
 
@@ -17,6 +17,9 @@
 EXEC="./bin/main"
 
 #tell user what is going on:
+rm ./bin/main
+module load foss
+make
 echo My working directory is `pwd`
 echo Running job on host:
 echo -e '\t'`hostname` at `date`
