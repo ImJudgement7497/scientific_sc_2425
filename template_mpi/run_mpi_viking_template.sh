@@ -1,6 +1,6 @@
 #!/bin/sh
-#SBATCH --job-name=MPI_test                # Job name
-#SBATCH --output=./logs/MPI_test_%j.log           # Standard out and error log
+#SBATCH --job-name=JOBNAME                # Job name
+#SBATCH --output=./logs/JOBNAME_%j.log           # Standard out and error log
 #SBATCH --mail-type=NONE                   # Specify when to mail (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=bmjm501@york.ac.uk         # NB change uid to your username if wanting to send mail
 
