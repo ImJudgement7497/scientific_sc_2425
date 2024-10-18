@@ -1,0 +1,49 @@
+g++ -std=c++17 -ggdb -Iinclude -fopenmp -Iinclude src/vtimer_t.cpp src/main.cpp -o bin/main 
+My working directory is /users/bmjm501/scratch/scientific_sc_2425/ppqs/3_ppq
+Running job on host:
+	node002.viking2.yor.alces.network at Fri Oct 18 17:15:47 BST 2024
+	with 4 CPU cores available
+	using OMP threads
+
+[H[2J[3JRunning main with OMP_NUM_THREADS=1
+Running main with OMP_NUM_THREADS=2
+Running main with OMP_NUM_THREADS=3
+Running main with OMP_NUM_THREADS=4
+Running main with OMP_NUM_THREADS=5
+Running main with OMP_NUM_THREADS=6
+Running main with OMP_NUM_THREADS=7
+Running main with OMP_NUM_THREADS=8
+Running main with OMP_NUM_THREADS=9
+Running main with OMP_NUM_THREADS=10
+Running main with OMP_NUM_THREADS=11
+Running main with OMP_NUM_THREADS=12
+Running main with OMP_NUM_THREADS=13
+Running main with OMP_NUM_THREADS=14
+Running main with OMP_NUM_THREADS=15
+Running main with OMP_NUM_THREADS=16
+Running main with OMP_NUM_THREADS=17
+Running main with OMP_NUM_THREADS=18
+Running main with OMP_NUM_THREADS=19
+Running main with OMP_NUM_THREADS=20
+
+Job completed at Fri Oct 18 17:17:16 BST 2024
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 12376209
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 4
+CPU Utilized: 00:03:54
+CPU Efficiency: 63.59% of 00:06:08 core-walltime
+Job Wall-clock time: 00:01:32
+Memory Utilized: 39.26 MB
+Memory Efficiency: 0.18% of 20.96 GB
+ Requested wall clock time: 00:05:00
+    Actual wall clock time: 00:01:32
+Wall clock time efficiency: 30.7%
+           Job queued time: 00:00:07
