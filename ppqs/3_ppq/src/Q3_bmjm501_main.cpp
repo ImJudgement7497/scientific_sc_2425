@@ -13,13 +13,13 @@ using namespace std;
 double kahan_sum(const vector<double> &input)
 {
     double sum = 0.0;
-    double c = 0.0;
+    double compensation = 0.0;
 
     for (double num : input)
     {
-        double y = num - c;
+        double y = num - compensation;
         double t = sum + y;
-        c = (t - sum) - y;
+        compensation = (t - sum) - y;
         sum = t;
     }
 
