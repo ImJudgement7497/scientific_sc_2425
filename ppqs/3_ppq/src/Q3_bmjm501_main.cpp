@@ -26,6 +26,7 @@ double kahan_sum(const vector<double> &input)
     return sum;
 }
 
+// Perform algorithm and output the results without any parallisation
 void serial(vector<int> &N_values)
 {
 
@@ -61,6 +62,7 @@ void serial(vector<int> &N_values)
     }
 }
 
+// Perform algorithm and output results with parallisation
 void parallel(vector<int> &N_values)
 {
 
@@ -74,6 +76,7 @@ void parallel(vector<int> &N_values)
         vector<double> thread_sums(omp_get_max_threads(), 0.0);
         vector<double> thread_compensations(omp_get_max_threads(), 0.0);
 
+// Go parallel
 #pragma omp parallel default(none) \
     shared(A, B, N, thread_sums, thread_compensations)
         {
@@ -90,7 +93,10 @@ void parallel(vector<int> &N_values)
                 B[i] = A[i] * A[i];
                 A[i] = A[i] + sqrt(abs(sin(B[i]))) * 2.34;
 
-                // Apply KS algorithm for each thread
+                /*
+                Instead of doing sum += A[i] we apply the Kahan summation algorithm
+                for more accurate sums when N is very large
+                */
                 double y = A[i] - local_compensation;
                 double t = local_sum + y;
                 local_compensation = (t - local_sum) - y;
@@ -112,6 +118,7 @@ void parallel(vector<int> &N_values)
     }
 }
 
+// Similar functiom to above, but for only one N value
 double parallel_for_mean(int &N)
 {
 
@@ -177,21 +184,22 @@ void analysis()
     file << (time_sum / times.size()) << endl;
     file.close();
 }
-/* This main is for getting results for all N values*/
-// int main()
-// {
-//     vector<int> N_values = {1000, 2000, 5000, 10000, 20000, 50000,
-//                             100000, 200000, 500000, 1000000, 2000000, 5000000};
-//     cout << "RUNNING ON " << omp_get_max_threads() << " THREADS" << endl;
-//     cout << "------------SERIAL----------------" << endl;
-//     serial(N_values);
-//     cout << "------------PARALLEL--------------" << endl;
-//     parallel(N_values);
-//     return 0;
-// }
 
-/* This main is for analysis*/
+/* This main is for getting results for all N values*/
 int main()
 {
-    analysis();
+    vector<int> N_values = {1000, 2000, 5000, 10000, 20000, 50000,
+                            100000, 200000, 500000, 1000000, 2000000, 5000000};
+    cout << "RUNNING ON " << omp_get_max_threads() << " THREADS" << endl;
+    cout << "------------SERIAL----------------" << endl;
+    serial(N_values);
+    cout << "------------PARALLEL--------------" << endl;
+    parallel(N_values);
+    return 0;
 }
+
+/* This main is for analysis*/
+// int main()
+// {
+//     analysis();
+// }
