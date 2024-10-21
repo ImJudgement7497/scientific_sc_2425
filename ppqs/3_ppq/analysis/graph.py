@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-with open("./results_2/parra_times_XT.txt", "r") as file:
+with open("./results/parra_times_XT.txt", "r") as file:
     times = [float(line.strip()) for line in file]
 
 x = np.arange(1, len(times) + 1, 1)
@@ -12,4 +12,4 @@ plt.xlabel("Number of Threads")
 plt.ylabel("Time (s)")
 plt.title("Parallel speedup for N=1000000 iterations (XT)")
 plt.grid()
-plt.savefig("./results_2/times_XT.png")
+plt.savefig("./results/times_XT.png")

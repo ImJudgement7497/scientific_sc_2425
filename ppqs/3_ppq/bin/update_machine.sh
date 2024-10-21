@@ -46,7 +46,7 @@ echo "Performing operations with modified files..."
 
 # ------------------------------------- #
 
-# bash ./bin/get_times.sh
+bash ./bin/get_times.sh
 
 # Second: Replace the user input string back to 'XT'
 restore_xt

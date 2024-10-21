@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-rm ./results_2/parra_times_XT.txt
+rm ./results/parra_times_XT.txt
 
 rm ./bin/main
 make
