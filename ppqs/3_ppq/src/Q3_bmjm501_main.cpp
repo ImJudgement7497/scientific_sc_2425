@@ -26,21 +26,6 @@ double kahan_sum(const vector<double> &input)
     return sum;
 }
 
-// Function that performs Kahan summation on two floating point numbers
-double kahan_sum(double &a, double &b)
-{
-    double sum = a;
-    double compensation = 0.0;
-
-    // Compute the compensated addition
-    double y = b - compensation;
-    double t = sum + y;
-    compensation = (t - sum) - y; // Adjust the compensation for floating-point error
-    sum = t;
-
-    return sum;
-}
-
 // Perform algorithm and output the results without any parallisation
 void serial(vector<int> &N_values)
 {
@@ -155,10 +140,15 @@ double parallel_for_mean(int &N)
 #pragma omp for
         for (int i = N - 1; i >= 0; i -= 1)
         {
+            // Apply algorithm
             A[i] = i + 1;
             B[i] = A[i] * A[i];
-            A[i] = A[i] + sqrt(abs(sin(B[i]))) * 2.34;
+            // A[i] = A[i] + sqrt(abs(sin(B[i]))) * 2.34;
 
+            /*
+            Instead of doing sum += A[i] we apply the Kahan summation algorithm
+            for more accurate sums when N is very large
+            */
             double y = sqrt(abs(sin(B[i]))) * 2.34 - local_compensation;
             double t = local_sum + y;
             local_compensation = (t - local_sum) - y;
@@ -204,21 +194,21 @@ void analysis()
 }
 
 /* This main is for getting results for all N values*/
-// int main()
-// {
-//     vector<int> N_values = {1000, 2000, 5000, 10000, 20000, 50000,
-//                             100000, 200000, 500000, 1000000, 2000000, 5000000};
-
-//     cout << "RUNNING ON " << omp_get_max_threads() << " THREADS" << endl;
-//     cout << "------------SERIAL----------------" << endl;
-//     serial(N_values);
-//     cout << "------------PARALLEL--------------" << endl;
-//     parallel(N_values);
-//     return 0;
-// }
-
-/* This main is for analysis*/
 int main()
 {
-    analysis();
+    vector<int> N_values = {1000, 2000, 5000, 10000, 20000, 50000,
+                            100000, 200000, 500000, 1000000, 2000000, 5000000};
+
+    cout << "RUNNING ON " << omp_get_max_threads() << " THREADS" << endl;
+    cout << "------------SERIAL----------------" << endl;
+    serial(N_values);
+    cout << "------------PARALLEL--------------" << endl;
+    parallel(N_values);
+    return 0;
 }
+
+/* This main is for analysis*/
+// int main()
+// {
+//     analysis();
+// }
