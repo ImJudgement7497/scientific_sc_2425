@@ -1,5 +1,5 @@
 #!/bin/sh
-#SBATCH --job-nameppq3                # Job name
+#SBATCH --job-name=ppq3                # Job name
 #SBATCH --output=./logs/PPQ3.log           # Standard out and error log
 #SBATCH --mail-type=NONE                   # Specify when to mail (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=bmjm501@york.ac.uk         # NB change uid to your username if wanting to send mail
