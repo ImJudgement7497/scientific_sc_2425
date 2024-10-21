@@ -26,6 +26,21 @@ double kahan_sum(const vector<double> &input)
     return sum;
 }
 
+// Function that performs Kahan summation on two floating point numbers
+double kahan_sum(double &a, double &b)
+{
+    double sum = a;
+    double compensation = 0.0;
+
+    // Compute the compensated addition
+    double y = b - compensation;
+    double t = sum + y;
+    compensation = (t - sum) - y; // Adjust the compensation for floating-point error
+    sum = t;
+
+    return sum;
+}
+
 // Perform algorithm and output the results without any parallisation
 void serial(vector<int> &N_values)
 {
@@ -39,7 +54,7 @@ void serial(vector<int> &N_values)
         double sum = 0.0;
         double compensation = 0.0;
 
-        for (int i = 0; i < N; ++i)
+        for (int i = N - 1; i >= 0; i -= 1)
         {
             A[i] = i + 1; // Perform the algorithm
             B[i] = A[i] * A[i];
@@ -86,7 +101,7 @@ void parallel(vector<int> &N_values)
             double local_compensation = 0.0;
 
 #pragma omp for
-            for (int i = 0; i < N; ++i)
+            for (int i = N - 1; i >= 0; i -= 1)
             {
                 // Apply algorithm
                 A[i] = i + 1;
@@ -136,7 +151,7 @@ double parallel_for_mean(int &N)
         double local_compensation = 0.0;
 
 #pragma omp for
-        for (int i = 0; i < N; ++i)
+        for (int i = N - 1; i >= 0; i -= 1)
         {
             A[i] = i + 1;
             B[i] = A[i] * A[i];
@@ -178,7 +193,7 @@ void analysis()
     }
 
     ofstream file;
-    string file_path = "./results/parra_times_VIKING.txt";
+    string file_path = "./results_2/parra_times_pc.txt";
     file.open(file_path, ios::app);
 
     file << (time_sum / times.size()) << endl;
