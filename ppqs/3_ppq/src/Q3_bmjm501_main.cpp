@@ -204,21 +204,21 @@ void analysis()
 }
 
 /* This main is for getting results for all N values*/
-int main()
-{
-    vector<int> N_values = {1000, 2000, 5000, 10000, 20000, 50000,
-                            100000, 200000, 500000, 1000000, 2000000, 5000000};
-
-    cout << "RUNNING ON " << omp_get_max_threads() << " THREADS" << endl;
-    cout << "------------SERIAL----------------" << endl;
-    serial(N_values);
-    cout << "------------PARALLEL--------------" << endl;
-    parallel(N_values);
-    return 0;
-}
-
-/* This main is for analysis*/
 // int main()
 // {
-//     analysis();
+//     vector<int> N_values = {1000, 2000, 5000, 10000, 20000, 50000,
+//                             100000, 200000, 500000, 1000000, 2000000, 5000000};
+
+//     cout << "RUNNING ON " << omp_get_max_threads() << " THREADS" << endl;
+//     cout << "------------SERIAL----------------" << endl;
+//     serial(N_values);
+//     cout << "------------PARALLEL--------------" << endl;
+//     parallel(N_values);
+//     return 0;
 // }
+
+/* This main is for analysis*/
+int main()
+{
+    analysis();
+}
