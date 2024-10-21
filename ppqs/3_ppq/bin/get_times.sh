@@ -1,6 +1,9 @@
 #!/bin/bash
 clear
-rm ./results_2/parra_times_pc.txt
+rm ./results_2/parra_times_XT.txt
+
+rm ./bin/main
+make
 
 # Loop from 1 to 12 to set OMP_NUM_THREADS
 for num_threads in {1..20}

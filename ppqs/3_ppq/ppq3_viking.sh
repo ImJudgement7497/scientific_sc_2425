@@ -19,8 +19,7 @@ EXEC="./bin/main"
 #load modules
 module load matplotlib/3.8.2-gfbf-2023b 
 #tell user what is going on:
-rm ./bin/main
-make
+
 echo My working directory is `pwd`
 echo Running job on host:
 echo -e '\t'`hostname` at `date`
@@ -28,7 +27,7 @@ echo -e '\t'with $SLURM_CPUS_ON_NODE CPU cores available
 echo -e '\t'using $OMP_NUM_THREADS OMP threads
 echo
 
-bash ./bin/get_times.sh
+bash ./bin/update_machine.sh
 
 echo
 echo Job completed at `date`
