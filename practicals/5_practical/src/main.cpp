@@ -110,7 +110,10 @@ int main(int argc, char **argv)
     local_energy = get_energy(myrank, size, r0);
     int ierror = MPI_Reduce(&local_energy, &energy, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
+    if (myrank == 0)
+    {
+        cout << energy << endl;
+    }
     MPI_Finalize ();
-    cout << energy << endl;
     exit (0);
 }
