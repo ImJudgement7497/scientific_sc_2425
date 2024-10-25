@@ -86,12 +86,7 @@ int main(int argc, char **argv)
     {
         r0[0] = 0.0;
         r0[1] = 0.0;
-        local_energy = get_energy(myrank, size, r0);
-
-        int ierror = MPI_Reduce(&local_energy, &energy, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-
-        cout << energy << endl; 
-    
+        local_energy = get_energy(myrank, size, r0);    
     }
 
     if (myrank == 1)
@@ -115,6 +110,9 @@ int main(int argc, char **argv)
         local_energy = get_energy(myrank, size, r0);
     }
 
+    int ierror = MPI_Reduce(&local_energy, &energy, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+    cout << energy << endl;
 
     MPI_Finalize ();
 
