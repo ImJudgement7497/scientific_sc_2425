@@ -29,36 +29,69 @@ int main(int argc, char **argv)
     MPI_Init (&argc, &argv);
 
     // Basic processor info
-    int myrank, size;
+    int myrank, size, local_energy, ierror;
     MPI_Status status;
     MPI_Comm_rank(MPI_COMM_WORLD, &myrank); // Get rank
     MPI_Comm_size(MPI_COMM_WORLD, &size); // Get size
 
     // Initalise position array
-    vector<double> r0(2, 0.0);
-
+    vector<double> r0(2, 0.0), left(2, 0.0), right(2, 0.0);
+    // MPI_Send(&mydata, 1, MPI_INT, 1, 178, MPI_COMM_WORLD);
     if (myrank == 0)
     {
+
+        MPI_Request sen_request;
+        MPI_Request rec_request;
         r0 = {0.0, 0.0};
-        cout << myrank << r0[0] << r0[1] << endl;
+
+
+        // Send to the right, recieve from the left
+        ierror = MPI_Isend(&r0, 2, MPI_DOUBLE, 1, 17, MPI_COMM_WORLD, &sen_request);
+        ierror = MPI_Wait(&sen_request, &status);
+        ierror = MPI_Irecv(&left, 2, MPI_DOUBLE, 3, 17, MPI_COMM_WORLD, &rec_request);
+        ierror = MPI_Wait(&rec_request, &status);
+
+        cout << "Rank " << myrank << ": " << left[0] << " " << left[1] << endl;
+
     }
 
     if (myrank == 1)
     {   
+        MPI_Request sen_request;
+        MPI_Request rec_request;
         r0 = {1.0, 1.0};
-        cout << myrank << r0[0] << r0[1] << endl;
+        ierror = MPI_Isend(&r0, 2, MPI_DOUBLE, 2, 17, MPI_COMM_WORLD, &sen_request);
+        ierror = MPI_Wait(&sen_request, &status);
+        ierror = MPI_Irecv(&left, 2, MPI_DOUBLE, 0, 17, MPI_COMM_WORLD, &rec_request);
+        ierror = MPI_Wait(&rec_request, &status);
+
+        cout << "Rank " << myrank << ": " << left[0] << " " << left[1] << endl;
     }
 
     if (myrank == 2)
     {
+        MPI_Request sen_request;
+        MPI_Request rec_request;
         r0 = {0.5, 0.5};
-        cout << myrank << r0[0] << r0[1] << endl;
+        ierror = MPI_Isend(&r0, 2, MPI_DOUBLE, 3, 17, MPI_COMM_WORLD, &sen_request);
+        ierror = MPI_Wait(&sen_request, &status);
+        ierror = MPI_Irecv(&left, 2, MPI_DOUBLE, 1, 17, MPI_COMM_WORLD, &rec_request);
+        ierror = MPI_Wait(&rec_request, &status);
+
+        cout << "Rank " << myrank << ": " << left[0] << " " << left[1] << endl;
     }
 
     if (myrank == 3)
     {
+        MPI_Request sen_request;
+        MPI_Request rec_request;
         r0 = {0.2, 0.7};
-        cout << myrank << r0[0] << r0[1] << endl;
+        ierror = MPI_Isend(&r0, 2, MPI_DOUBLE, 0, 17, MPI_COMM_WORLD, &sen_request);
+        ierror = MPI_Wait(&sen_request, &status);
+        ierror = MPI_Irecv(&left, 2, MPI_DOUBLE, 2, 17, MPI_COMM_WORLD, &rec_request);
+        ierror = MPI_Wait(&rec_request, &status);
+
+        cout << "Rank " << myrank << ": " << left[0] << " " << left[1] << endl;
     }
 
 
