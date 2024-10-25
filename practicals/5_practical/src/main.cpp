@@ -66,7 +66,7 @@ double get_energy(int &myrank, int &size, double(&r0)[2])
     local_distance = pow((r0[1] - right[1]), 2) + pow((r0[0] - right[0]), 2);
     local_energy += 0.5 * local_distance;
 
-    return local_energy;
+    return local_energy / 2;
 }
 
 int main(int argc, char **argv)
