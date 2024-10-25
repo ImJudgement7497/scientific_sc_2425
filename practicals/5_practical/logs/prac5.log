@@ -2,32 +2,32 @@ rm -rf bin/*
 mpic++ -std=c++17 -ggdb -Iinclude -fopenmp -Iinclude src/vtimer_t.cpp src/main.cpp -o bin/main 
 My working directory is /users/bmjm501/scratch/scientific_sc_2425/practicals/5_practical
 Running job on host:
-	node002.viking2.yor.alces.network at Fri 25 Oct 13:06:34 BST 2024
+	node002.viking2.yor.alces.network at Fri 25 Oct 13:29:07 BST 2024
 	using 4 MPI tasks
 
-20.50.5
-30.20.7
-000
-111
+Rank 3: 0.2 0.7
+Rank 0: 0 0
+Rank 1: 0 0
+Rank 2: 0 0
 
-Job completed at Fri 25 Oct 13:06:35 BST 2024
+Job completed at Fri 25 Oct 13:29:07 BST 2024
 
 ============================
  Job utilisation efficiency
 ============================
 
-Job ID: 12833254
+Job ID: 12834540
 Cluster: viking2.yor.alces.network
 User/Group: bmjm501/clusterusers
 State: COMPLETED (exit code 0)
 Nodes: 1
 Cores per node: 4
 CPU Utilized: 00:00:01
-CPU Efficiency: 12.50% of 00:00:08 core-walltime
-Job Wall-clock time: 00:00:02
-Memory Utilized: 1.74 MB
-Memory Efficiency: 0.01% of 20.96 GB
+CPU Efficiency: 8.33% of 00:00:12 core-walltime
+Job Wall-clock time: 00:00:03
+Memory Utilized: 3.96 MB
+Memory Efficiency: 0.02% of 20.96 GB
  Requested wall clock time: 00:05:00
-    Actual wall clock time: 00:00:02
-Wall clock time efficiency: 0.7%
-           Job queued time: 00:00:02
+    Actual wall clock time: 00:00:03
+Wall clock time efficiency: 1.0%
+           Job queued time: 00:00:06
