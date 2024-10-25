@@ -28,7 +28,7 @@ double get_energy(int &myrank, int &size, double(&r0)[2])
 {
 
     int ierror;
-    double local_energy, local_distance;
+    double local_energy = 0, local_distance = 0;
     MPI_Status status;
     MPI_Request sen_request;
     MPI_Request rec_request;
