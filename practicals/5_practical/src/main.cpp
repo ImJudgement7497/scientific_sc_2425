@@ -63,7 +63,7 @@ int main(int argc, char **argv)
         ierror = MPI_Wait(&rec_request, &status);
 
         local_distance = pow((r0[1] - right[1]), 2) + pow((r0[0] - right[0]), 2);
-        local_energy += 0.5 * local_distance * local_distance;
+        local_energy += 0.5 * local_distance;
 
     }
 
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
         ierror = MPI_Wait(&rec_request, &status);
 
         local_distance = pow((r0[1] - left[1]), 2) + pow((r0[0] - left[0]), 2);
-        local_energy += 0.5 * local_distance * local_distance;
+        local_energy += 0.5 * local_distance;
 
         // Send to the left, recieve from the right
         ierror = MPI_Isend(&r0[0], 2, MPI_DOUBLE, 0, 17, MPI_COMM_WORLD, &sen_request);
@@ -88,7 +88,7 @@ int main(int argc, char **argv)
         ierror = MPI_Wait(&rec_request, &status);
 
         local_distance = pow((r0[1] - right[1]), 2) + pow((r0[0] - right[0]), 2);
-        local_energy += 0.5 * local_distance * local_distance;
+        local_energy += 0.5 * local_distance;
     }
 
     if (myrank == 2)
@@ -103,7 +103,7 @@ int main(int argc, char **argv)
         ierror = MPI_Wait(&rec_request, &status);
 
         local_distance = pow((r0[1] - left[1]), 2) + pow((r0[0] - left[0]), 2);
-        local_energy += 0.5 * local_distance * local_distance;
+        local_energy += 0.5 * local_distance;
 
         // Send to the left, recieve from the right
         ierror = MPI_Isend(&r0[0], 2, MPI_DOUBLE, 1, 17, MPI_COMM_WORLD, &sen_request);
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
         ierror = MPI_Wait(&rec_request, &status);
 
         local_distance = pow((r0[1] - right[1]), 2) + pow((r0[0] - right[0]), 2);
-        local_energy += 0.5 * local_distance * local_distance;
+        local_energy += 0.5 * local_distance;
 
     }
 
@@ -128,7 +128,7 @@ int main(int argc, char **argv)
         ierror = MPI_Wait(&rec_request, &status);
 
         local_distance = pow((r0[1] - left[1]), 2) + pow((r0[0] - left[0]), 2);
-        local_energy += 0.5 * local_distance * local_distance;
+        local_energy += 0.5 * local_distance;
 
         // Send to the left, recieve from the right
         ierror = MPI_Isend(&r0[0], 2, MPI_DOUBLE, 2, 17, MPI_COMM_WORLD, &sen_request);
@@ -137,7 +137,7 @@ int main(int argc, char **argv)
         ierror = MPI_Wait(&rec_request, &status);
 
         local_distance = pow((r0[1] - right[1]), 2) + pow((r0[0] - right[0]), 2);
-        local_energy += 0.5 * local_distance * local_distance;
+        local_energy += 0.5 * local_distance;
     }
 
     ierror = MPI_Reduce(&local_energy, &energy, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
