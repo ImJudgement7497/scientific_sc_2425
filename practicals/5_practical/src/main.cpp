@@ -113,9 +113,7 @@ int main(int argc, char **argv)
 
     int ierror = MPI_Reduce(&local_energy, &energy, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
-    cout << energy << endl;
-
     MPI_Finalize ();
-
+    cout << energy << endl;
     exit (0);
 }
