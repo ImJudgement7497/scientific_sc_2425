@@ -53,7 +53,7 @@ int main(int argc, char **argv)
         ierror = MPI_Irecv(&left[0], 2, MPI_DOUBLE, 3, 17, MPI_COMM_WORLD, &rec_request);
         ierror = MPI_Wait(&rec_request, &status);
 
-        local_distance = sqrt(pow((r0[1] - left[1]), 2) + pow((r0[0] - left[0]), 2));
+        local_distance = pow((r0[1] - left[1]), 2) + pow((r0[0] - left[0]), 2);
         local_energy += 0.5 * local_distance * local_distance;
 
         // Send to the left, recieve from the right
