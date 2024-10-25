@@ -35,15 +35,15 @@ int main(int argc, char **argv)
     MPI_Comm_size(MPI_COMM_WORLD, &size); // Get size
 
     // Initalise position array
-    vector<double> r0(2, 0.0), left(2, 0.0), right(2, 0.0);
+    double r0[2], left[2], right[2];
     // MPI_Send(&mydata, 1, MPI_INT, 1, 178, MPI_COMM_WORLD);
     if (myrank == 0)
     {
 
         MPI_Request sen_request;
         MPI_Request rec_request;
-        r0 = {0.0, 0.0};
-
+        r0[0] = 0.0;
+        r0[1] = 0.0;
 
         // Send to the right, recieve from the left
         ierror = MPI_Isend(&r0[0], 2, MPI_DOUBLE, 1, 17, MPI_COMM_WORLD, &sen_request);
@@ -59,7 +59,8 @@ int main(int argc, char **argv)
     {   
         MPI_Request sen_request;
         MPI_Request rec_request;
-        r0 = {1.0, 1.0};
+        r0[0] = 1.0;
+        r0[1] = 1.0;
         ierror = MPI_Isend(&r0[0], 2, MPI_DOUBLE, 2, 17, MPI_COMM_WORLD, &sen_request);
         ierror = MPI_Wait(&sen_request, &status);
         ierror = MPI_Irecv(&left[0], 2, MPI_DOUBLE, 0, 17, MPI_COMM_WORLD, &rec_request);
@@ -72,7 +73,8 @@ int main(int argc, char **argv)
     {
         MPI_Request sen_request;
         MPI_Request rec_request;
-        r0 = {0.5, 0.5};
+        r0[0] = 0.5;
+        r0[1] = 0.5;
         ierror = MPI_Isend(&r0[0], 2, MPI_DOUBLE, 3, 17, MPI_COMM_WORLD, &sen_request);
         ierror = MPI_Wait(&sen_request, &status);
         ierror = MPI_Irecv(&left[0], 2, MPI_DOUBLE, 1, 17, MPI_COMM_WORLD, &rec_request);
@@ -85,7 +87,8 @@ int main(int argc, char **argv)
     {
         MPI_Request sen_request;
         MPI_Request rec_request;
-        r0 = {0.2, 0.7};
+        r0[0] = 0.2;
+        r0[1] = 0.7;
         ierror = MPI_Isend(&r0[0], 2, MPI_DOUBLE, 0, 17, MPI_COMM_WORLD, &sen_request);
         ierror = MPI_Wait(&sen_request, &status);
         ierror = MPI_Irecv(&left[0], 2, MPI_DOUBLE, 2, 17, MPI_COMM_WORLD, &rec_request);
