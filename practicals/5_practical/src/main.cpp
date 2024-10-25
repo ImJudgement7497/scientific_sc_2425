@@ -51,7 +51,7 @@ double get_energy(int &myrank, int &size, double(&r0)[2])
     // Send to the right, recieve from the left
     ierror = MPI_Isend(&r0[0], 2, MPI_DOUBLE, my_right, 17, MPI_COMM_WORLD, &sen_request);
     ierror = MPI_Wait(&sen_request, &status);
-    ierror = MPI_Irecv(&left[0], 2, MPI_DOUBLE, my_left - 1, 17, MPI_COMM_WORLD, &rec_request);
+    ierror = MPI_Irecv(&left[0], 2, MPI_DOUBLE, my_left, 17, MPI_COMM_WORLD, &rec_request);
     ierror = MPI_Wait(&rec_request, &status);
 
     local_distance = pow((r0[1] - left[1]), 2) + pow((r0[0] - left[0]), 2);
