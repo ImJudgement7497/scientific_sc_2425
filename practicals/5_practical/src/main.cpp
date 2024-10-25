@@ -86,31 +86,28 @@ int main(int argc, char **argv)
     if (myrank == 0)
     {
         r0[0] = 0.0;
-        r0[1] = 0.0;
-        local_energy = get_energy(myrank, size, r0);    
+        r0[1] = 0.0;   
     }
 
     if (myrank == 1)
     {   
         r0[0] = 1.0;
         r0[1] = 1.0;
-        local_energy = get_energy(myrank, size, r0);
     }
 
     if (myrank == 2)
     {
         r0[0] = 0.5;
         r0[1] = 0.5;
-        local_energy = get_energy(myrank, size, r0);
     }
 
     if (myrank == 3)
     {
         r0[0] = 0.2;
         r0[1] = 0.7;
-        local_energy = get_energy(myrank, size, r0);
     }
 
+    local_energy = get_energy(myrank, size, r0);
     int ierror = MPI_Reduce(&local_energy, &energy, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
     MPI_Finalize ();
