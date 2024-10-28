@@ -3,33 +3,48 @@
 
 using namespace std;
 
-void printArray(double array[100][100])
+const int GRID_SIZE = 100; // ROWS + COLUMNS
+const double GRID_MIN = 0.0;
+const double GRID_MAX = 10.0;
+const double GRID_STEP = (GRID_MAX - GRID_MIN) / (GRID_SIZE);
+
+/*
+Map the (x, y) coordiante to a singular index
+*/
+int get_index(const double &x, const double &y)
 {
-    for (int i = 0; i < 100; ++i)
-    {
-        for (int j = 0; j < 100; ++j)
-        {
-            std::cout << array[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
+    int row_index = (y * 10);
+    int col_index = (x * 10);
+    return row_index * GRID_SIZE + col_index;
 }
 
-void fill_heat_sources(double (&grid)[100][100])
+/*
+Initalise the heat sources
+*/
+void fill_heat_sources(vector<double> &grid)
 {
-    grid[50][50] = 10.0;
-    grid[40][60] = 7.2;
-    grid[70][25] = -1.2;
+    grid[get_index(5.0, 5.0)] = 10.0;
+    grid[get_index(4.0, 6.0)] = 7.2;
+    grid[get_index(7.0, 2.5)] = -1.2;
 }
 
-void iterate(double new_grid[100][100], double (&old_grid)[100][100])
+void iterate(vector<double> &grid)
 {
-    new_grid[0][0] = 100000.0;
+    vector<double> new_grid(GRID_SIZE * GRID_SIZE, 1.0);
 }
+
 int main()
 {
-    double grid[100][100] = {};
+    vector<double> grid(GRID_SIZE * GRID_SIZE, 1.0);
     fill_heat_sources(grid);
+
+    for (double i = 0.0; i <= 10.0; i += 0.1)
+    {
+        for (double j = 0.0; j <= 10.0; j += 0.1)
+        {
+            cout << i << " " << j << " :" << get_index(i, j) << endl;
+        }
+    }
 
     return 0;
 }
