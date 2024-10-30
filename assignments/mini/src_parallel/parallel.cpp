@@ -1,7 +1,7 @@
 #include "parallel.h"
 #include "helper.h"
 #include "vtimer_t.h"
-#include <mpi.h>
+#include "mpi.h"
 
 /*-------------------------------GLOBAL VARIABLES*-------------------------------*/
 int GRID_SIZE; // For an N point grid, you need N+1 grid size
@@ -135,13 +135,11 @@ vector<double> step(vector<double> &current_grid)
 }
 
 /* Execute the simulation*/
-int execute_parallel(int argc, char **argv)
+int execute_parallel()
 {
 
-    MPI_Init(&argc, &argv);
     if (!load_config("./config/config.txt"))
     {
-        MPI_Finalize();
         return -1;
     }
 
@@ -184,6 +182,5 @@ int execute_parallel(int argc, char **argv)
 
     log_global_variables();
 
-    MPI_Finalize();
     return 0;
 }
