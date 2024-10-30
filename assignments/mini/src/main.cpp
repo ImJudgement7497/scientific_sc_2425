@@ -9,8 +9,10 @@ int GRID_SIZE; // For an N point grid, you need N+1 grid size
 double GRID_MIN;
 double GRID_MAX;
 double GRID_STEP;
+int INNER_GRID_SIZE;
 int INNER_GRID_MIN_INDEX;
 int INNER_GRID_MAX_INDEX;
+double TOLERANCE;
 /*----------------------------------HELPER FUNCTIONS------------------------------------------------------------*/
 double safe_access(const vector<double> &grid, int index)
 {
@@ -23,6 +25,7 @@ double safe_access(const vector<double> &grid, int index)
         return 0.0;
     }
 }
+
 void print_vector(const vector<double> &vec)
 {
     cout << "[";
@@ -37,6 +40,30 @@ void print_vector(const vector<double> &vec)
     cout << "]" << endl;
 }
 
+void log_global_variables()
+{
+    // Open the file in trunc mode to overwrite any existing content
+    ofstream logFile("./logs/global.log", ios::trunc);
+
+    if (!logFile)
+    {
+        cerr << "Error: Could not open log file at ./logs/global.log" << endl;
+        return;
+    }
+
+    // Write each global variable to the file
+    logFile << "GRID_SIZE = " << GRID_SIZE << endl;
+    logFile << "GRID_MIN = " << GRID_MIN << endl;
+    logFile << "GRID_MAX = " << GRID_MAX << endl;
+    logFile << "GRID_STEP = " << GRID_STEP << endl;
+    logFile << "INNER_GRID_MIN_INDEX = " << INNER_GRID_MIN_INDEX << endl;
+    logFile << "INNER_GRID_MAX_INDEX = " << INNER_GRID_MAX_INDEX << endl;
+    logFile << "TOLERANCE = " << TOLERANCE << endl;
+    logFile << "INNER_GRID_SIZE = " << INNER_GRID_SIZE << endl;
+
+    logFile.close();
+}
+
 bool load_config(const string &filename)
 {
     ifstream file(filename);
@@ -46,7 +73,7 @@ bool load_config(const string &filename)
         return false;
     }
 
-    file >> GRID_SIZE >> GRID_MIN >> GRID_MAX;
+    file >> GRID_SIZE >> GRID_MIN >> GRID_MAX >> TOLERANCE;
 
     file.close();
 
@@ -79,6 +106,25 @@ pair<double, double> get_coordinates(int index)
 
     return {x, y}; // Return as a pair of doubles
 }
+
+bool allclose(const vector<double> &vec1, const vector<double> &vec2)
+{
+    if (vec1.size() != vec2.size())
+    {
+        return false;
+    }
+
+    // Compare each element within tolerance
+    for (size_t i = 0; i < vec1.size(); ++i)
+    {
+        double test = fabs(vec1[i] - vec2[i]);
+        if (test > TOLERANCE)
+        {
+            return false;
+        }
+    }
+    return true;
+}
 /* ----------------------------------MAIN FUNCTIONS--------------------------------------------------*/
 /*
 Initalise the heat sources
@@ -91,7 +137,7 @@ void fill_heat_sources(vector<double> &grid)
 }
 
 // A step in time for the grid
-void step(vector<double> &grid)
+vector<double> step(vector<double> &current_grid)
 {
     /*
     MOVING RIGHT IN X: index + 1
@@ -99,9 +145,9 @@ void step(vector<double> &grid)
     MOVING UP IN Y: index + GRID_SIZE
     MOVING DOWN IN Y: index - GRID_SIZE
     */
-
+    int j = 0;
     vector<double> new_grid(GRID_SIZE * GRID_SIZE, 0.0);
-    new_grid = grid;
+    new_grid = current_grid;
 
     // Note we only iterate through a smaller grid defined by GRID_SIZE - 2 as edge cells stay at T = 0
     for (int index = INNER_GRID_MIN_INDEX; index < INNER_GRID_MAX_INDEX; index++)
@@ -120,9 +166,12 @@ void step(vector<double> &grid)
         double down = safe_access(new_grid, index - GRID_SIZE);
 
         new_grid[index] = (current + left + right + up + down) / 5.0;
+        j++;
     }
     fill_heat_sources(new_grid); // The heat sources do not change across each step
-    grid = new_grid;
+
+    INNER_GRID_SIZE = j;
+    return new_grid;
 }
 
 int main()
@@ -131,8 +180,11 @@ int main()
     {
         return -1;
     }
-    vector<double> grid(GRID_SIZE * GRID_SIZE, 0.0);
-    fill_heat_sources(grid);
+    vector<double> current_grid(GRID_SIZE * GRID_SIZE, 0.0);
+    vector<double> next_grid(GRID_SIZE * GRID_SIZE, 0.0);
+    bool convergence = false;
+    int iterations = 0;
+    fill_heat_sources(current_grid);
 
     // for (double i = GRID_MIN; i <= GRID_MAX; i += GRID_STEP)
     // {
@@ -144,16 +196,26 @@ int main()
     //     }
     // }
 
-    // step(grid);
-    int index = get_index(7.0, 2.5);
-    // cout << grid[index] << endl;
+    int index = get_index(5.5, 5.5);
+    next_grid = step(current_grid);
 
-    for (int j = 0; j < 100; j++)
+    while (!convergence)
     {
-        cout << grid[index] << endl;
-        step(grid);
+        if (allclose(next_grid, current_grid))
+        {
+            printf("Value = %.16f after %d iterations, tol = %.16f\n", current_grid[index], iterations, TOLERANCE);
+            convergence = true;
+        }
+
+        else
+        {
+            current_grid = next_grid;
+            next_grid = step(current_grid);
+        }
+        iterations++;
     }
-    // pair<double, double> coords = get_coordinates(index);
-    // cout << coords.first << " " << coords.second << endl;
+
+    log_global_variables();
+
     return 0;
 }
