@@ -1,0 +1,1 @@
+bash ~/scratch/scientific_sc_2425/push.sh

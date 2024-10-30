@@ -1,13 +1,17 @@
 #include "serial.h" // Include the header file for access to global variables and functions
 
-int main() {
+int main()
+{
     // Call the execute_serial function
     int result = XT;
 
     // Check the result of the execution
-    if (result == 0) {
+    if (result == 0)
+    {
         cout << "Simulation completed successfully." << endl;
-    } else {
+    }
+    else
+    {
         cout << "An error occurred during simulation." << endl;
     }
 

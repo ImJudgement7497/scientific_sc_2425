@@ -1,6 +1,6 @@
 #!/bin/sh
-#SBATCH --job-name=JOBNAME                # Job name
-#SBATCH --output=./logs/JOBNAME_%j.log           # Standard out and error log
+#SBATCH --job-name=MINI                # Job name
+#SBATCH --output=./logs/output.log           # Standard out and error log
 #SBATCH --mail-type=NONE                   # Specify when to mail (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=bmjm501@york.ac.uk         # NB change uid to your username if wanting to send mail
 
@@ -17,14 +17,13 @@
 EXEC="./bin/main"
 
 #tell user what is going on:
-make clean
-make
 echo My working directory is `pwd`
 echo Running job on host:
 echo -e '\t'`hostname` at `date`
 echo -e '\t'using $SLURM_NTASKS MPI tasks
 echo
 
+./runs/run_parallel.sh
 mpiexec -n ${SLURM_NTASKS} $EXEC
 
 echo
