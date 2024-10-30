@@ -161,8 +161,6 @@ int execute_parallel(int argc, char **argv)
     bool convergence = false;
     int iterations = 0;
 
-    vtimer_t timer;
-    timer.start();
     // Perform the first step
     fill_heat_sources(current_grid);
     next_grid = step(current_grid);
@@ -174,9 +172,8 @@ int execute_parallel(int argc, char **argv)
     {
         if (allclose(next_grid, current_grid, TOLERANCE))
         {
-            timer.stop();
-            printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", current_grid[index],
-                   iterations, TOLERANCE, timer.elapsed_time());
+            printf("Value = %.16f after %d iterations, tol = %.16f\n", current_grid[index],
+                   iterations, TOLERANCE);
             convergence = true;
         }
         else

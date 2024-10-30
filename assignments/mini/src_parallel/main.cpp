@@ -3,7 +3,7 @@
 int main(int argc, char **argv)
 {
     // Call the execute_serial function
-    int result = XT;
+    int result = execute_parallel(argc, argv);
 
     // Check the result of the execution
     if (result == 0)
