@@ -9,6 +9,8 @@ int GRID_SIZE; // For an N point grid, you need N+1 grid size
 double GRID_MIN;
 double GRID_MAX;
 double GRID_STEP;
+int INNER_GRID_MIN_INDEX;
+int INNER_GRID_MAX_INDEX;
 /*----------------------------------HELPER FUNCTIONS------------------------------------------------------------*/
 double safe_access(const vector<double> &grid, int index)
 {
@@ -46,8 +48,13 @@ bool load_config(const string &filename)
 
     file >> GRID_SIZE >> GRID_MIN >> GRID_MAX;
 
-    GRID_STEP = (GRID_MAX - GRID_MIN) / (GRID_SIZE - 1);
     file.close();
+
+    GRID_STEP = (GRID_MAX - GRID_MIN) / (GRID_SIZE - 1);
+
+    // Boundaries on Y
+    INNER_GRID_MIN_INDEX = 1 + GRID_SIZE;
+    INNER_GRID_MAX_INDEX = ((GRID_SIZE * GRID_SIZE) - 1 - GRID_SIZE);
 
     return true;
 }
@@ -83,7 +90,8 @@ void fill_heat_sources(vector<double> &grid)
     grid[get_index(7.0, 2.5)] = -1.2;
 }
 
-void iterate(vector<double> &grid)
+// A step in time for the grid
+void step(vector<double> &grid)
 {
     /*
     MOVING RIGHT IN X: index + 1
@@ -94,8 +102,17 @@ void iterate(vector<double> &grid)
 
     vector<double> new_grid(GRID_SIZE * GRID_SIZE, 0.0);
     new_grid = grid;
-    for (int index = 0; index < GRID_SIZE * GRID_SIZE; index++)
+
+    // Note we only iterate through a smaller grid defined by GRID_SIZE - 2 as edge cells stay at T = 0
+    for (int index = INNER_GRID_MIN_INDEX; index < INNER_GRID_MAX_INDEX; index++)
     {
+        pair<double, double> coord = get_coordinates(index);
+
+        // Boundaries on X
+        if (coord.first == GRID_MIN || coord.first == GRID_MAX)
+        {
+            continue;
+        }
         double current = safe_access(new_grid, index);
         double left = safe_access(new_grid, index - 1);
         double right = safe_access(new_grid, index + 1);
@@ -103,14 +120,8 @@ void iterate(vector<double> &grid)
         double down = safe_access(new_grid, index - GRID_SIZE);
 
         new_grid[index] = (current + left + right + up + down) / 5.0;
-
-        // cout << "Index: " << index << endl;
-        // cout << "Index + 1: " << index + 1 << endl;
-        // cout << "Index - 1: " << index - 1 << endl;
-        // cout << "Index + GRID_SIZE: " << index + GRID_SIZE << endl;
-        // cout << "Index - GRID_SIZE: " << index - GRID_SIZE << endl;
-        // cout << "----------------------------------------" << endl;
     }
+    fill_heat_sources(new_grid); // The heat sources do not change across each step
     grid = new_grid;
 }
 
@@ -132,8 +143,17 @@ int main()
     //         cout << j << " " << i << " :" << get_index(j, i) << endl;
     //     }
     // }
-    print_vector(grid);
-    iterate(grid);
-    print_vector(grid);
+
+    // step(grid);
+    int index = get_index(7.0, 2.5);
+    // cout << grid[index] << endl;
+
+    for (int j = 0; j < 100; j++)
+    {
+        cout << grid[index] << endl;
+        step(grid);
+    }
+    // pair<double, double> coords = get_coordinates(index);
+    // cout << coords.first << " " << coords.second << endl;
     return 0;
 }
