@@ -1,5 +1,5 @@
-#ifndef SERIAL_H
-#define SERIAL_H
+#ifndef PARALLEL_H
+#define PARALLEL_H
 
 #include <iostream>
 #include <vector>
