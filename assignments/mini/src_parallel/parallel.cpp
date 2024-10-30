@@ -147,8 +147,6 @@ int execute_parallel(int argc, char **argv)
 
     {
         int myrank, size;
-
-        MPI_Init(&argc, &argv);
         MPI_Comm_rank(MPI_COMM_WORLD, &myrank); // Get rank
         MPI_Comm_size(MPI_COMM_WORLD, &size);   // Get size
 
