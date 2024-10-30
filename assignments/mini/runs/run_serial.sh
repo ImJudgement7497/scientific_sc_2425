@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the files to search and modify
-MAIN_FILE="./src/main.cpp"
+MAIN_FILE="./src_serial/main.cpp"
 MAKEFILE="./Makefile"
 
 # Define the placeholder for original content
@@ -26,6 +26,13 @@ if grep -q "XT" "$MAKEFILE"; then
     sed -i 's/XT/g++/g' "$MAKEFILE"
 else
     echo "'XT' not found in $MAKEFILE."
+fi
+
+if grep -q "YT" "$MAKEFILE"; then
+    echo "Replacing 'YT' with 'src_serial' in $MAKEFILE..."
+    sed -i 's/YT/src_serial/g' "$MAKEFILE"
+else
+    echo "'YT' not found in $MAKEFILE."
 fi
 
 make clean

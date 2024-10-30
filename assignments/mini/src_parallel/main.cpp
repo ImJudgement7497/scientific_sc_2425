@@ -2,7 +2,7 @@
 
 int main() {
     // Call the execute_serial function
-    int result = execute_serial();
+    int result = XT;
 
     // Check the result of the execution
     if (result == 0) {
