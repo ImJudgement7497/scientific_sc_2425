@@ -1,6 +1,6 @@
 #include "serial.h" // Include the header file for access to global variables and functions
 
-int main(&argc, &argv)
+int main(int argc, char **argv)
 {
     // Call the execute_serial function
     int result = XT;
