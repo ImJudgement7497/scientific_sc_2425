@@ -24,6 +24,7 @@ echo -e '\t'using $SLURM_NTASKS MPI tasks
 echo
 
 ./runs/run_parallel.sh
+echo Executing
 mpiexec -n ${SLURM_NTASKS} $EXEC
 
 echo
