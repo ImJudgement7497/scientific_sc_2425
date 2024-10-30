@@ -15,7 +15,7 @@ cp "$MAKEFILE" "$ORIGINAL_MAKEFILE"
 # Search and replace in main.cpp
 if grep -q "XT" "$MAIN_FILE"; then
     echo "Replacing 'XT' with 'execute_parallel(&argc, &argv)' in $MAIN_FILE..."
-    sed -i 's/XT/execute_parallel(int argc, char **argv)/g' "$MAIN_FILE"
+    sed -i 's/XT/execute_parallel(&argc, &argv)/g' "$MAIN_FILE"
 else
     echo "'XT' not found in $MAIN_FILE."
 fi
