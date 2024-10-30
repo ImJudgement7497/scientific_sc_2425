@@ -25,6 +25,6 @@ int get_index(double x, double y);
 pair<double, double> get_coordinates(int index);
 void fill_heat_sources(vector<double> &grid);
 vector<double> step(vector<double> &current_grid);
-int execute_serial();
+int execute_parallel(int argc, char **argv);
 
 #endif // SERIAL_H

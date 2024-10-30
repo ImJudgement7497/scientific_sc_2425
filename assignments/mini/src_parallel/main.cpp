@@ -1,4 +1,4 @@
-#include "serial.h" // Include the header file for access to global variables and functions
+#include "parallel.h" // Include the header file for access to global variables and functions
 
 int main(int argc, char **argv)
 {
