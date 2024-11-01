@@ -19,24 +19,67 @@ double TOLERANCE;
 /* Write to a log all the global variables */
 void log_global_variables()
 {
-    ofstream logFile("./logs/global.log", ios::trunc);
+    ofstream log_file("./logs/global.log", ios::trunc);
 
-    if (!logFile)
+    if (!log_file)
     {
         cerr << "Error: Could not open log file at ./logs/global.log" << endl;
         return;
     }
 
-    logFile << "GRID_SIZE = " << GRID_SIZE << endl;
-    logFile << "GRID_MIN = " << GRID_MIN << endl;
-    logFile << "GRID_MAX = " << GRID_MAX << endl;
-    logFile << "GRID_STEP = " << GRID_STEP << endl;
-    logFile << "INNER_GRID_MIN_INDEX = " << INNER_GRID_MIN_INDEX << endl;
-    logFile << "INNER_GRID_MAX_INDEX = " << INNER_GRID_MAX_INDEX << endl;
-    logFile << "TOLERANCE = " << TOLERANCE << endl;
-    logFile << "INNER_GRID_SIZE = " << INNER_GRID_SIZE << endl;
+    log_file << "GRID_SIZE = " << GRID_SIZE << endl;
+    log_file << "GRID_MIN = " << GRID_MIN << endl;
+    log_file << "GRID_MAX = " << GRID_MAX << endl;
+    log_file << "GRID_STEP = " << GRID_STEP << endl;
+    log_file << "INNER_GRID_MIN_INDEX = " << INNER_GRID_MIN_INDEX << endl;
+    log_file << "INNER_GRID_MAX_INDEX = " << INNER_GRID_MAX_INDEX << endl;
+    log_file << "TOLERANCE = " << TOLERANCE << endl;
+    log_file << "INNER_GRID_SIZE = " << INNER_GRID_SIZE << endl;
 
-    logFile.close();
+    log_file.close();
+}
+
+void generate_mappings()
+{
+    string filename = "./mappings/mappings_" + to_string(GRID_SIZE) + ".txt";
+
+    ofstream file(filename, ios::trunc);
+    if (!file)
+    {
+        cerr << "Error: Could not open file " << filename << " for writing." << endl;
+        return;
+    }
+
+    for (double i = GRID_MIN; i <= GRID_MAX; i += GRID_STEP)
+    {
+        file << "X Y Index" << endl;
+        file << "---------------------------------------------------" << endl;
+        for (double j = GRID_MIN; j <= GRID_MAX; j += GRID_STEP)
+        {
+            file << j << " " << i << " :" << get_index(j, i) << endl;
+        }
+    }
+
+    file.close();
+}
+
+void log_sources()
+{
+    string filename = "./logs/sources.log";
+
+    ofstream file(filename, ios::trunc);
+    if (!file)
+    {
+        cerr << "Error: Could not open file " << filename << " for writing." << endl;
+        return;
+    }
+
+    file << "FOR GRID_SIZE = " << GRID_SIZE << ", GRID_STEP = " << GRID_STEP << endl;
+    file << "Index for source T=10 at (5.0, 5.0) = " << get_index(5.0, 5.0) << endl;
+    file << "Index for source T=7.2 at (4.0, 6.0) = " << get_index(4.0, 6.0) << endl;
+    file << "Index for source T=-1.2 at (7.0, 2.5) = " << get_index(7.0, 2.5) << endl;
+
+    file.close();
 }
 
 /* Load a configuration file */
@@ -68,6 +111,7 @@ int get_index(double x, double y)
     int col_index = round(x / GRID_STEP);
     int row_index = round(y / GRID_STEP);
     int index = row_index * GRID_SIZE + col_index;
+
     return index;
 }
 
@@ -185,6 +229,8 @@ int execute_serial()
     }
 
     log_global_variables();
+    generate_mappings();
+    log_sources();
 
     return 0;
 }
