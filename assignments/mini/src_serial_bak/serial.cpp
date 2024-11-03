@@ -16,6 +16,18 @@ double TOLERANCE;
 
 /*-------------------------------SIMULATION FUNCTIONS-------------------------------*/
 
+double safe_access(const vector<double> &grid, int index)
+{
+    try
+    {
+        return grid.at(index);
+    }
+    catch (const out_of_range &)
+    {
+        return 0.0;
+    }
+}
+
 /* Write to a log all the global variables */
 void log_global_variables()
 {
@@ -128,17 +140,48 @@ pair<double, double> get_coordinates(int index)
 }
 
 /* ----------------------------------MAIN FUNCTIONS--------------------------------------------------*/
-
-/* Initialise the heat sources */
-void fill_heat_sources(vector<double> &grid)
+void fill_outer_grid(vector<double> &outer_grid, vector<double> &inner_grid)
 {
-    grid[get_index(5.0, 5.0)] = 10.0;
-    grid[get_index(4.0, 6.0)] = 7.2;
-    grid[get_index(7.0, 2.5)] = -1.2;
+    for (int inner_index = 0; inner_index < inner_grid.size(); inner_index++)
+    {
+        // What row are we on
+        int row = inner_index / (GRID_SIZE - 2);
+
+        // What is the corresponding outer index?
+        int outer_index = inner_index + GRID_SIZE + 2 * row + 1;
+
+        // Set the values
+
+        outer_grid[outer_index] = inner_grid[inner_index];
+
+        // cout << "Inner Index = " << inner_index << ", Outer Index = " << outer_index << endl;
+    }
+}
+/* Initialise the heat sources */
+void fill_heat_sources(vector<double> &inner_grid)
+{
+    // What are the outer indices?
+    int outer_index_1 = get_index(5.0, 5.0);
+    int outer_index_2 = get_index(4.0, 6.0);
+    int outer_index_3 = get_index(7.0, 2.5);
+
+    // What are the rows in the grid
+    int row_1 = outer_index_1 / GRID_SIZE;
+    int row_2 = outer_index_2 / GRID_SIZE;
+    int row_3 = outer_index_3 / GRID_SIZE;
+
+    // What are the inner indices?
+    int inner_index_1 = outer_index_1 - GRID_SIZE - 1 - 2 * row_1;
+    int inner_index_2 = outer_index_2 - GRID_SIZE - 1 - 2 * row_2;
+    int inner_index_3 = outer_index_3 - GRID_SIZE - 1 - 2 * row_3;
+
+    inner_grid[inner_index_1] = 10.0;
+    inner_grid[inner_index_2] = 7.2;
+    inner_grid[inner_index_3] = -1.2;
 }
 
 /* A step in time for the simulation */
-vector<double> step(vector<double> &current_grid)
+vector<double> step(vector<double> &current_inner_grid)
 {
     /*
     MOVING RIGHT IN X: index + 1
@@ -147,36 +190,29 @@ vector<double> step(vector<double> &current_grid)
     MOVING DOWN IN Y: index - GRID_SIZE
     */
     int j = 0;
-    vector<double> new_grid(GRID_SIZE * GRID_SIZE, 0.0);
-    new_grid = current_grid;
+    vector<double> new_inner_grid((GRID_SIZE - 2) * (GRID_SIZE - 2), 0.0);
+    new_inner_grid = current_inner_grid;
 
     // Note we only iterate through a smaller grid defined by GRID_SIZE - 2 as edge cells stay at T = 0
-    for (int index = INNER_GRID_MIN_INDEX; index < INNER_GRID_MAX_INDEX; index++)
+    for (int index = 0; index < (GRID_SIZE - 2) * (GRID_SIZE - 2); index++)
     {
-        pair<double, double> coord = get_coordinates(index);
-
-        // Boundaries on X
-        if (coord.first == GRID_MIN || coord.first == GRID_MAX)
-        {
-            continue;
-        }
         // Get neighbouring values
-        double current = new_grid[index];
-        double left = new_grid[index - 1];
-        double right = new_grid[index + 1];
-        double up = new_grid[index + GRID_SIZE];
-        double down = new_grid[index - GRID_SIZE];
+        double current = safe_access(new_inner_grid, index);
+        double left = safe_access(new_inner_grid, index - 1);
+        double right = safe_access(new_inner_grid, index + 1);
+        double up = safe_access(new_inner_grid, index + GRID_SIZE);
+        double down = safe_access(new_inner_grid, index - GRID_SIZE);
 
-        new_grid[index] = (current + left + right + up + down) / 5.0;
+        new_inner_grid[index] = (current + left + right + up + down) / 5.0;
         j++;
     }
-    fill_heat_sources(new_grid); // The heat sources do not change across each step
+    fill_heat_sources(new_inner_grid); // The heat sources do not change across each step
 
     if (INNER_GRID_SIZE == 0)
     {
         INNER_GRID_SIZE = j;
     }
-    return new_grid;
+    return new_inner_grid;
 }
 
 /* Execute the simulation*/
@@ -187,9 +223,10 @@ int execute_serial()
         return -1;
     }
 
+    vector<double> outer_grid(GRID_SIZE * GRID_SIZE, 0.0);
     // Initalise two grids, one to be used for current iteration, one for next iteration
-    vector<double> current_grid(GRID_SIZE * GRID_SIZE, 0.0);
-    vector<double> next_grid(GRID_SIZE * GRID_SIZE, 0.0);
+    vector<double> current_grid((GRID_SIZE - 2) * (GRID_SIZE - 2), 0.0);
+    vector<double> next_grid((GRID_SIZE - 2) * (GRID_SIZE - 2), 0.0);
 
     bool convergence = false;
     int iterations = 0;
@@ -209,7 +246,8 @@ int execute_serial()
         if (allclose(next_grid, current_grid, TOLERANCE))
         {
             timer.stop();
-            printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", current_grid[index],
+            fill_outer_grid(outer_grid, next_grid);
+            printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", outer_grid[index],
                    iterations, TOLERANCE, timer.elapsed_time());
             convergence = true;
         }
