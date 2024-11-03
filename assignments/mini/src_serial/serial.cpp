@@ -14,7 +14,7 @@ int INNER_GRID_MIN_INDEX;
 int INNER_GRID_MAX_INDEX;
 double TOLERANCE;
 
-/*-------------------------------SIMULATION FUNCTIONS-------------------------------*/
+/*-------------------------------CONFIG FUNCTIONS-------------------------------*/
 
 /* Write to a log all the global variables */
 void log_global_variables()
@@ -105,6 +105,8 @@ bool load_config(const string &filename)
     return true;
 }
 
+/*-------------------------------INDICE FUNCTIONS-------------------------------*/
+
 /* Map the (x, y) coordinate to a singular index to be used in a 1D array */
 int get_index(double x, double y)
 {
@@ -113,6 +115,24 @@ int get_index(double x, double y)
     int index = row_index * GRID_SIZE + col_index;
 
     return index;
+}
+
+vector<int> get_inner_indices()
+{
+    vector<int> inner_indices;
+
+    for (int row_number = 1; row_number < GRID_SIZE - 1; row_number++)
+    {
+        int starting_index = row_number * GRID_SIZE + 1;
+        int ending_index = (row_number + 1) * GRID_SIZE - 2;
+
+        for (int i = starting_index; i <= ending_index; i++)
+        {
+            inner_indices.push_back(i);
+        }
+    }
+
+    return inner_indices;
 }
 
 /* Given an index, get the (x, y) coordinate */
@@ -127,7 +147,7 @@ pair<double, double> get_coordinates(int index)
     return {x, y}; // Return as a pair of doubles
 }
 
-/* ----------------------------------MAIN FUNCTIONS--------------------------------------------------*/
+/* ----------------------------------SIMULATION FUNCTIONS--------------------------------------------------*/
 
 /* Initialise the heat sources */
 void fill_heat_sources(vector<double> &grid)
@@ -138,7 +158,7 @@ void fill_heat_sources(vector<double> &grid)
 }
 
 /* A step in time for the simulation */
-vector<double> step(vector<double> &current_grid)
+vector<double> step(vector<double> &current_grid, const vector<int> &inner_indices)
 {
     /*
     MOVING RIGHT IN X: index + 1
@@ -151,15 +171,16 @@ vector<double> step(vector<double> &current_grid)
     new_grid = current_grid;
 
     // Note we only iterate through a smaller grid defined by GRID_SIZE - 2 as edge cells stay at T = 0
-    for (int index = INNER_GRID_MIN_INDEX; index < INNER_GRID_MAX_INDEX; index++)
+    for (int i = 0; i < inner_indices.size(); i++)
     {
-        pair<double, double> coord = get_coordinates(index);
+        // pair<double, double> coord = get_coordinates(index);
 
-        // Boundaries on X
-        if (coord.first == GRID_MIN || coord.first == GRID_MAX)
-        {
-            continue;
-        }
+        // // Boundaries on X
+        // if (coord.first == GRID_MIN || coord.first == GRID_MAX)
+        // {
+        //     continue;
+        // }
+        int index = inner_indices[i];
         // Get neighbouring values
         double current = new_grid[index];
         double left = new_grid[index - 1];
@@ -174,7 +195,7 @@ vector<double> step(vector<double> &current_grid)
 
     if (INNER_GRID_SIZE == 0)
     {
-        INNER_GRID_SIZE = j;
+        INNER_GRID_SIZE = sqrt(j);
     }
     return new_grid;
 }
@@ -191,6 +212,8 @@ int execute_serial()
     vector<double> current_grid(GRID_SIZE * GRID_SIZE, 0.0);
     vector<double> next_grid(GRID_SIZE * GRID_SIZE, 0.0);
 
+    vector<int> inner_indices = get_inner_indices();
+
     bool convergence = false;
     int iterations = 0;
 
@@ -199,7 +222,7 @@ int execute_serial()
 
     // Perform the first step
     fill_heat_sources(current_grid);
-    next_grid = step(current_grid);
+    next_grid = step(current_grid, inner_indices);
 
     // Value considered
     int index = get_index(5.5, 5.5);
@@ -209,21 +232,22 @@ int execute_serial()
         if (allclose(next_grid, current_grid, TOLERANCE))
         {
             timer.stop();
-            printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", current_grid[index],
+            printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", next_grid[index],
                    iterations, TOLERANCE, timer.elapsed_time());
             convergence = true;
         }
         else
         {
-            // Print the current value
-            printf("\rValue = %.16f", current_grid[index]);
-            fflush(stdout); // Ensure it flushes to the terminal
+            /* Below shows the user the values as they are iterated*/
+            // // Print the current value
+            // printf("\rValue = %.16f", current_grid[index]);
+            // fflush(stdout); // Ensure it flushes to the terminal
 
-            printf("\r%s", string(30, ' ').c_str()); // Clear the line (30 spaces)
+            // printf("\r%s", string(30, ' ').c_str()); // Clear the line (30 spaces)
 
             // Update grids for next iteration
             current_grid = next_grid;
-            next_grid = step(current_grid);
+            next_grid = step(current_grid, inner_indices);
         }
         iterations++;
     }

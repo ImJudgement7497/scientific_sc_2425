@@ -18,11 +18,18 @@ extern int INNER_GRID_MIN_INDEX;
 extern int INNER_GRID_MAX_INDEX;
 extern double TOLERANCE;
 
-// Function declarations
+// Config Functions
 void log_global_variables();
+void generate_mappings();
+void log_sources();
 bool load_config(const string &filename);
+
+// Indice Functions
 int get_index(double x, double y);
+vector<int> get_inner_indices();
 pair<double, double> get_coordinates(int index);
+
+// Simulation Functions
 void fill_heat_sources(vector<double> &grid);
 vector<double> step(vector<double> &current_grid);
 int execute_serial();
