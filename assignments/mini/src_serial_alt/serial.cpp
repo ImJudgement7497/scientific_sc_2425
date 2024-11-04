@@ -158,7 +158,7 @@ void fill_outer_grid(vector<double> &outer_grid, vector<double> &inner_grid)
     }
 }
 /* Initialise the heat sources */
-void fill_heat_sources(vector<double> &inner_grid)
+void fill_sources(vector<double> &inner_grid)
 {
     // What are the outer indices?
     int outer_index_1 = get_index(5.0, 5.0);
@@ -206,7 +206,7 @@ vector<double> step(vector<double> &current_inner_grid)
         new_inner_grid[index] = (current + left + right + up + down) / 5.0;
         j++;
     }
-    fill_heat_sources(new_inner_grid); // The heat sources do not change across each step
+    fill_sources(new_inner_grid); // The heat sources do not change across each step
 
     if (INNER_GRID_SIZE == 0)
     {
@@ -235,7 +235,7 @@ int execute_serial()
     timer.start();
 
     // Perform the first step
-    fill_heat_sources(current_grid);
+    fill_sources(current_grid);
     next_grid = step(current_grid);
 
     // Value considered

@@ -15,6 +15,20 @@ void print_vector(const vector<double> &vec)
     cout << "]" << endl;
 }
 
+void print_vector(const vector<int> &vec)
+{
+    cout << "[";
+    for (size_t i = 0; i < vec.size(); ++i)
+    {
+        cout << vec[i];
+        if (i < vec.size() - 1)
+        {
+            cout << ", ";
+        }
+    }
+    cout << "]" << endl;
+}
+
 // Function to check if two vectors are close within a tolerance
 bool allclose(const vector<double> &vec1, const vector<double> &vec2, double &TOLERANCE)
 {

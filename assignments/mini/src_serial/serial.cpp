@@ -150,7 +150,7 @@ pair<double, double> get_coordinates(int index)
 /* ----------------------------------SIMULATION FUNCTIONS--------------------------------------------------*/
 
 /* Initialise the heat sources */
-void fill_heat_sources(vector<double> &grid)
+void fill_sources(vector<double> &grid)
 {
     grid[get_index(5.0, 5.0)] = 10.0;
     grid[get_index(4.0, 6.0)] = 7.2;
@@ -191,7 +191,7 @@ vector<double> step(vector<double> &current_grid, const vector<int> &inner_indic
         new_grid[index] = (current + left + right + up + down) / 5.0;
         j++;
     }
-    fill_heat_sources(new_grid); // The heat sources do not change across each step
+    fill_sources(new_grid); // The heat sources do not change across each step
 
     if (INNER_GRID_SIZE == 0)
     {
@@ -221,7 +221,7 @@ int execute_serial()
     timer.start();
 
     // Perform the first step
-    fill_heat_sources(current_grid);
+    fill_sources(current_grid);
     next_grid = step(current_grid, inner_indices);
 
     // Value considered

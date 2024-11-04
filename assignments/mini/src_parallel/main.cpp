@@ -6,15 +6,15 @@ int main(int argc, char **argv)
     // Call the execute_parallel function
     int result = execute_parallel();
 
-    // Check the result of the execution
-    if (result == 0)
-    {
-        cout << "Simulation completed successfully." << endl;
-    }
-    else
-    {
-        cout << "An error occurred during simulation." << endl;
-    }
+    // // Check the result of the execution
+    // if (result == 0)
+    // {
+    //     cout << "Simulation completed successfully." << endl;
+    // }
+    // else
+    // {
+    //     cout << "An error occurred during simulation." << endl;
+    // }
 
     MPI_Finalize();
 

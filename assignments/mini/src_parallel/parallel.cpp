@@ -17,15 +17,17 @@ double TOLERANCE;
 /*-------------------------------CONFIG FUNCTIONS-------------------------------*/
 
 /* Get the indices of the grid that each processor needs to work on*/
-void get_sub_indices(int size)
+void get_sub_indices(int size, vector<int> &starting_indices, vector<int> &ending_indices)
 {
+    starting_indices.resize(size);
+    ending_indices.resize(size);
+
     for (int i = 0; i < size; i++)
     {
-    int start_index = i*GRID_SIZE*(GRID_SIZE-2) / size;
-    int end_index = (GRID_SIZE*GRID_SIZE-1) - ((GRID_SIZE*(GRID_SIZE-2)*(size - i - 1)) / (size)); 
+        starting_indices[i] = i * GRID_SIZE * (GRID_SIZE - 2) / size;
+        ending_indices[i] = (GRID_SIZE * GRID_SIZE - 1) - ((GRID_SIZE * (GRID_SIZE - 2) * (size - i - 1)) / (size));
 
-    cout << "RANK " << i << ": Start: " << start_index << ": End: " << end_index << endl;
-
+        // cout << "RANK " << i << ": Start: " << starting_indices[i] << ": End: " << ending_indices[i] << endl;
     }
 }
 
@@ -169,13 +171,32 @@ pair<double, double> get_coordinates(int index)
 /* ----------------------------------SIMULATION FUNCTIONS--------------------------------------------------*/
 
 /* Initialise the heat sources */
-void fill_heat_sources(vector<double> &grid)
+void fill_sources(vector<double> &grid)
 {
     grid[get_index(5.0, 5.0)] = 10.0;
     grid[get_index(4.0, 6.0)] = 7.2;
     grid[get_index(7.0, 2.5)] = -1.2;
 }
 
+void get_local_sources(vector<double> &local_grid, vector<int> &local_source_indices, vector<double> &local_source_values)
+{
+    for (int i = 0; i < local_grid.size(); i++)
+    {
+        if (local_grid[i] != 0.0)
+        {
+            local_source_indices.push_back(i);
+            local_source_values.push_back(local_grid[i]);
+        }
+    }
+}
+void fill_local_sources(vector<double> &local_grid, vector<int> &local_source_indices, vector<double> &local_source_values)
+{
+    for (int i = 0; i < local_source_indices.size(); i++)
+    {
+        int index = local_source_indices[i];
+        local_grid[index] = local_source_values[i];
+    }
+}
 /* A step in time for the simulation */
 vector<double> step(vector<double> &current_grid, const vector<int> &inner_indices)
 {
@@ -210,7 +231,7 @@ vector<double> step(vector<double> &current_grid, const vector<int> &inner_indic
         new_grid[index] = (current + left + right + up + down) / 5.0;
         j++;
     }
-    fill_heat_sources(new_grid); // The heat sources do not change across each step
+    fill_sources(new_grid); // The heat sources do not change across each step
 
     if (INNER_GRID_SIZE == 0)
     {
@@ -230,12 +251,52 @@ int execute_parallel()
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); // Get rank
     MPI_Comm_size(MPI_COMM_WORLD, &size); // Get size
-    check_processor_initalisation(rank, size);
+    // check_processor_initalisation(rank, size);
+
+    vector<double> full_grid;
 
     if (rank == 0)
     {
-        get_sub_indices(size);
+        full_grid.resize(GRID_SIZE * GRID_SIZE, 0.0);
+        fill_sources(full_grid);
     }
+
+    // Get the indices to split the work out
+    vector<int> starting_indices, ending_indices;
+    get_sub_indices(size, starting_indices, ending_indices);
+
+    // if (rank == 0)
+    // {
+    //     print_vector(starting_indices);
+    //     print_vector(ending_indices);
+    // }
+
+    // How many elements are each processor reciving and the starting index of each send
+    int send_counts[size];
+    int displacment[size];
+
+    for (int i = 0; i < size; i++)
+    {
+        send_counts[i] = ending_indices[i] - starting_indices[i] + 1;
+        displacment[i] = starting_indices[i];
+    }
+
+    // if (rank == 0)
+    // {
+    //     print_vector(send_counts);
+    //     print_vector(displacment);
+    // }
+
+    vector<double> local_grid(send_counts[rank]);
+
+    MPI_Scatterv(full_grid.data(), send_counts, displacment, MPI_DOUBLE,
+                 local_grid.data(), send_counts[rank], MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    vector<int> local_source_indices;
+    vector<double> local_source_values;
+    get_local_sources(local_grid, local_source_indices, local_source_values);
+    fill_local_sources(local_grid, local_source_indices, local_source_values);
+
     // Initalise two grids, one to be used for current iteration, one for next iteration
     vector<double> current_grid(GRID_SIZE * GRID_SIZE, 0.0);
     vector<double> next_grid(GRID_SIZE * GRID_SIZE, 0.0);
@@ -249,7 +310,7 @@ int execute_parallel()
     timer.start();
 
     // Perform the first step
-    fill_heat_sources(current_grid);
+    fill_sources(current_grid);
     next_grid = step(current_grid, inner_indices);
 
     // Value considered
@@ -260,8 +321,8 @@ int execute_parallel()
         if (allclose(next_grid, current_grid, TOLERANCE))
         {
             timer.stop();
-            printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", next_grid[index],
-                   iterations, TOLERANCE, timer.elapsed_time());
+            // printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", next_grid[index],
+            //        iterations, TOLERANCE, timer.elapsed_time());
             convergence = true;
         }
         else
@@ -283,8 +344,6 @@ int execute_parallel()
     log_global_variables();
     generate_mappings();
     log_sources();
-
-    MPI_Finalize();
 
     return 0;
 }
