@@ -12,13 +12,13 @@ ORIGINAL_MAKEFILE="$MAKEFILE.bak"
 cp "$MAIN_FILE" "$ORIGINAL_MAIN_FILE"
 cp "$MAKEFILE" "$ORIGINAL_MAKEFILE"
 
-# Search and replace in main.cpp
-if grep -q "XT" "$MAIN_FILE"; then
-    echo "Replacing 'XT' with 'execute_serial()' in $MAIN_FILE..."
-    sed -i 's/XT/execute_serial()/g' "$MAIN_FILE"
-else
-    echo "'XT' not found in $MAIN_FILE."
-fi
+# # Search and replace in main.cpp
+# if grep -q "XT" "$MAIN_FILE"; then
+#     echo "Replacing 'XT' with 'execute_serial()' in $MAIN_FILE..."
+#     sed -i 's/XT/execute_serial()/g' "$MAIN_FILE"
+# else
+#     echo "'XT' not found in $MAIN_FILE."
+# fi
 
 # Search and replace in Makefile
 if grep -q "XT" "$MAKEFILE"; then

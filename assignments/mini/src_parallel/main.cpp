@@ -1,9 +1,10 @@
-#include "serial.h" // Include the header file for access to global variables and functions
+#include "parallel.h" // Include the header file for access to global variables and functions
 
-int main()
+int main(int argc, char **argv)
 {
-    // Call the execute_serial function
-    int result = execute_serial();
+    MPI_Init(&argc, &argv);
+    // Call the execute_parallel function
+    int result = execute_parallel();
 
     // Check the result of the execution
     if (result == 0)
@@ -14,6 +15,8 @@ int main()
     {
         cout << "An error occurred during simulation." << endl;
     }
+
+    MPI_Finalize();
 
     return 0; // Exit the program
 }
