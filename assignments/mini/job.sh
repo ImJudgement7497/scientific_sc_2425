@@ -9,7 +9,7 @@
 ##SBATCH --account=dept-proj-year           # specify your project account if NOT doing class work
 
 #customise these according to job size and time required:
-#SBATCH --ntasks=4                         # Run 4 MPI tasks...
+#SBATCH --ntasks=8                         # Run 4 MPI tasks...
 #SBATCH --cpus-per-task=1                  # ...with each task using 1 core
 #SBATCH --time=00:05:00                    # Time limit hrs:min:sec
 
