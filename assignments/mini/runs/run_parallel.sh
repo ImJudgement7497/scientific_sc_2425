@@ -34,7 +34,7 @@ fi
 
 make clean
 make
-mpiexec -n 4 ./bin/main
+mpiexec -n 2 ./bin/main
 
 # Restore original files
 mv "$ORIGINAL_MAKEFILE" "$MAKEFILE"

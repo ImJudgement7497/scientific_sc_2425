@@ -32,7 +32,7 @@ int get_index(double x, double y);
 vector<int> get_iteration_indices(vector<int> &inner_indices);
 pair<double, double> get_coordinates(int index);
 void fill_local_sources(vector<double> &local_grid, vector<int> &local_source_indices, vector<double> &local_source_values);
-vector<double> scatter_inital_data(int rank, int size, vector<double> &full_grid);
+vector<double> scatter_grid(int rank, int size, vector<double> &full_grid);
 
 // Simulation Functions
 void fill_sources(vector<double> &grid);

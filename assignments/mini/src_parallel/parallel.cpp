@@ -200,7 +200,7 @@ void fill_local_sources(vector<double> &local_grid, vector<int> &local_source_in
     }
 }
 
-vector<double> scatter_inital_data(int rank, int size, vector<double> &full_grid, vector<int> &iterating_indices)
+void initalise_indices(int rank, int size, vector<int> &iterating_indices, int counts[], int displacement[])
 {
     // Get the indices to split the work out
     vector<int> starting_indices, ending_indices, full_iterating_indices;
@@ -213,6 +213,7 @@ vector<double> scatter_inital_data(int rank, int size, vector<double> &full_grid
     //     print_vector(ending_indices);
     // }
 
+    // What indices are required to be iterated over?
     int start_index = starting_indices[rank];
     int end_index = ending_indices[rank];
 
@@ -225,37 +226,52 @@ vector<double> scatter_inital_data(int rank, int size, vector<double> &full_grid
             iterating_indices.push_back(value);
         }
     }
-
+    // Broadcast the iterating indices so each rank has the same iterating indices
     MPI_Bcast(iterating_indices.data(), iterating_indices.size(), MPI_INT, 0, MPI_COMM_WORLD);
     // {
     //     cout << "Rank " << rank << endl;
     //     print_vector(iterating_indices);
     // }
-    // How many elements are each processor reciving and the starting index of each send
-    int counts[size];
-    int displacment[size];
 
     for (int i = 0; i < size; i++)
     {
         counts[i] = ending_indices[i] - starting_indices[i] + 1;
-        displacment[i] = starting_indices[i];
+        displacement[i] = starting_indices[i];
     }
 
     // for (int i = 0; i < size; i++)
     // {
     //     cout << counts[i] << endl;
     // }
+}
 
+vector<double> scatter_grid(int rank, int size, vector<double> &full_grid, int counts[], int displacement[])
+{
     // Define a local grid by the number of local indices
     vector<double> local_grid(counts[rank]);
 
-    MPI_Scatterv(full_grid.data(), counts, displacment, MPI_DOUBLE,
+    MPI_Scatterv(full_grid.data(), counts, displacement, MPI_DOUBLE,
                  local_grid.data(), counts[rank], MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     return local_grid;
 }
+
+vector<double> gather_grid(int rank, int size, vector<double> &local_grid, int counts[], int displacement[])
+{
+    vector<double> full_grid;
+    if (rank == 0)
+    {
+        full_grid.resize(displacement[size - 1] + counts[size - 1]);
+    }
+
+    MPI_Gatherv(local_grid.data(), counts[rank], MPI_DOUBLE,
+                full_grid.data(), counts, displacement, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    return full_grid;
+}
+
 /* A step in time for the simulation */
-vector<double> step(vector<double> &current_grid, const vector<int> &inner_indices)
+vector<double> step(int rank, int size, vector<double> &local_grid, const vector<int> &iterating_indices)
 {
     /*
     MOVING RIGHT IN X: index + 1
@@ -263,21 +279,45 @@ vector<double> step(vector<double> &current_grid, const vector<int> &inner_indic
     MOVING UP IN Y: index + GRID_SIZE
     MOVING DOWN IN Y: index - GRID_SIZE
     */
-    int j = 0;
-    vector<double> new_grid(GRID_SIZE * GRID_SIZE, 0.0);
-    new_grid = current_grid;
+    int rows_per_proc = (GRID_SIZE - 2) / size;
+    vector<double> new_grid(local_grid.size(), 0.0);
+    new_grid = local_grid;
 
-    // Note we only iterate through a smaller grid defined by GRID_SIZE - 2 as edge cells stay at T = 0
-    for (int i = 0; i < inner_indices.size(); i++)
+    int above = rank - 1;
+    int below = rank + 1;
+
+    MPI_Status status;
+    MPI_Request reqs[4];
+
+    // Send bottom row to below and receive top ghost row from below
+    if (below < size)
     {
-        // pair<double, double> coord = get_coordinates(index);
+        MPI_Isend(&local_grid[rows_per_proc * GRID_SIZE], GRID_SIZE, MPI_DOUBLE, below, 0, MPI_COMM_WORLD, &reqs[0]);
+        MPI_Irecv(&local_grid[(rows_per_proc + 1) * GRID_SIZE], GRID_SIZE, MPI_DOUBLE, below, 1, MPI_COMM_WORLD, &reqs[1]);
+    }
 
-        // // Boundaries on X
-        // if (coord.first == GRID_MIN || coord.first == GRID_MAX)
-        // {
-        //     continue;
-        // }
-        int index = inner_indices[i];
+    // Send top row to above and receive bottom ghost row from above
+    if (above >= 0)
+    {
+        MPI_Isend(&local_grid[GRID_SIZE], GRID_SIZE, MPI_DOUBLE, above, 1, MPI_COMM_WORLD, &reqs[2]);
+        MPI_Irecv(&local_grid[0], GRID_SIZE, MPI_DOUBLE, above, 0, MPI_COMM_WORLD, &reqs[3]);
+    }
+
+    // Wait for all communications to complete
+    if (above >= 0)
+    {
+        MPI_Wait(&reqs[2], &status);
+        MPI_Wait(&reqs[3], &status);
+    }
+    if (below < size)
+    {
+        MPI_Wait(&reqs[0], &status);
+        MPI_Wait(&reqs[1], &status);
+    }
+
+    for (int i = 0; i < iterating_indices.size(); i++)
+    {
+        int index = iterating_indices[i];
         // Get neighbouring values
         double current = new_grid[index];
         double left = new_grid[index - 1];
@@ -286,14 +326,8 @@ vector<double> step(vector<double> &current_grid, const vector<int> &inner_indic
         double down = new_grid[index - GRID_SIZE];
 
         new_grid[index] = (current + left + right + up + down) / 5.0;
-        j++;
     }
-    fill_sources(new_grid); // The heat sources do not change across each step
 
-    if (INNER_GRID_SIZE == 0)
-    {
-        INNER_GRID_SIZE = sqrt(j);
-    }
     return new_grid;
 }
 
@@ -311,23 +345,29 @@ int execute_parallel()
     // check_processor_initalisation(rank, size);
 
     // Full grid without any splitting (all data will eventually end up back on this grid)
-    vector<double> full_grid;
+    vector<double> full_grid, next_full_grid;
     vector<int> iterating_indices;
 
     // Rank 0 processor initalise the full grid with sources, ready to send
     if (rank == 0)
     {
         full_grid.resize(GRID_SIZE * GRID_SIZE);
-        /* TESTING */
-        for (int i = 0; i < full_grid.size(); i++)
-        {
-            full_grid[i] = i;
-        }
-        // UNCOMMENT BELOW
-        //  fill_sources(full_grid);
+        // /* TESTING */
+        // for (int i = 0; i < full_grid.size(); i++)
+        // {
+        //     full_grid[i] = i;
+        // }
+
+        fill_sources(full_grid);
     }
 
-    vector<double> local_grid = scatter_inital_data(rank, size, full_grid, iterating_indices);
+    // How many elements are each processor reciving and the starting index of each send
+    int counts[size];
+    int displacement[size];
+
+    initalise_indices(rank, size, iterating_indices, counts, displacement);
+
+    vector<double> local_grid = scatter_grid(rank, size, full_grid, counts, displacement);
     // {
 
     //     cout << "Rank: " << rank << endl;
@@ -343,52 +383,61 @@ int execute_parallel()
     //     print_vector(local_grid);
     // }
     // Initalise two grids, one to be used for current iteration, one for next iteration
-    vector<double> current_grid(GRID_SIZE * GRID_SIZE, 0.0);
-    vector<double> next_grid(GRID_SIZE * GRID_SIZE, 0.0);
-
-    vector<int> inner_indices;
 
     bool convergence = false;
     int iterations = 0;
 
-    vtimer_t timer;
-    timer.start();
+    // vtimer_t timer;
+    // timer.start();
 
-    // Perform the first step
-    fill_sources(current_grid);
-    next_grid = step(current_grid, inner_indices);
-
-    // Value considered
-    int index = get_index(5.5, 5.5);
-
-    while (!convergence)
+    // // Perform the first step
+    for (int i = 0; i < 22553; i++)
     {
-        if (allclose(next_grid, current_grid, TOLERANCE))
-        {
-            timer.stop();
-            // printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", next_grid[index],
-            //        iterations, TOLERANCE, timer.elapsed_time());
-            convergence = true;
-        }
-        else
-        {
-            /* Below shows the user the values as they are iterated*/
-            // // Print the current value
-            // printf("\rValue = %.16f", current_grid[index]);
-            // fflush(stdout); // Ensure it flushes to the terminal
-
-            // printf("\r%s", string(30, ' ').c_str()); // Clear the line (30 spaces)
-
-            // Update grids for next iteration
-            current_grid = next_grid;
-            next_grid = step(current_grid, inner_indices);
-        }
-        iterations++;
+        next_full_grid = step(rank, size, local_grid, iterating_indices);
+        fill_local_sources(next_full_grid, local_source_indices, local_source_values);
+        // cout << "Rank " << rank << endl;
+        // print_vector(next_full_grid);
+        local_grid = next_full_grid;
     }
 
-    log_global_variables();
-    generate_mappings();
-    log_sources();
+    full_grid = gather_grid(rank, size, local_grid, counts, displacement);
+    if (rank == 0)
+    {
+        double value = full_grid[get_index(5.5, 5.5)];
+        cout << value << endl;
+    }
+    // // Value considered
+    // int index = get_index(5.5, 5.5);
+    // cout << full_grid[index] << endl;
+    // cout << index << endl;
+    // while (!convergence)
+    // {
+    //     if (allclose(next_full_grid, full_grid, TOLERANCE))
+    //     {
+    //         timer.stop();
+    //         // printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", next_grid[index],
+    //         //        iterations, TOLERANCE, timer.elapsed_time());
+    //         convergence = true;
+    //     }
+    //     else
+    //     {
+    //         /* Below shows the user the values as they are iterated*/
+    //         // // Print the current value
+    //         // printf("\rValue = %.16f", current_grid[index]);
+    //         // fflush(stdout); // Ensure it flushes to the terminal
+
+    //         // printf("\r%s", string(30, ' ').c_str()); // Clear the line (30 spaces)
+
+    //         // Update grids for next iteration
+    //         current_grid = next_grid;
+    //         next_grid = step(current_grid, inner_indices);
+    //     }
+    //     iterations++;
+    // }
+
+    // log_global_variables();
+    // generate_mappings();
+    // log_sources();
 
     return 0;
 }
