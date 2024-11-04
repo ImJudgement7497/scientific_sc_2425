@@ -225,10 +225,12 @@ vector<double> scatter_inital_data(int rank, int size, vector<double> &full_grid
             iterating_indices.push_back(value);
         }
     }
-    {
-        cout << "Rank " << rank << endl;
-        print_vector(iterating_indices);
-    }
+
+    MPI_Bcast(iterating_indices.data(), iterating_indices.size(), MPI_INT, 0, MPI_COMM_WORLD);
+    // {
+    //     cout << "Rank " << rank << endl;
+    //     print_vector(iterating_indices);
+    // }
     // How many elements are each processor reciving and the starting index of each send
     int counts[size];
     int displacment[size];
@@ -315,12 +317,22 @@ int execute_parallel()
     // Rank 0 processor initalise the full grid with sources, ready to send
     if (rank == 0)
     {
-        full_grid.resize(GRID_SIZE * GRID_SIZE, 0.0);
-        fill_sources(full_grid);
+        full_grid.resize(GRID_SIZE * GRID_SIZE);
+        /* TESTING */
+        for (int i = 0; i < full_grid.size(); i++)
+        {
+            full_grid[i] = i;
+        }
+        // UNCOMMENT BELOW
+        //  fill_sources(full_grid);
     }
 
     vector<double> local_grid = scatter_inital_data(rank, size, full_grid, iterating_indices);
+    // {
 
+    //     cout << "Rank: " << rank << endl;
+    //     print_vector(local_grid);
+    // }
     // Need a local vector for where and what the sources are
     vector<int> local_source_indices;
     vector<double> local_source_values;
