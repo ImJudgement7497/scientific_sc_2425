@@ -26,7 +26,7 @@ bool load_config(const string &filename);
 
 // Indice Functions
 int get_index(double x, double y);
-vector<int> get_inner_indices();
+vector<int> get_iteration_indices();
 pair<double, double> get_coordinates(int index);
 
 // Simulation Functions

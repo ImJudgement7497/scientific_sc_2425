@@ -1,0 +1,12 @@
+Replacing 'XT' with 'mpic++' in ./Makefile...
+Replacing 'YT' with 'src_parallel' in ./Makefile...
+rm -rf bin/*
+mpic++ -std=c++17 -ggdb -Iinclude -fopenmp -Iinclude src_parallel/helper.cpp src_parallel/main.cpp src_parallel/parallel.cpp src_parallel/vtimer_t.cpp -o bin/main 
+Rank 2
+[0, 0, 0, 0, 0, 0, 0, 0, 7.2, 10, 0, 0, 0, 0, 0, 0, 0, 0]
+Rank 3
+[0, 0, 7.2, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Rank 0
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.2, 0, 0, 0, 0, 0, 0, 0]
+Rank 1
+[0, 0, 0, 0, -1.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7.2, 10, 0, 0]

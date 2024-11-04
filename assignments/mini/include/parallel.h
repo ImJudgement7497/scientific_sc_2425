@@ -21,7 +21,7 @@ extern double TOLERANCE;
 
 // Config Functions
 void check_processor_initalisation(int rank, int size);
-void get_sub_indices(int size);
+void get_local_indices(int size);
 void log_global_variables();
 void generate_mappings();
 void log_sources();
@@ -29,9 +29,10 @@ bool load_config(const string &filename);
 
 // Indice Functions
 int get_index(double x, double y);
-vector<int> get_inner_indices();
+vector<int> get_iteration_indices(vector<int> &inner_indices);
 pair<double, double> get_coordinates(int index);
 void fill_local_sources(vector<double> &local_grid, vector<int> &local_source_indices, vector<double> &local_source_values);
+vector<double> scatter_inital_data(int rank, int size, vector<double> &full_grid);
 
 // Simulation Functions
 void fill_sources(vector<double> &grid);

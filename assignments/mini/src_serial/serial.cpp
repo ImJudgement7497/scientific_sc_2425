@@ -117,7 +117,7 @@ int get_index(double x, double y)
     return index;
 }
 
-vector<int> get_inner_indices()
+vector<int> get_iteration_indices()
 {
     vector<int> inner_indices;
 
@@ -212,7 +212,7 @@ int execute_serial()
     vector<double> current_grid(GRID_SIZE * GRID_SIZE, 0.0);
     vector<double> next_grid(GRID_SIZE * GRID_SIZE, 0.0);
 
-    vector<int> inner_indices = get_inner_indices();
+    vector<int> inner_indices = get_iteration_indices();
 
     bool convergence = false;
     int iterations = 0;
