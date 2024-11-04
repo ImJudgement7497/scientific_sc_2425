@@ -16,13 +16,26 @@ double TOLERANCE;
 
 /*-------------------------------CONFIG FUNCTIONS-------------------------------*/
 
-/* Write to a log all the global variables */
+/* Get the indices of the grid that each processor needs to work on*/
+void get_sub_indices(int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+    int start_index = i*GRID_SIZE*(GRID_SIZE-2) / size;
+    int end_index = (GRID_SIZE*GRID_SIZE-1) - ((GRID_SIZE*(GRID_SIZE-2)*(size - i - 1)) / (size)); 
 
+    cout << "RANK " << i << ": Start: " << start_index << ": End: " << end_index << endl;
+
+    }
+}
+
+/* Check if all processors are initalised*/
 void check_processor_initalisation(int rank, int size)
 {
     cout << "Processor " << rank << " of " << size << " initalised." << endl;
 }
 
+/* Write to a log all the global variables */
 void log_global_variables()
 {
     ofstream log_file("./logs/global.log", ios::trunc);
@@ -219,6 +232,10 @@ int execute_parallel()
     MPI_Comm_size(MPI_COMM_WORLD, &size); // Get size
     check_processor_initalisation(rank, size);
 
+    if (rank == 0)
+    {
+        get_sub_indices(size);
+    }
     // Initalise two grids, one to be used for current iteration, one for next iteration
     vector<double> current_grid(GRID_SIZE * GRID_SIZE, 0.0);
     vector<double> next_grid(GRID_SIZE * GRID_SIZE, 0.0);

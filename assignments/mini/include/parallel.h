@@ -21,6 +21,7 @@ extern double TOLERANCE;
 
 // Config Functions
 void check_processor_initalisation(int rank, int size);
+void get_sub_indices(int size);
 void log_global_variables();
 void generate_mappings();
 void log_sources();
