@@ -1,9 +1,9 @@
 # Define the MPI C++ compiler
-CXX       := XT
+CXX       := mpic++
 CXX_FLAGS := -std=c++17 -ggdb -Iinclude -fopenmp
 
 BIN     := bin
-SRC     := YT
+SRC     := src_parallel
 INCLUDE := include
 
 LIBRARIES   := 
