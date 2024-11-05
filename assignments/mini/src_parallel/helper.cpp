@@ -15,6 +15,22 @@ void print_vector(const vector<double> &vec)
     cout << "]" << endl;
 }
 
+void write_vector(const vector<double> &vec, const string file_name)
+{
+    ofstream log_file(file_name, ios::app);
+    log_file << "[";
+    for (size_t i = 0; i < vec.size(); ++i)
+    {
+        log_file << vec[i];
+        if (i < vec.size() - 1)
+        {
+            log_file << ", ";
+        }
+    }
+    log_file << "]" << endl;
+    log_file << "--------------------------------------------" << endl;
+}
+
 void print_vector(const vector<int> &vec)
 {
     cout << "[";

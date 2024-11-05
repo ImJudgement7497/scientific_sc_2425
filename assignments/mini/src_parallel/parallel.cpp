@@ -16,21 +16,6 @@ double TOLERANCE;
 
 /*-------------------------------CONFIG FUNCTIONS-------------------------------*/
 
-/* Get the indices of the grid that each processor needs to work on*/
-void get_local_indices(int size, vector<int> &starting_indices, vector<int> &ending_indices)
-{
-    starting_indices.resize(size);
-    ending_indices.resize(size);
-
-    for (int i = 0; i < size; i++)
-    {
-        starting_indices[i] = i * GRID_SIZE * (GRID_SIZE - 2) / size;
-        ending_indices[i] = (GRID_SIZE * GRID_SIZE - 1) - ((GRID_SIZE * (GRID_SIZE - 2) * (size - i - 1)) / (size));
-
-        // cout << "RANK " << i << ": Start: " << starting_indices[i] << ": End: " << ending_indices[i] << endl;
-    }
-}
-
 /* Check if all processors are initalised*/
 void check_processor_initalisation(int rank, int size)
 {
@@ -138,6 +123,7 @@ int get_index(double x, double y)
     return index;
 }
 
+/* Get the indices that are needed to be considered in the iteration */
 vector<int> get_iteration_indices(vector<int> &inner_indices)
 {
 
@@ -167,6 +153,56 @@ pair<double, double> get_coordinates(int index)
     return {x, y}; // Return as a pair of doubles
 }
 
+/* Get the indices of the grid that each processor needs to work on*/
+void get_local_indices(int size, vector<int> &starting_indices, vector<int> &ending_indices)
+{
+    starting_indices.resize(size);
+    ending_indices.resize(size);
+
+    for (int i = 0; i < size; i++)
+    {
+        starting_indices[i] = i * GRID_SIZE * (GRID_SIZE - 2) / size;
+        ending_indices[i] = (GRID_SIZE * GRID_SIZE - 1) - ((GRID_SIZE * (GRID_SIZE - 2) * (size - i - 1)) / (size));
+
+        // cout << "RANK " << i << ": Start: " << starting_indices[i] << ": End: " << ending_indices[i] << endl;
+    }
+}
+
+/* Initalise all indice arrays needed */
+void initalise_indices(int rank, int size, vector<int> &iterating_indices, int counts[], int displacement[])
+{
+    // Get the indices to split the work out
+    vector<int> starting_indices, ending_indices, full_iterating_indices;
+
+    get_local_indices(size, starting_indices, ending_indices);
+    get_iteration_indices(full_iterating_indices);
+
+    // What indices are required to be iterated over?
+    int start_index = starting_indices[rank];
+    int end_index = ending_indices[rank];
+
+    // Go through the full list of iterating indices and give them to each processor
+    for (int i = 0; i < full_iterating_indices.size(); i++)
+    {
+        int value = full_iterating_indices[i];
+
+        if (value >= start_index + GRID_SIZE && value <= end_index - GRID_SIZE)
+        {
+            iterating_indices.push_back(value);
+        }
+    }
+
+    // Broadcast the iterating indices so each rank has the same iterating indices
+    /* this works mathematically if size is an integer factor of GRID_SIZE-2*/
+    MPI_Bcast(iterating_indices.data(), iterating_indices.size(), MPI_INT, 0, MPI_COMM_WORLD);
+
+    // Get the number of data points in each rank, and the starting index for each rank
+    for (int i = 0; i < size; i++)
+    {
+        counts[i] = ending_indices[i] - starting_indices[i] + 1;
+        displacement[i] = starting_indices[i];
+    }
+}
 /* ----------------------------------SIMULATION FUNCTIONS--------------------------------------------------*/
 
 /* Initialise the heat sources */
@@ -200,52 +236,7 @@ void fill_local_sources(vector<double> &local_grid, vector<int> &local_source_in
     }
 }
 
-void initalise_indices(int rank, int size, vector<int> &iterating_indices, int counts[], int displacement[])
-{
-    // Get the indices to split the work out
-    vector<int> starting_indices, ending_indices, full_iterating_indices;
-
-    get_local_indices(size, starting_indices, ending_indices);
-    get_iteration_indices(full_iterating_indices);
-
-    // if (rank == 0)
-    // {
-    //     print_vector(starting_indices);
-    //     print_vector(ending_indices);
-    // }
-
-    // What indices are required to be iterated over?
-    int start_index = starting_indices[rank];
-    int end_index = ending_indices[rank];
-
-    for (int i = 0; i < full_iterating_indices.size(); i++)
-    {
-        int value = full_iterating_indices[i];
-
-        if (value >= start_index + GRID_SIZE && value <= end_index - GRID_SIZE)
-        {
-            iterating_indices.push_back(value);
-        }
-    }
-    // Broadcast the iterating indices so each rank has the same iterating indices
-    MPI_Bcast(iterating_indices.data(), iterating_indices.size(), MPI_INT, 0, MPI_COMM_WORLD);
-    // {
-    //     cout << "Rank " << rank << endl;
-    //     print_vector(iterating_indices);
-    // }
-
-    for (int i = 0; i < size; i++)
-    {
-        counts[i] = ending_indices[i] - starting_indices[i] + 1;
-        displacement[i] = starting_indices[i];
-    }
-
-    // for (int i = 0; i < size; i++)
-    // {
-    //     cout << counts[i] << endl;
-    // }
-}
-
+/* Scatter the grid to processors using counts and displacement*/
 vector<double> scatter_grid(int rank, int size, vector<double> &full_grid, int counts[], int displacement[])
 {
     // Define a local grid by the number of local indices
@@ -257,6 +248,7 @@ vector<double> scatter_grid(int rank, int size, vector<double> &full_grid, int c
     return local_grid;
 }
 
+/* Gather the grid to root using counts and displacement */
 vector<double> gather_grid(int rank, int size, vector<double> &local_grid, int counts[], int displacement[])
 {
     vector<double> full_grid;
@@ -271,8 +263,7 @@ vector<double> gather_grid(int rank, int size, vector<double> &local_grid, int c
     if (rank == 0)
     {
         fill_sources(full_grid);
-        cout << "___________" << endl;
-        print_vector(full_grid);
+        write_vector(full_grid, "./logs/full_grid.log");
     }
     return full_grid;
 }
@@ -388,6 +379,9 @@ vector<double> step(int rank, int size, vector<double> &full_grid, const vector<
         local_grid[index] = (current + left + right + up + down) / 5.0;
     }
 
+    string file_name = "./logs/local_grid_rank_" + to_string(rank) + ".log";
+    write_vector(local_grid, file_name);
+
     new_full_grid = gather_grid(rank, size, local_grid, counts, displacement);
 
     return new_full_grid;
@@ -447,8 +441,8 @@ int execute_parallel()
     //     print_vector(local_grid);
     // }
     // Need a local vector for where and what the sources are
-    vector<int> local_source_indices;
-    vector<double> local_source_values;
+    // vector<int> local_source_indices;
+    // vector<double> local_source_values;
     // get_local_sources(local_grid, local_source_indices, local_source_values);
     // fill_local_sources(local_grid, local_source_indices, local_source_values);
     // {
