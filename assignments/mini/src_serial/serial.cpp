@@ -3,6 +3,7 @@
 #include "vtimer_t.h"
 #include <thread>
 #include <chrono>
+#include <unordered_set>
 
 /*-------------------------------GLOBAL VARIABLES*-------------------------------*/
 int GRID_SIZE; // For an N point grid, you need N+1 grid size
@@ -149,6 +150,12 @@ pair<double, double> get_coordinates(int index)
 
 /* ----------------------------------SIMULATION FUNCTIONS--------------------------------------------------*/
 
+/* Get the indices of the sources */
+unordered_set<int> get_source_indices()
+{
+    return {get_index(5.0, 5.0), get_index(4.0, 6.0), get_index(7.0, 2.5)};
+}
+
 /* Initialise the heat sources */
 void fill_sources(vector<double> &grid)
 {
@@ -158,7 +165,7 @@ void fill_sources(vector<double> &grid)
 }
 
 /* A step in time for the simulation */
-vector<double> step(vector<double> &current_grid, const vector<int> &inner_indices)
+vector<double> step(vector<double> &current_grid, const vector<int> &inner_indices, unordered_set<int> source_indices)
 {
     /*
     MOVING RIGHT IN X: index + 1
@@ -173,14 +180,12 @@ vector<double> step(vector<double> &current_grid, const vector<int> &inner_indic
     // Note we only iterate through a smaller grid defined by GRID_SIZE - 2 as edge cells stay at T = 0
     for (int i = 0; i < inner_indices.size(); i++)
     {
-        // pair<double, double> coord = get_coordinates(index);
-
-        // // Boundaries on X
-        // if (coord.first == GRID_MIN || coord.first == GRID_MAX)
-        // {
-        //     continue;
-        // }
         int index = inner_indices[i];
+
+        if (source_indices.find(index) != source_indices.end())
+        {
+            continue;
+        }
         // Get neighbouring values
         double current = new_grid[index];
         double left = new_grid[index - 1];
@@ -191,7 +196,7 @@ vector<double> step(vector<double> &current_grid, const vector<int> &inner_indic
         new_grid[index] = (current + left + right + up + down) / 5.0;
         j++;
     }
-    fill_sources(new_grid); // The heat sources do not change across each step
+    // fill_sources(new_grid); // The heat sources do not change across each step
 
     if (INNER_GRID_SIZE == 0)
     {
@@ -213,6 +218,7 @@ int execute_serial()
     vector<double> next_grid(GRID_SIZE * GRID_SIZE, 0.0);
 
     vector<int> inner_indices = get_iteration_indices();
+    unordered_set<int> source_indices = get_source_indices();
 
     bool convergence = false;
     int iterations = 0;
@@ -222,7 +228,7 @@ int execute_serial()
 
     // Perform the first step
     fill_sources(current_grid);
-    next_grid = step(current_grid, inner_indices);
+    next_grid = step(current_grid, inner_indices, source_indices);
 
     // Value considered
     int index = get_index(5.5, 5.5);
@@ -247,7 +253,7 @@ int execute_serial()
 
             // Update grids for next iteration
             current_grid = next_grid;
-            next_grid = step(current_grid, inner_indices);
+            next_grid = step(current_grid, inner_indices, source_indices);
         }
         iterations++;
     }
