@@ -1,0 +1,34 @@
+My working directory is /users/bmjm501/scratch/scientific_sc_2425/assignments/mini
+Running job on host:
+	node002.viking2.yor.alces.network at Wed Nov 6 21:17:51 GMT 2024
+	using 1 MPI tasks
+
+'XT' not found in ./Makefile.
+'YT' not found in ./Makefile.
+rm -rf bin/*
+mpic++ -std=c++17 -Iinclude -fopenmp -Iinclude src/src_parallel/parallel.cpp src/src_parallel/vtimer_t.cpp src/src_parallel/helper.cpp src/src_parallel/main.cpp -o bin/main 
+rm: cannot remove './logs/parallel/**': No such file or directory
+mv: cannot stat './Makefile.bak': No such file or directory
+Executing
+Value = 4.1715298749715810 after 34618 iterations, tol = 0.0000000000010000, time = 22.853177
+
+Job completed at Wed Nov 6 21:18:17 GMT 2024
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 13387658
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Cores: 1
+CPU Utilized: 00:00:25
+CPU Efficiency: 96.15% of 00:00:26 core-walltime
+Job Wall-clock time: 00:00:26
+Memory Utilized: 1.74 MB
+Memory Efficiency: 0.03% of 5.24 GB
+ Requested wall clock time: 00:05:00
+    Actual wall clock time: 00:00:26
+Wall clock time efficiency: 8.7%
+           Job queued time: 00:00:22
