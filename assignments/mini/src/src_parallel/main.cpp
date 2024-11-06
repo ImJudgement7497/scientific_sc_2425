@@ -4,7 +4,7 @@ int main(int argc, char **argv)
 {
     MPI_Init(&argc, &argv);
     // Call the execute_parallel function
-    int result = execute_parallel();
+    execute_parallel();
 
     // // Check the result of the execution
     // if (result == 0)
