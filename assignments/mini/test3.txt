@@ -1,8 +1,0 @@
-'XT' not found in ./Makefile.
-'YT' not found in ./Makefile.
-rm -rf bin/*
-mpic++ -std=c++17 -ggdb -Iinclude -fopenmp -Iinclude src_parallel/helper.cpp src_parallel/main.cpp src_parallel/parallel.cpp src_parallel/vtimer_t.cpp -o bin/main 
-___________
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7.2, 10, 0, 0, 0, 0, 1.44, 2.288, 0.4576, 0, 0, 0, 0, 0, 0, 0]
-___________
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7.2, 10, 0, 0, 0, 0.288, 2.2432, 2.99776, 0.691072, 0, 0, 0, 0, 0, 0, 0]
