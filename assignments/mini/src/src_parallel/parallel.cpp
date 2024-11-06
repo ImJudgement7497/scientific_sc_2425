@@ -1,9 +1,6 @@
 #include "parallel.h"
 #include "helper.h"
 #include "vtimer_t.h"
-#include <thread>
-#include <chrono>
-#include <unordered_set>
 
 /*-------------------------------GLOBAL VARIABLES*-------------------------------*/
 int GRID_SIZE; // For an N point grid, you need N+1 grid size
@@ -99,6 +96,7 @@ void log_local_sources(unordered_set<int> &source_indices, const string &file_na
     }
     file << endl;
 }
+
 /* Load a configuration file */
 bool load_config(const string &filename)
 {
@@ -214,6 +212,7 @@ void initalise_indices(int rank, int size, vector<int> &iterating_indices, int c
         displacement[i] = starting_indices[i];
     }
 }
+
 /* ----------------------------------SIMULATION FUNCTIONS--------------------------------------------------*/
 
 /* Initialise the heat sources */
