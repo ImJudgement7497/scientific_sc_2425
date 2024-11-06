@@ -2,20 +2,11 @@
 
 # Define the files to search and modify
 MAKEFILE="./Makefile"
-MAIN_FILE="./src_parallel/main.cpp"
 # Define the placeholder for original content
 ORIGINAL_MAKEFILE="$MAKEFILE.bak"
-ORIGINAL_MAIN_FILE="$MAIN_FILE.bak"
 
 cp "$MAKEFILE" "$ORIGINAL_MAKEFILE"
-cp "$MAIN_FILE" "$ORIGINAL_MAIN_FILE"
 
-# if grep -q "XT" "$MAIN_FILE"; then
-#     echo "Replacing 'XT' with 'execute_parallel()' in $MAIN_FILE..."
-#     sed -i 's/XT/execute_parallel()/g' "$MAIN_FILE"
-# else
-#     echo "'XT' not found in $MAIN_FILE."
-# fi
 
 # Search and replace in Makefile
 if grep -q "XT" "$MAKEFILE"; then
@@ -36,8 +27,7 @@ make clean
 make
 
 rm ./logs/parallel/**
-mpiexec -n 1 ./bin/main
+mpiexec -n 5 ./bin/main
 
 # Restore original files
 mv "$ORIGINAL_MAKEFILE" "$MAKEFILE"
-mv "$ORIGINAL_MAIN_FILE" "$MAIN_FILE"

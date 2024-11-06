@@ -3,7 +3,7 @@ CXX       := XT
 CXX_FLAGS := -std=c++17 -ggdb -Iinclude -fopenmp
 
 BIN     := bin
-SRC     := YT
+SRC     := src/YT
 INCLUDE := include
 
 LIBRARIES   := 
