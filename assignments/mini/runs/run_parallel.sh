@@ -27,7 +27,7 @@ make clean
 make
 
 rm ./logs/parallel/**
-mpiexec -n 5 ./bin/main
+#mpiexec -n 5 ./bin/main
 
 # Restore original files
 mv "$ORIGINAL_MAKEFILE" "$MAKEFILE"
