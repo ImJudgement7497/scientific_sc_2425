@@ -362,32 +362,17 @@ int execute_parallel()
     NUM_OF_PROCS = size;
 
     // Full grid without any splitting (all data will eventually end up back on this grid)
-    vector<double> full_grid, next_full_grid, test_vector;
+    vector<double> full_grid, next_full_grid, test_vector, new_local_grid;
     vector<int> iterating_indices;
     unordered_set<int> source_indices;
+
+    vtimer_t timer;
 
     // Rank 0 processor initalise the full grid with sources, ready to send
     if (rank == 0)
     {
         full_grid.resize(GRID_SIZE * GRID_SIZE, 0.0);
         next_full_grid.resize(GRID_SIZE * GRID_SIZE, 0.0);
-        /* TESTING */
-        // for (int i = 0; i < full_grid.size(); i++)
-        // {
-        //     if (i >= 0 && i <= 11)
-        //     {
-        //     full_grid[i] = 0.0;
-        //     }
-        //     if (i >= 12 && i <=23)
-        //     {
-        //         full_grid[i] = 1.0;
-        //     }
-        //     if (i >= 24 && i <= 35)
-        //     {
-        //         full_grid[i] = 2.0;
-        //     }
-        // }
-
         fill_sources(full_grid);
     }
 
@@ -409,71 +394,45 @@ int execute_parallel()
 
     // Initalise two grids, one to be used for current iteration, one for next iteration
 
-    bool convergence = false;
-    int iterations = 0;
-
     vector<double> local_grid = scatter_grid(rank, size, full_grid, counts, displacement);
-
-    // vtimer_t timer;
-    // timer.start();
-
-    // // Perform the first step
-    for (int i = 0; i < 21290; i++)
-    {
-        local_grid = step(rank, size, local_grid, source_indices, iterating_indices, counts, displacement);
-        // fill_local_sources(next_full_grid, local_source_indices, local_source_values);
-        // cout << "Rank " << rank << endl;
-        // print_vector(next_full_grid);
-        // if (rank == 0)
-        // {
-        //     fill_sources(next_full_grid);
-        // }
-    }
-
-    full_grid = gather_grid(rank, size, local_grid, counts, displacement);
+    int iterations = 0;
+    bool all_converged = false;
     if (rank == 0)
     {
-        write_vector(full_grid, "./logs/parallel/full_grid.log");
-        double value = full_grid[get_index(5.5, 5.5)];
-        cout << value << endl;
-        // cout << "___________________" << endl;
-        // cout << full_grid.size() << endl;
-        // for (int i = 0; i < size; i++)
-        // {
-        //     cout << displacement[i] << endl;
-        // }
-        // cout << iterating_indices[0] << endl;
-        // cout << iterating_indices[iterating_indices.size() - 1] << endl;
+        timer.start();
     }
-    // // Value considered
-    // int index = get_index(5.5, 5.5);
-    // cout << full_grid[index] << endl;
-    // cout << index << endl;
-    // while (!convergence)
-    // {
-    //     if (allclose(next_full_grid, full_grid, TOLERANCE))
-    //     {
-    //         timer.stop();
-    //         // printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", next_grid[index],
-    //         //        iterations, TOLERANCE, timer.elapsed_time());
-    //         convergence = true;
-    //     }
-    //     else
-    //     {
-    //         /* Below shows the user the values as they are iterated*/
-    //         // // Print the current value
-    //         // printf("\rValue = %.16f", current_grid[index]);
-    //         // fflush(stdout); // Ensure it flushes to the terminal
+    do
+    {
+        new_local_grid = step(rank, size, local_grid, source_indices, iterating_indices, counts, displacement);
+        bool local_convergence = allclose(new_local_grid, local_grid, TOLERANCE, iterating_indices);
+        // if (local_convergence && rank != 0)
+        // {
+        //     cout << "Rank " << rank << " " << iterations << endl;
+        // }
+        // if (iterations == 50000 && rank == 1)
+        // {
+        //     write_vector(local_grid, "./logs/parallel/50_local.log");
+        //     write_vector(new_local_grid, "./logs/parallel/50_new_local.log");
+        //     cout << local_grid[102] << endl;
+        //     cout << new_local_grid[102] << endl;
+        // }
+        local_grid = new_local_grid;
+        MPI_Allreduce(&local_convergence, &all_converged, 1, MPI_CXX_BOOL, MPI_LAND, MPI_COMM_WORLD);
+        iterations++;
+    } while (!all_converged && iterations <= 50001);
 
-    //         // printf("\r%s", string(30, ' ').c_str()); // Clear the line (30 spaces)
+    full_grid = gather_grid(rank, size, local_grid, counts, displacement);
 
-    //         // Update grids for next iteration
-    //         current_grid = next_grid;
-    //         next_grid = step(current_grid, inner_indices);
-    //     }
-    //     iterations++;
-    // }
-
+    if (rank == 0)
+    {
+        timer.stop();
+    }
+    int index = get_index(5.5, 5.5);
+    if (rank == 0)
+    {
+        printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", full_grid[index],
+               iterations, TOLERANCE, timer.elapsed_time());
+    }
     log_global_variables();
     generate_mappings();
     log_sources();

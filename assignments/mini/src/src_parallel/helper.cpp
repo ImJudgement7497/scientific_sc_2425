@@ -26,7 +26,7 @@ void write_vector(const vector<double> &vec, const string file_name)
         {
             log_file << ", ";
         }
-        if (i % 6 == 5)
+        if (i % 10 == 9)
         {
             log_file << endl;
         }
@@ -68,7 +68,7 @@ void print_vector(const vector<int> &vec)
 }
 
 // Function to check if two vectors are close within a tolerance
-bool allclose(const vector<double> &vec1, const vector<double> &vec2, double &TOLERANCE)
+bool allclose(const vector<double> &vec1, const vector<double> &vec2, double &TOLERANCE, vector<int> &iterating_indices)
 {
     if (vec1.size() != vec2.size())
     {
@@ -76,9 +76,10 @@ bool allclose(const vector<double> &vec1, const vector<double> &vec2, double &TO
     }
 
     // Compare each element within tolerance
-    for (size_t i = 0; i < vec1.size(); ++i)
+    for (size_t i = 0; i < iterating_indices.size(); ++i)
     {
-        double test = fabs(vec1[i] - vec2[i]);
+        int index = iterating_indices[i];
+        double test = fabs(vec1[index] - vec2[index]);
         if (test > TOLERANCE)
         {
             return false;
