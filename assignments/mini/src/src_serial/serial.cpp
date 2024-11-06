@@ -174,29 +174,32 @@ vector<double> step(vector<double> &current_grid, const vector<int> &inner_indic
     MOVING DOWN IN Y: index - GRID_SIZE
     */
     int j = 0;
-    vector<double> new_grid(GRID_SIZE * GRID_SIZE, 0.0);
-    new_grid = current_grid;
+    vector<double> new_grid(current_grid.size(), 0.0);
+    // new_grid = current_grid;
+    // printf("%f", new_grid[21]);
+    // cout << "________________" << endl;
+    // printf("%f", current_grid[21]);
 
     // Note we only iterate through a smaller grid defined by GRID_SIZE - 2 as edge cells stay at T = 0
     for (int i = 0; i < inner_indices.size(); i++)
     {
         int index = inner_indices[i];
 
-        if (source_indices.find(index) != source_indices.end())
-        {
-            continue;
-        }
+        // if (source_indices.find(index) != source_indices.end())
+        // {
+        //     continue;
+        // }
         // Get neighbouring values
-        double current = new_grid[index];
-        double left = new_grid[index - 1];
-        double right = new_grid[index + 1];
-        double up = new_grid[index + GRID_SIZE];
-        double down = new_grid[index - GRID_SIZE];
+        double current = current_grid[index];
+        double left = current_grid[index - 1];
+        double right = current_grid[index + 1];
+        double up = current_grid[index + GRID_SIZE];
+        double down = current_grid[index - GRID_SIZE];
 
         new_grid[index] = (current + left + right + up + down) / 5.0;
         j++;
     }
-    // fill_sources(new_grid); // The heat sources do not change across each step
+    fill_sources(new_grid); // The heat sources do not change across each step
 
     if (INNER_GRID_SIZE == 0)
     {
@@ -217,7 +220,7 @@ int execute_serial()
     vector<double> current_grid(GRID_SIZE * GRID_SIZE, 0.0);
     vector<double> next_grid(GRID_SIZE * GRID_SIZE, 0.0);
 
-    vector<int> inner_indices = get_iteration_indices();
+        vector<int> inner_indices = get_iteration_indices();
     unordered_set<int> source_indices = get_source_indices();
 
     bool convergence = false;
