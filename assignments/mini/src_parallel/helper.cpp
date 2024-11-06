@@ -17,7 +17,7 @@ void print_vector(const vector<double> &vec)
 
 void write_vector(const vector<double> &vec, const string file_name)
 {
-    ofstream log_file(file_name, ios::app);
+    ofstream log_file(file_name, ios::trunc);
     log_file << "[";
     for (size_t i = 0; i < vec.size(); ++i)
     {
@@ -29,6 +29,24 @@ void write_vector(const vector<double> &vec, const string file_name)
     }
     log_file << "]" << endl;
     log_file << "--------------------------------------------" << endl;
+    log_file << "Size = " << vec.size() << endl;
+}
+
+void write_vector(const vector<int> &vec, const string file_name)
+{
+    ofstream log_file(file_name, ios::trunc);
+    log_file << "[";
+    for (size_t i = 0; i < vec.size(); ++i)
+    {
+        log_file << vec[i];
+        if (i < vec.size() - 1)
+        {
+            log_file << ", ";
+        }
+    }
+    log_file << "]" << endl;
+    log_file << "--------------------------------------------" << endl;
+    log_file << "Size = " << vec.size() << endl;
 }
 
 void print_vector(const vector<int> &vec)

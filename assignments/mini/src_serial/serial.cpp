@@ -165,7 +165,7 @@ void fill_sources(vector<double> &grid)
 }
 
 /* A step in time for the simulation */
-vector<double> step(vector<double> &current_grid, const vector<int> &inner_indices, unordered_set<int> source_indices)
+vector<double> step(vector<double> &current_grid, const vector<int> &inner_indices, unordered_set<int> &source_indices)
 {
     /*
     MOVING RIGHT IN X: index + 1

@@ -3,13 +3,14 @@
 #include "vtimer_t.h"
 #include <thread>
 #include <chrono>
+#include <unordered_set>
 
 /*-------------------------------GLOBAL VARIABLES*-------------------------------*/
 int GRID_SIZE; // For an N point grid, you need N+1 grid size
 double GRID_MIN;
 double GRID_MAX;
 double GRID_STEP;
-int INNER_GRID_SIZE = 0; // Assigned within
+int NUM_OF_PROCS; // Assigned within
 int INNER_GRID_MIN_INDEX;
 int INNER_GRID_MAX_INDEX;
 double TOLERANCE;
@@ -40,7 +41,7 @@ void log_global_variables()
     log_file << "INNER_GRID_MIN_INDEX = " << INNER_GRID_MIN_INDEX << endl;
     log_file << "INNER_GRID_MAX_INDEX = " << INNER_GRID_MAX_INDEX << endl;
     log_file << "TOLERANCE = " << TOLERANCE << endl;
-    log_file << "INNER_GRID_SIZE = " << INNER_GRID_SIZE << endl;
+    log_file << "NUM_OF_PROCS = " << NUM_OF_PROCS << endl;
 
     log_file.close();
 }
@@ -88,6 +89,16 @@ void log_sources()
     file.close();
 }
 
+void log_local_sources(unordered_set<int> &source_indices, const string &file_name)
+{
+    ofstream file(file_name, ios::trunc);
+
+    for (auto &element : source_indices)
+    {
+        file << element << " ";
+    }
+    file << endl;
+}
 /* Load a configuration file */
 bool load_config(const string &filename)
 {
@@ -214,16 +225,17 @@ void fill_sources(vector<double> &grid)
 }
 
 /* Get the location of heat sources on local grids*/
-void get_local_sources(vector<double> &local_grid, vector<int> &local_source_indices, vector<double> &local_source_values)
+unordered_set<int> get_local_sources(vector<double> &local_grid)
 {
+    unordered_set<int> source_indices;
     for (int i = 0; i < local_grid.size(); i++)
     {
         if (local_grid[i] != 0.0)
         {
-            local_source_indices.push_back(i);
-            local_source_values.push_back(local_grid[i]);
+            source_indices.insert(i);
         }
     }
+    return source_indices;
 }
 
 /* Fill the local grids with source information */
@@ -260,16 +272,12 @@ vector<double> gather_grid(int rank, int size, vector<double> &local_grid, int c
     MPI_Gatherv(local_grid.data(), counts[rank], MPI_DOUBLE,
                 full_grid.data(), counts, displacement, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-    if (rank == 0)
-    {
-        fill_sources(full_grid);
-        write_vector(full_grid, "./logs/parallel/full_grid.log");
-    }
     return full_grid;
 }
 
 /* A step in time for the simulation */
-vector<double> step(int rank, int size, vector<double> &full_grid, const vector<int> &iterating_indices, int counts[], int displacement[])
+vector<double> step(int rank, int size, vector<double> &full_grid, unordered_set<int> &source_indices,
+                    vector<int> &iterating_indices, int counts[], int displacement[])
 {
     /*
     MOVING RIGHT IN X: index + 1
@@ -369,6 +377,10 @@ vector<double> step(int rank, int size, vector<double> &full_grid, const vector<
     for (int i = 0; i < iterating_indices.size(); i++)
     {
         int index = iterating_indices[i];
+        if (source_indices.find(index) != source_indices.end())
+        {
+            continue;
+        }
         // Get neighbouring values
         double current = local_grid[index];
         double left = local_grid[index - 1];
@@ -379,7 +391,7 @@ vector<double> step(int rank, int size, vector<double> &full_grid, const vector<
         local_grid[index] = (current + left + right + up + down) / 5.0;
     }
 
-    string file_name = "./logs/parallel/local_grid_rank_" + to_string(rank) + ".log";
+    string file_name = "./logs/parallel/" + to_string(rank) + "_final_grid.log";
     write_vector(local_grid, file_name);
 
     new_full_grid = gather_grid(rank, size, local_grid, counts, displacement);
@@ -399,10 +411,12 @@ int execute_parallel()
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); // Get rank
     MPI_Comm_size(MPI_COMM_WORLD, &size); // Get size
     // check_processor_initalisation(rank, size);
+    NUM_OF_PROCS = size;
 
     // Full grid without any splitting (all data will eventually end up back on this grid)
-    vector<double> full_grid, next_full_grid;
+    vector<double> full_grid, next_full_grid, test_vector;
     vector<int> iterating_indices;
+    unordered_set<int> source_indices;
 
     // Rank 0 processor initalise the full grid with sources, ready to send
     if (rank == 0)
@@ -434,6 +448,16 @@ int execute_parallel()
     int displacement[size];
 
     initalise_indices(rank, size, iterating_indices, counts, displacement);
+    if (rank == 0)
+    {
+        write_vector(iterating_indices, "./logs/parallel/iterating_indices.log");
+    }
+
+    // Need source indices to skip over them when doing the calculation
+    test_vector = scatter_grid(rank, size, full_grid, counts, displacement);
+    source_indices = get_local_sources(test_vector);
+    log_local_sources(source_indices, "./logs/parallel/" + to_string(rank) + "_local_sources.log");
+    write_vector(test_vector, "./logs/parallel/" + to_string(rank) + "_inital_grid.log");
     // print_vector(iterating_indices);
     // {
 
@@ -458,23 +482,24 @@ int execute_parallel()
     // timer.start();
 
     // // Perform the first step
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 21290; i++)
     {
-        next_full_grid = step(rank, size, full_grid, iterating_indices, counts, displacement);
+        next_full_grid = step(rank, size, full_grid, source_indices, iterating_indices, counts, displacement);
         // fill_local_sources(next_full_grid, local_source_indices, local_source_values);
         // cout << "Rank " << rank << endl;
         // print_vector(next_full_grid);
-        if (rank == 0)
-        {
-            fill_sources(next_full_grid);
-        }
+        // if (rank == 0)
+        // {
+        //     fill_sources(next_full_grid);
+        // }
         full_grid = next_full_grid;
     }
 
     if (rank == 0)
     {
+        write_vector(full_grid, "./logs/parallel/full_grid.log");
         double value = full_grid[get_index(5.5, 5.5)];
-        // cout << value << endl;
+        cout << value << endl;
         // cout << "___________________" << endl;
         // cout << full_grid.size() << endl;
         // for (int i = 0; i < size; i++)
