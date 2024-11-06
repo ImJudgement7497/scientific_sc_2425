@@ -276,7 +276,7 @@ vector<double> gather_grid(int rank, int size, vector<double> &local_grid, int c
 }
 
 /* A step in time for the simulation */
-vector<double> step(int rank, int size, vector<double> &full_grid, unordered_set<int> &source_indices,
+vector<double> step(int rank, int size, vector<double> &local_grid, unordered_set<int> &source_indices,
                     vector<int> &iterating_indices, int counts[], int displacement[])
 {
     /*
@@ -286,10 +286,8 @@ vector<double> step(int rank, int size, vector<double> &full_grid, unordered_set
     MOVING DOWN IN Y: index - GRID_SIZE
     */
     int rows_per_proc = (GRID_SIZE - 2) / size;
-    vector<double> new_full_grid(full_grid.size(), 0.0);
-    new_full_grid = full_grid;
+    vector<double> new_local_grid(local_grid.size(), 0.0);
 
-    vector<double> local_grid = scatter_grid(rank, size, new_full_grid, counts, displacement);
     // cout << "Rank " << rank << endl;
     // print_vector(local_grid);
 
@@ -300,78 +298,29 @@ vector<double> step(int rank, int size, vector<double> &full_grid, unordered_set
     MPI_Request reqs[4];
 
     // Send bottom row to below and receive top ghost row from below
-    /* LOGGING TO BE REMOVED */
     {
-        // ofstream logFile;
-        // string filename = "./logs/parallel/rank_" + to_string(rank) + "_communication.log";
-        // logFile.open(filename, ios::app);
 
         // Sending the bottom row to the rank below and receiving top ghost row from below
         if (below < size)
         {
-            // // Log the data being sent to `below`
-            // logFile << "Rank " << rank << " sending to Rank " << below << ": ";
-            // for (int i = 0; i < GRID_SIZE; ++i)
-            // {
-            //     logFile << local_grid[rows_per_proc * GRID_SIZE + i] << " ";
-            // }
-            // logFile << "\n";
-            // logFile << "Sent from index: " << rows_per_proc * GRID_SIZE << " to " << rows_per_proc * GRID_SIZE + GRID_SIZE - 1;
-            // logFile << "\n___________________________\n";
-            // logFile.flush();
 
             // Perform send/receive operation
             MPI_Sendrecv(
                 &local_grid[rows_per_proc * GRID_SIZE], GRID_SIZE, MPI_DOUBLE, below, 0,
                 &local_grid[(rows_per_proc + 1) * GRID_SIZE], GRID_SIZE, MPI_DOUBLE, below, 1,
                 MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-            // // Log the data received from `below`
-            // logFile << "Rank " << rank << " received from Rank " << below << " and placed at index range: ";
-            // logFile << (rows_per_proc + 1) * GRID_SIZE << " to " << (rows_per_proc + 1) * GRID_SIZE + GRID_SIZE - 1 << "\n";
-            // logFile << "Received data: ";
-            // for (int i = 0; i < GRID_SIZE; ++i)
-            // {
-            //     logFile << local_grid[(rows_per_proc + 1) * GRID_SIZE + i] << " ";
-            // }
-            // logFile << "\n___________________________\n";
-            // logFile.flush();
         }
 
         // Sending the top row to the rank above and receiving bottom ghost row from above
         if (above >= 0)
         {
-            // Log the data being sent to `above`
-            // logFile << "Rank " << rank << " sending to Rank " << above << ": ";
-            // for (int i = 0; i < GRID_SIZE; ++i)
-            // {
-            //     logFile << local_grid[GRID_SIZE + i] << " ";
-            // }
-            // logFile << "\n";
-            // logFile << "Sent from index: " << GRID_SIZE << " to " << GRID_SIZE + GRID_SIZE - 1;
-            // logFile << "\n___________________________\n";
-            // logFile.flush();
 
             // Perform send/receive operation
             MPI_Sendrecv(
                 &local_grid[GRID_SIZE], GRID_SIZE, MPI_DOUBLE, above, 1,
                 &local_grid[0], GRID_SIZE, MPI_DOUBLE, above, 0,
                 MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-            // Log the data received from `above`
-            // logFile << "Rank " << rank << " received from Rank " << above << " and placed at index range: ";
-            // logFile << "0 to " << GRID_SIZE - 1 << "\n";
-            // logFile << "Received data: ";
-            // for (int i = 0; i < GRID_SIZE; ++i)
-            // {
-            //     logFile << local_grid[i] << " ";
-            // }
-            // logFile << "\n___________________________\n";
-            // logFile.flush();
         }
-
-        // Close the log file after all communication is done
-        // logFile.close();
     }
 
     for (int i = 0; i < iterating_indices.size(); i++)
@@ -379,6 +328,7 @@ vector<double> step(int rank, int size, vector<double> &full_grid, unordered_set
         int index = iterating_indices[i];
         if (source_indices.find(index) != source_indices.end())
         {
+            new_local_grid[index] = local_grid[index];
             continue;
         }
         // Get neighbouring values
@@ -388,15 +338,13 @@ vector<double> step(int rank, int size, vector<double> &full_grid, unordered_set
         double up = local_grid[index + GRID_SIZE];
         double down = local_grid[index - GRID_SIZE];
 
-        local_grid[index] = (current + left + right + up + down) / 5.0;
+        new_local_grid[index] = (current + left + right + up + down) / 5.0;
     }
 
-    string file_name = "./logs/parallel/" + to_string(rank) + "_final_grid.log";
-    write_vector(local_grid, file_name);
+    // string file_name = "./logs/parallel/" + to_string(rank) + "_grids.log";
+    // write_vector(local_grid, file_name);
 
-    new_full_grid = gather_grid(rank, size, local_grid, counts, displacement);
-
-    return new_full_grid;
+    return new_local_grid;
 }
 
 /* Execute the simulation*/
@@ -458,25 +406,13 @@ int execute_parallel()
     source_indices = get_local_sources(test_vector);
     log_local_sources(source_indices, "./logs/parallel/" + to_string(rank) + "_local_sources.log");
     write_vector(test_vector, "./logs/parallel/" + to_string(rank) + "_inital_grid.log");
-    // print_vector(iterating_indices);
-    // {
 
-    //     cout << "Rank: " << rank << endl;
-    //     print_vector(local_grid);
-    // }
-    // Need a local vector for where and what the sources are
-    // vector<int> local_source_indices;
-    // vector<double> local_source_values;
-    // get_local_sources(local_grid, local_source_indices, local_source_values);
-    // fill_local_sources(local_grid, local_source_indices, local_source_values);
-    // {
-    //     cout << "Rank " << rank << endl;
-    //     print_vector(local_grid);
-    // }
     // Initalise two grids, one to be used for current iteration, one for next iteration
 
     bool convergence = false;
     int iterations = 0;
+
+    vector<double> local_grid = scatter_grid(rank, size, full_grid, counts, displacement);
 
     // vtimer_t timer;
     // timer.start();
@@ -484,7 +420,7 @@ int execute_parallel()
     // // Perform the first step
     for (int i = 0; i < 21290; i++)
     {
-        next_full_grid = step(rank, size, full_grid, source_indices, iterating_indices, counts, displacement);
+        local_grid = step(rank, size, local_grid, source_indices, iterating_indices, counts, displacement);
         // fill_local_sources(next_full_grid, local_source_indices, local_source_values);
         // cout << "Rank " << rank << endl;
         // print_vector(next_full_grid);
@@ -492,9 +428,9 @@ int execute_parallel()
         // {
         //     fill_sources(next_full_grid);
         // }
-        full_grid = next_full_grid;
     }
 
+    full_grid = gather_grid(rank, size, local_grid, counts, displacement);
     if (rank == 0)
     {
         write_vector(full_grid, "./logs/parallel/full_grid.log");
