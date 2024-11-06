@@ -165,7 +165,7 @@ void fill_sources(vector<double> &grid)
 }
 
 /* A step in time for the simulation */
-vector<double> step(vector<double> &current_grid, const vector<int> &inner_indices, unordered_set<int> &source_indices)
+vector<double> step(vector<double> &input_grid, vector<double> &output_grid, const vector<int> &inner_indices, unordered_set<int> &source_indices)
 {
     /*
     MOVING RIGHT IN X: index + 1
@@ -174,7 +174,6 @@ vector<double> step(vector<double> &current_grid, const vector<int> &inner_indic
     MOVING DOWN IN Y: index - GRID_SIZE
     */
     int j = 0;
-    vector<double> new_grid(current_grid.size(), 0.0);
     // new_grid = current_grid;
     // printf("%f", new_grid[21]);
     // cout << "________________" << endl;
@@ -190,22 +189,22 @@ vector<double> step(vector<double> &current_grid, const vector<int> &inner_indic
         //     continue;
         // }
         // Get neighbouring values
-        double current = current_grid[index];
-        double left = current_grid[index - 1];
-        double right = current_grid[index + 1];
-        double up = current_grid[index + GRID_SIZE];
-        double down = current_grid[index - GRID_SIZE];
+        double current = input_grid[index];
+        double left = input_grid[index - 1];
+        double right = input_grid[index + 1];
+        double up = input_grid[index + GRID_SIZE];
+        double down = input_grid[index - GRID_SIZE];
 
-        new_grid[index] = (current + left + right + up + down) / 5.0;
+        output_grid[index] = (current + left + right + up + down) / 5.0;
         j++;
     }
-    fill_sources(new_grid); // The heat sources do not change across each step
+    fill_sources(output_grid); // The heat sources do not change across each step
 
     if (INNER_GRID_SIZE == 0)
     {
         INNER_GRID_SIZE = sqrt(j);
     }
-    return new_grid;
+    return output_grid;
 }
 
 /* Execute the simulation*/
@@ -220,7 +219,12 @@ int execute_serial()
     vector<double> current_grid(GRID_SIZE * GRID_SIZE, 0.0);
     vector<double> next_grid(GRID_SIZE * GRID_SIZE, 0.0);
 
-        vector<int> inner_indices = get_iteration_indices();
+    // To avoid copying large arrays, create an array of the arrays
+    vector<double> grids[2] = {current_grid, next_grid};
+    int current_grid_index = 0;
+    int other_grid_index = (current_grid_index + 1) % 2;
+
+    vector<int> inner_indices = get_iteration_indices();
     unordered_set<int> source_indices = get_source_indices();
 
     bool convergence = false;
@@ -230,18 +234,18 @@ int execute_serial()
     timer.start();
 
     // Perform the first step
-    fill_sources(current_grid);
-    next_grid = step(current_grid, inner_indices, source_indices);
+    fill_sources(grids[current_grid_index]);
+    grids[other_grid_index] = step(grids[current_grid_index], grids[other_grid_index], inner_indices, source_indices);
 
     // Value considered
     int index = get_index(5.5, 5.5);
 
     while (!convergence)
     {
-        if (allclose(next_grid, current_grid, TOLERANCE))
+        if (allclose(grids[other_grid_index], grids[current_grid_index], TOLERANCE))
         {
             timer.stop();
-            printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", next_grid[index],
+            printf("Value = %.16f after %d iterations, tol = %.16f, time = %f\n", grids[other_grid_index][index],
                    iterations, TOLERANCE, timer.elapsed_time());
             convergence = true;
         }
@@ -255,8 +259,12 @@ int execute_serial()
             // printf("\r%s", string(30, ' ').c_str()); // Clear the line (30 spaces)
 
             // Update grids for next iteration
-            current_grid = next_grid;
-            next_grid = step(current_grid, inner_indices, source_indices);
+            // These step avoids copying of arrays
+            int c = current_grid_index;
+            current_grid_index = other_grid_index;
+            other_grid_index = c;
+
+            grids[other_grid_index] = step(grids[current_grid_index], grids[other_grid_index], inner_indices, source_indices);
         }
         iterations++;
     }
