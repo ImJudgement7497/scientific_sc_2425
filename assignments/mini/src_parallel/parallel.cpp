@@ -25,11 +25,11 @@ void check_processor_initalisation(int rank, int size)
 /* Write to a log all the global variables */
 void log_global_variables()
 {
-    ofstream log_file("./logs/global.log", ios::trunc);
+    ofstream log_file("./logs/parallel/global.log", ios::trunc);
 
     if (!log_file)
     {
-        cerr << "Error: Could not open log file at ./logs/global.log" << endl;
+        cerr << "Error: Could not open log file at ./logs/parallel/global.log" << endl;
         return;
     }
 
@@ -71,7 +71,7 @@ void generate_mappings()
 
 void log_sources()
 {
-    string filename = "./logs/sources.log";
+    string filename = "./logs/parallel/sources.log";
 
     ofstream file(filename, ios::trunc);
     if (!file)
@@ -263,7 +263,7 @@ vector<double> gather_grid(int rank, int size, vector<double> &local_grid, int c
     if (rank == 0)
     {
         fill_sources(full_grid);
-        write_vector(full_grid, "./logs/full_grid.log");
+        write_vector(full_grid, "./logs/parallel/full_grid.log");
     }
     return full_grid;
 }
@@ -295,7 +295,7 @@ vector<double> step(int rank, int size, vector<double> &full_grid, const vector<
     /* LOGGING TO BE REMOVED */
     {
         // ofstream logFile;
-        // string filename = "./logs/rank_" + to_string(rank) + "_communication.log";
+        // string filename = "./logs/parallel/rank_" + to_string(rank) + "_communication.log";
         // logFile.open(filename, ios::app);
 
         // Sending the bottom row to the rank below and receiving top ghost row from below
@@ -379,7 +379,7 @@ vector<double> step(int rank, int size, vector<double> &full_grid, const vector<
         local_grid[index] = (current + left + right + up + down) / 5.0;
     }
 
-    string file_name = "./logs/local_grid_rank_" + to_string(rank) + ".log";
+    string file_name = "./logs/parallel/local_grid_rank_" + to_string(rank) + ".log";
     write_vector(local_grid, file_name);
 
     new_full_grid = gather_grid(rank, size, local_grid, counts, displacement);
@@ -513,9 +513,9 @@ int execute_parallel()
     //     iterations++;
     // }
 
-    // log_global_variables();
-    // generate_mappings();
-    // log_sources();
+    log_global_variables();
+    generate_mappings();
+    log_sources();
 
     return 0;
 }

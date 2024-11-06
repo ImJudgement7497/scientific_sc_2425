@@ -37,6 +37,7 @@ fi
 
 make clean
 make
+rm ./logs/serial/**
 ./bin/main
 
 # Restore original files

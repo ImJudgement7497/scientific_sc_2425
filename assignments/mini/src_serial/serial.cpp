@@ -19,11 +19,11 @@ double TOLERANCE;
 /* Write to a log all the global variables */
 void log_global_variables()
 {
-    ofstream log_file("./logs/global.log", ios::trunc);
+    ofstream log_file("./logs/serial/global.log", ios::trunc);
 
     if (!log_file)
     {
-        cerr << "Error: Could not open log file at ./logs/global.log" << endl;
+        cerr << "Error: Could not open log file at ./logs/serial/global.log" << endl;
         return;
     }
 
@@ -65,7 +65,7 @@ void generate_mappings()
 
 void log_sources()
 {
-    string filename = "./logs/sources.log";
+    string filename = "./logs/serial/sources.log";
 
     ofstream file(filename, ios::trunc);
     if (!file)
