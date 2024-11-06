@@ -9,7 +9,7 @@
 ##SBATCH --account=dept-proj-year         # Specify project account if not doing class work
 
 # Customise these according to job size and time required:
-#SBATCH --cpus-per-task=1                # Each task uses 1 core
+#SBATCH --cpus-per-task=10                # Each task uses 1 core
 #SBATCH --time=00:05:00                  # Time limit hrs:min:sec
 
 # Actual executable info now:
