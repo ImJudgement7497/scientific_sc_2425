@@ -288,9 +288,6 @@ vector<double> step(int rank, int size, vector<double> &local_grid, unordered_se
     int rows_per_proc = (GRID_SIZE - 2) / size;
     vector<double> new_local_grid(local_grid.size(), 0.0);
 
-    // cout << "Rank " << rank << endl;
-    // print_vector(local_grid);
-
     int above = rank - 1;
     int below = rank + 1;
 
@@ -341,9 +338,6 @@ vector<double> step(int rank, int size, vector<double> &local_grid, unordered_se
         new_local_grid[index] = (current + left + right + up + down) / 5.0;
     }
 
-    // string file_name = "./logs/parallel/" + to_string(rank) + "_grids.log";
-    // write_vector(local_grid, file_name);
-
     return new_local_grid;
 }
 
@@ -381,16 +375,16 @@ int execute_parallel()
     int displacement[size];
 
     initalise_indices(rank, size, iterating_indices, counts, displacement);
-    if (rank == 0)
-    {
-        write_vector(iterating_indices, "./logs/parallel/iterating_indices.log");
-    }
+    // if (rank == 0)
+    // {
+    //     write_vector(iterating_indices, "./logs/parallel/iterating_indices.log");
+    // }
 
     // Need source indices to skip over them when doing the calculation
     test_vector = scatter_grid(rank, size, full_grid, counts, displacement);
     source_indices = get_local_sources(test_vector);
-    log_local_sources(source_indices, "./logs/parallel/" + to_string(rank) + "_local_sources.log");
-    write_vector(test_vector, "./logs/parallel/" + to_string(rank) + "_inital_grid.log");
+    // log_local_sources(source_indices, "./logs/parallel/" + to_string(rank) + "_local_sources.log");
+    // write_vector(test_vector, "./logs/parallel/" + to_string(rank) + "_inital_grid.log");
 
     // Initalise two grids, one to be used for current iteration, one for next iteration
 
@@ -405,17 +399,6 @@ int execute_parallel()
     {
         new_local_grid = step(rank, size, local_grid, source_indices, iterating_indices, counts, displacement);
         bool local_convergence = allclose(new_local_grid, local_grid, TOLERANCE, iterating_indices);
-        // if (local_convergence && rank != 0)
-        // {
-        //     cout << "Rank " << rank << " " << iterations << endl;
-        // }
-        // if (iterations == 50000 && rank == 1)
-        // {
-        //     write_vector(local_grid, "./logs/parallel/50_local.log");
-        //     write_vector(new_local_grid, "./logs/parallel/50_new_local.log");
-        //     cout << local_grid[102] << endl;
-        //     cout << new_local_grid[102] << endl;
-        // }
         local_grid = new_local_grid;
         MPI_Allreduce(&local_convergence, &all_converged, 1, MPI_CXX_BOOL, MPI_LAND, MPI_COMM_WORLD);
         iterations++;
