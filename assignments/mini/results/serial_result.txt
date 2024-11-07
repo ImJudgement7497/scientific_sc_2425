@@ -1,6 +1,5 @@
-Replacing 'XT' with 'g++' in ./Makefile...
-Replacing 'YT' with 'src_serial' in ./Makefile...
+'XT' not found in ./Makefile.
+'YT' not found in ./Makefile.
 rm -rf bin/*
-g++ -std=c++17 -ggdb -Iinclude -fopenmp -Iinclude src_serial/helper.cpp src_serial/main.cpp src_serial/serial.cpp src_serial/vtimer_t.cpp -o bin/main 
-Value = 4.1715298755337233 after 21289 iterations, tol = 0.0000000000010000, time = 16.663815
-Simulation completed successfully.
+mpic++ -std=c++17 -Iinclude -fopenmp -Iinclude src/src_parallel/helper.cpp src/src_parallel/main.cpp src/src_parallel/parallel.cpp src/src_parallel/vtimer_t.cpp -o bin/main 
+Value = 4.1715298749715810 after 34618 iterations, tol = 0.0000000000010000, time = 35.747428

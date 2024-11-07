@@ -174,10 +174,6 @@ vector<double> step(vector<double> &input_grid, vector<double> &output_grid, con
     MOVING DOWN IN Y: index - GRID_SIZE
     */
     int j = 0;
-    // new_grid = current_grid;
-    // printf("%f", new_grid[21]);
-    // cout << "________________" << endl;
-    // printf("%f", current_grid[21]);
 
     // Note we only iterate through a smaller grid defined by GRID_SIZE - 2 as edge cells stay at T = 0
     for (int i = 0; i < inner_indices.size(); i++)
@@ -242,6 +238,7 @@ int execute_serial()
 
     while (!convergence)
     {
+        // Check for convergence
         if (allclose(grids[other_grid_index], grids[current_grid_index], TOLERANCE))
         {
             timer.stop();

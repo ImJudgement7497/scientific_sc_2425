@@ -290,28 +290,24 @@ vector<double> step(int rank, int size, vector<double> &local_grid, unordered_se
     int above = rank - 1;
     int below = rank + 1;
 
-    MPI_Status status;
-    MPI_Request reqs[4];
-
-    // Send bottom row to below and receive top ghost row from below
     {
 
-        // Sending the bottom row to the rank below and receiving top ghost row from below
+        /* The only rows that need communicating are the boundary rows, where the
+        local grids overlap. This overlap is bigger for a lower size of processors, but in general
+        the penultimate row gets sent up the chain, recieved on the bottom row,  and the second row
+        gets sent down the chain, recieved on the top row.*/
         if (below < size)
         {
 
-            // Perform send/receive operation
             MPI_Sendrecv(
                 &local_grid[rows_per_proc * GRID_SIZE], GRID_SIZE, MPI_DOUBLE, below, 0,
                 &local_grid[(rows_per_proc + 1) * GRID_SIZE], GRID_SIZE, MPI_DOUBLE, below, 1,
                 MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
 
-        // Sending the top row to the rank above and receiving bottom ghost row from above
         if (above >= 0)
         {
 
-            // Perform send/receive operation
             MPI_Sendrecv(
                 &local_grid[GRID_SIZE], GRID_SIZE, MPI_DOUBLE, above, 1,
                 &local_grid[0], GRID_SIZE, MPI_DOUBLE, above, 0,
@@ -351,7 +347,6 @@ int execute_parallel()
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); // Get rank
     MPI_Comm_size(MPI_COMM_WORLD, &size); // Get size
-    // check_processor_initalisation(rank, size);
     NUM_OF_PROCS = size;
 
     // Full grid without any splitting (all data will eventually end up back on this grid)
@@ -373,20 +368,15 @@ int execute_parallel()
     int counts[size];
     int displacement[size];
 
+    // Get all indice information
     initalise_indices(rank, size, iterating_indices, counts, displacement);
-    // if (rank == 0)
-    // {
-    //     write_vector(iterating_indices, "./logs/parallel/iterating_indices.log");
-    // }
-
+    
     // Need source indices to skip over them when doing the calculation
+    /* This is now unecessary */
     test_vector = scatter_grid(rank, size, full_grid, counts, displacement);
     source_indices = get_local_sources(test_vector);
-    // log_local_sources(source_indices, "./logs/parallel/" + to_string(rank) + "_local_sources.log");
-    // write_vector(test_vector, "./logs/parallel/" + to_string(rank) + "_inital_grid.log");
 
-    // Initalise two grids, one to be used for current iteration, one for next iteration
-
+    // Perform the scatter
     vector<double> local_grid = scatter_grid(rank, size, full_grid, counts, displacement);
     int iterations = 0;
     bool all_converged = false;
@@ -396,12 +386,14 @@ int execute_parallel()
     }
     do
     {
+        /* Perform the steps, checking for converge every time. */
         new_local_grid = step(rank, size, local_grid, source_indices, iterating_indices, counts, displacement);
         bool local_convergence = allclose(new_local_grid, local_grid, TOLERANCE, iterating_indices);
         local_grid = new_local_grid;
+        /* Reduce all local convergences into one, to check */
         MPI_Allreduce(&local_convergence, &all_converged, 1, MPI_CXX_BOOL, MPI_LAND, MPI_COMM_WORLD);
         iterations++;
-    } while (!all_converged && iterations <= 50001);
+    } while (!all_converged);
 
     full_grid = gather_grid(rank, size, local_grid, counts, displacement);
 
