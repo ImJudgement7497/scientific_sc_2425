@@ -26,7 +26,7 @@ The majority of the work rests on the shoulders of this mapping, and example gri
 
 ## Results
 
-The value of temperature I got with the `GRID_SIZE=102` at $(5.5, 5.5)$ was `Value = 4.1715298749715810 after 34618 iterations, tol = 0.0000000000010000, time = 35.747428` in serial, and in parallel:
+The value of temperature I got with the `GRID_SIZE=102` (so `INNER_GRID=100`) at $(5.5, 5.5)$ was `Value = 4.1715298749715810 after 34618 iterations, tol = 0.0000000000010000, time = 35.747428` in serial, and in parallel:
 ```txt
 Size = 1: Value = 4.1715298749715810 after 34618 iterations, 
 tol = 0.0000000000010000, time = 22.853177
@@ -44,7 +44,7 @@ Note the parallel runs were ran on VIKING, and serial was ran on my home laptop.
 
 To get similar results, please use the `./runs/run_serial.sh` and `./runs/run_parallel.sh`, changing the number of processors in `run_parallel.sh`to suit the needs. This will both `make` the binary, and execute it.
 
-As can be seen, the parallel speedup is quite obvious, where doubling the number of processors, roughly halves the time taken. This is expected as the hardware executes the same `main()` on all processors at once, and the local grids become smaller in proportion to the number of processors. A graph would be included if I had time.
+As can be seen, the parallel speedup is quite obvious, where doubling the number of processors, roughly halves the time taken. This is expected as the hardware executes the same `main()` on all processors at once, and the local grids become smaller in proportion to the number of processors. Doubling the number of processesors, halves the number of data points in the grid, thus halving the time taken overall. A graph would be included if I had time.
 
 # Serial Code
 
