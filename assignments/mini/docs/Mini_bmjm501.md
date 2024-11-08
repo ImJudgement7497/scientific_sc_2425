@@ -6,7 +6,12 @@ The assignment was challenging with the given boundary being on the points $x=[0
 
 The `INNER_GRID` is where the work was being done, as those are the points that are changing. Thus for equal load balancing, this meant that the `INNER_GRID` had to be 100x100 therefore the `OUTER_GRID` had to be 102x102. I made my code work for any grid paramaters, as can be seen in `./config/config.txt`, and example of which is below:
 
-@import "../config/config.txt"
+```txt
+102
+0.0
+10.0
+1e-12
+```
 
 Instead of working with a 2D array, I thought it would be better and easier to work with a 1D array, and create a mapping between coordinates and indices of this 1D array. This is done through `get_index()`, which is below:
 
