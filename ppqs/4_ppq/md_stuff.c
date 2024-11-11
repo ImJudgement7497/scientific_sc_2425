@@ -11,11 +11,10 @@
 #include <stdio.h>
 #include "md_stuff.h"
 
-
 /* Simulation parameters */
-#define ndim 3 /* Dimensionality of physical space */
-#define nparts 10000 /* Number of particles */
-const int nsteps = 2; /* Number of time-steps in the simulation */
+#define ndim 3            /* Dimensionality of physical space */
+#define nparts 10000      /* Number of particles */
+const int nsteps = 2;     /* Number of time-steps in the simulation */
 const int fixed_seed = 1; /* true (non-zero) => repeatable rands for testing */
 const double mass = 1.0;
 const double dt = 1.0e-4;
@@ -31,7 +30,7 @@ double KE;
 
 double min(double a, double b)
 {
-  if( a < b )
+  if (a < b)
   {
     return a;
   }
@@ -41,8 +40,7 @@ double min(double a, double b)
   }
 }
 
-
-/* 
+/*
    ! Initialise positions, velocities and accelerations of all particles.    !
    ! Use system random number generator and either fixed or random seed.     !
    !-------------------------------------------------------------------------!
@@ -76,7 +74,7 @@ void init()
   int i, p;
 
   /* random numbers for positions*/
-  if( fixed_seed != 0 )
+  if (fixed_seed != 0)
   {
     srand48(0);
   }
@@ -86,9 +84,9 @@ void init()
   }
 
   /* set initial positions and velocities */
-  for(p=0 ; p < nparts ; p++)
+  for (p = 0; p < nparts; p++)
   {
-    for(i=0 ; i < ndim ; i++)
+    for (i = 0; i < ndim; i++)
     {
       pos[p][i] = drand48() * box[i]; /* 0 <= drand48() < 1 */
       vel[p][i] = 0.0;
@@ -97,16 +95,18 @@ void init()
   }
 }
 
-const double pi_2 = M_PI/2.0;
+const double pi_2 = M_PI / 2.0;
 
 /* Potential of each particle */
-double v(double x){
-  return pow(sin(min(x, pi_2)),2);
+double v(double x)
+{
+  return pow(sin(min(x, pi_2)), 2);
 }
 
 /* Derivative of potential function */
-double dv(double x){
-  return 2.0*sin(min(x,pi_2))*cos(min(x,pi_2));
+double dv(double x)
+{
+  return 2.0 * sin(min(x, pi_2)) * cos(min(x, pi_2));
 }
 
 /*  ***************************************************************************
@@ -141,7 +141,7 @@ double dv(double x){
  */
 void compute()
 {
-  int i,j,k;
+  int i, j, k;
   double rij[ndim];
   double d, d2;
 
@@ -149,47 +149,47 @@ void compute()
   KE = 0;
 
   /* For each particle: */
-  for(i=0 ; i < nparts ; i++)
+  for (i = 0; i < nparts; i++)
   {
     /* Initialise forces to zero */
-    for(k=0 ; k < ndim ; k++)
+    for (k = 0; k < ndim; k++)
     {
       force[i][k] = 0.0;
     }
-    
+
     /* Loop over all other particles */
-    for(j=0 ; j < nparts ; j++)
+    for (j = 0; j < nparts; j++)
     {
       /* Ignoring self interactions */
-      if( i != j )
+      if (i != j)
       {
-	/* d2 as the squared distance between  the particles */
-	for(k=0 ; k < ndim ; k++)
-	{
-	  rij[k] = pos[i][k] - pos[j][k];
-	}
+        /* d2 as the squared distance between  the particles */
+        for (k = 0; k < ndim; k++)
+        {
+          rij[k] = pos[i][k] - pos[j][k];
+        }
 
-	d2 = 0;
-	for(k=0 ; k < ndim ; k++)
-	{
-	  d2 += rij[k]*rij[k];
-	}
-	d = sqrt(d2);
+        d2 = 0;
+        for (k = 0; k < ndim; k++)
+        {
+          d2 += rij[k] * rij[k];
+        }
+        d = sqrt(d2);
 
-	/* attribute half of the potential energy to particle 'j'*/
-	PE = PE + 0.5*v(d);
+        /* attribute half of the potential energy to particle 'j'*/
+        PE = PE + 0.5 * v(d);
 
-	/* Update the force on particle i*/
-	for(k=0 ; k < ndim ; k++)
-	{
-	  force[i][k] = force[i][k] - rij[k]*dv(d)/d;
-	}
+        /* Update the force on particle i*/
+        for (k = 0; k < ndim; k++)
+        {
+          force[i][k] = force[i][k] - rij[k] * dv(d) / d;
+        }
       }
     }
     /* compute kinetic energy */
-    for(k=0 ; k < ndim ; k++)
+    for (k = 0; k < ndim; k++)
     {
-      KE = KE + vel[i][k]*vel[i][k];
+      KE = KE + vel[i][k] * vel[i][k];
     }
   }
   KE = KE * 0.5 * mass;
@@ -227,14 +227,14 @@ void compute()
  */
 void update()
 {
-  int i,j;
+  int i, j;
 
-  for(i=0 ; i < nparts ; i++)
+  for (i = 0; i < nparts; i++)
   {
-    for(j=0 ; j < ndim ; j++)
+    for (j = 0; j < ndim; j++)
     {
-      pos[i][j] = pos[i][j] + vel[i][j]*dt + 0.5*dt*dt*accel[i][j];
-      vel[i][j] = vel[i][j] + 0.5*dt*force[i][j]/mass + 0.5*dt*accel[i][j];
+      pos[i][j] = pos[i][j] + vel[i][j] * dt + 0.5 * dt * dt * accel[i][j];
+      vel[i][j] = vel[i][j] + 0.5 * dt * force[i][j] / mass + 0.5 * dt * accel[i][j];
       accel[i][j] = force[i][j] / mass;
     }
   }

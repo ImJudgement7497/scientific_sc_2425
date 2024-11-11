@@ -1,0 +1,47 @@
+Current OPT_FLAGS: -O0
+---------------------------------
+Execution Time: 0:33.51
+---------------------------------
+
+Current OPT_FLAGS: -O1
+---------------------------------
+Execution Time: 0:09.33
+---------------------------------
+
+Current OPT_FLAGS: -O2
+---------------------------------
+Execution Time: 0:01.92
+---------------------------------
+
+
+Current OPT_FLAGS: -O2 -ftree-vectorize -funroll-all-loops -mavx512f
+---------------------------------
+Execution Time: 0:01.38
+---------------------------------
+
+
+Current OPT_FLAGS: -O3
+---------------------------------
+Execution Time: 0:01.47
+---------------------------------
+
+
+Current OPT_FLAGS: -O3 -march=native -funroll-all-loops -flto
+---------------------------------
+Execution Time: 0:01.36
+---------------------------------
+
+
+Current OPT_FLAGS: -O3 -funroll-all-loops -flto -mavx2
+---------------------------------
+Execution Time: 0:01.50
+---------------------------------
+
+
+Current OPT_FLAGS: -O3 -march=native -funroll-all-loops -flto -mavx2
+---------------------------------
+Execution Time: 0:01.39
+---------------------------------
+
+
+
