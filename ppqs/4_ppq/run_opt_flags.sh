@@ -2,7 +2,7 @@
 
 # Specify file paths
 MAKEFILE="Makefile"            # Path to the Makefile
-OUTPUT_FILE="opt_flags_log.txt" # File to track OPT_FLAGS and results
+OUTPUT_FILE="./results/opt_flags_log.txt" # File to track OPT_FLAGS and results
 LOG_FILE="simple_md.log"      # File where the program logs its output
 
 # Step 1: Read OPT_FLAGS from Makefile
@@ -12,7 +12,6 @@ OPT_FLAGS=$(sed -n 's/^OPT_FLAGS\s*=\s*//p' "$MAKEFILE")
 echo "Current OPT_FLAGS: $OPT_FLAGS" >> "$OUTPUT_FILE"
 echo "---------------------------------" >> "$OUTPUT_FILE"
 
-make clean
 make simple_md_C_opt
 
 # Step 3: Run the program and time it, capturing both output and timing
@@ -29,4 +28,6 @@ echo -e "\n" >> "$OUTPUT_FILE"
 
 echo "OPT_FLAGS and the last line of program output saved to $OUTPUT_FILE"
 
-diff simple_md.log simple_md.log.ref
+diff simple_md.log ./results/simple_md.log.ref
+
+make clean

@@ -1,3 +1,5 @@
 compute() line 169, do we need two for loops here? - loop fusing
 compute() line 180, no need to calculate dv every time - KE changed by (0.00243672236278765072 - 0.00243672236278765029), worth saved 3 seconds
-compute() changed all to += or -=
+compute() changed all to += or -= - KE changed by (0.00243672236278765072 - 0.00243672236278765029)
+(((((compute() implemented N3L, to save double calculations))))) 
+update() changed all to +=

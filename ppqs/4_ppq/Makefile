@@ -1,5 +1,5 @@
 PROFILE_FLAGS= -O0 -pg -fprofile-arcs -ftest-coverage 
-OPT_FLAGS = -O3 -march=native -funroll-all-loops -flto
+OPT_FLAGS = -O0
 NO_OPT_FLAGS = -O0
 WARN_FLAGS = -Wall -Wextra -pedantic
 C_STD_FLAGS = -ansi
