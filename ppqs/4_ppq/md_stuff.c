@@ -179,14 +179,14 @@ void compute()
         /* Update the force on particle i*/
         for (k = 0; k < ndim; k++)
         {
-          force[i][k] = force[i][k] - rij[k] * temp;
+          force[i][k] -= rij[k] * temp;
         }
       }
     }
     /* compute kinetic energy */
     for (k = 0; k < ndim; k++)
     {
-      KE = KE + vel[i][k] * vel[i][k];
+      KE += vel[i][k] * vel[i][k];
     }
   }
   KE = KE * 0.5 * mass;
