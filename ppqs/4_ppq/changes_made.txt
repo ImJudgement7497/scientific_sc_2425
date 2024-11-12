@@ -1,0 +1,1 @@
+compute() line 161 ( do we need the for loop over j?)
