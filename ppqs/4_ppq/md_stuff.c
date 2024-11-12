@@ -164,14 +164,10 @@ void compute()
       if (i != j)
       {
         /* d2 as the squared distance between  the particles */
-        for (k = 0; k < ndim; k++)
-        {
-          rij[k] = pos[i][k] - pos[j][k];
-        }
-
         d2 = 0;
         for (k = 0; k < ndim; k++)
         {
+          rij[k] = pos[i][k] - pos[j][k];
           d2 += rij[k] * rij[k];
         }
         d = sqrt(d2);

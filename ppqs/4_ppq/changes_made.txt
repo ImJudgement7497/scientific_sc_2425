@@ -1,1 +1,1 @@
-compute() line 161 ( do we need the for loop over j?)
+compute() line 169, do we need two for loops here? - loop fusing
