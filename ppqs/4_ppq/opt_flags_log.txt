@@ -37,11 +37,18 @@ Current OPT_FLAGS: -O3 -funroll-all-loops -flto -mavx2
 Execution Time: 0:01.50
 ---------------------------------
 
+*******************LAPTOP NOW *************************************
 
 Current OPT_FLAGS: -O3 -march=native -funroll-all-loops -flto -mavx2
 ---------------------------------
 Execution Time: 0:01.39
 ---------------------------------
 
+
+
+Current OPT_FLAGS: -O3 -march=native -funroll-all-loops -flto
+---------------------------------
+Execution Time: 0:01.68
+---------------------------------
 
 
