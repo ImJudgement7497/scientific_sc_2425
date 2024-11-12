@@ -19,6 +19,8 @@ const int fixed_seed = 1; /* true (non-zero) => repeatable rands for testing */
 const double mass = 1.0;
 const double dt = 1.0e-4;
 
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
 /* Simulation variables */
 double box[ndim] = {10, 10, 10};
 double pos[nparts][ndim];
@@ -100,13 +102,13 @@ const double pi_2 = M_PI / 2.0;
 /* Potential of each particle */
 double v(double x)
 {
-  return pow(sin(min(x, pi_2)), 2);
+  return pow(sin(MIN(x, pi_2)), 2);
 }
 
 /* Derivative of potential function */
 double dv(double x)
 {
-  return 2.0 * sin(min(x, pi_2)) * cos(min(x, pi_2));
+  return 2.0 * sin(MIN(x, pi_2)) * cos(MIN(x, pi_2));
 }
 
 /*  ***************************************************************************
