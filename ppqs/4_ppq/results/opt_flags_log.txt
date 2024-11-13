@@ -78,4 +78,17 @@ Current OPT_FLAGS: -O3 -march=native -funroll-all-loops -flto -mavx2
 Execution Time: 0:01.58
 ---------------------------------
 
+***************CHANGE 5*************************
+
+Current OPT_FLAGS: -O3 -march=native -funroll-all-loops -flto -mavx2
+---------------------------------
+Execution Time: 0:01.30
+---------------------------------
+
+
+Current OPT_FLAGS: -O0
+---------------------------------
+Execution Time: 0:16.24
+---------------------------------
+
 

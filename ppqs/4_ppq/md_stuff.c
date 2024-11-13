@@ -160,29 +160,26 @@ void compute()
     }
 
     /* Loop over all other particles */
-    for (j = 0; j < nparts; j++)
+    for (j = 0; j < i - 1; j++)
     {
-      /* Ignoring self interactions */
-      if (i != j)
+
+      /* d2 as the squared distance between  the particles */
+      d2 = 0;
+      for (k = 0; k < ndim; k++)
       {
-        /* d2 as the squared distance between  the particles */
-        d2 = 0;
-        for (k = 0; k < ndim; k++)
-        {
-          rij[k] = pos[i][k] - pos[j][k];
-          d2 += rij[k] * rij[k];
-        }
-        d = sqrt(d2);
+        rij[k] = pos[i][k] - pos[j][k];
+        d2 += rij[k] * rij[k];
+      }
+      d = sqrt(d2);
 
-        /* attribute half of the potential energy to particle 'j'*/
-        PE = PE + 0.5 * v(d);
+      PE += v(d);
 
-        double temp = dv(d) / d;
-        /* Update the force on particle i*/
-        for (k = 0; k < ndim; k++)
-        {
-          force[i][k] -= rij[k] * temp;
-        }
+      double temp = dv(d) / d;
+      /* Update the force on particle i*/
+      for (k = 0; k < ndim; k++)
+      {
+        force[i][k] -= rij[k] * temp;
+        force[j][k] += rij[k] * temp;
       }
     }
     /* compute kinetic energy */
@@ -191,7 +188,7 @@ void compute()
       KE += vel[i][k] * vel[i][k];
     }
   }
-  KE = KE * 0.5 * mass;
+  KE *= 0.5 * mass;
 }
 
 /*     !=========================================================================!
@@ -232,8 +229,8 @@ void update()
   {
     for (j = 0; j < ndim; j++)
     {
-      pos[i][j] = pos[i][j] + vel[i][j] * dt + 0.5 * dt * dt * accel[i][j];
-      vel[i][j] = vel[i][j] + 0.5 * dt * force[i][j] / mass + 0.5 * dt * accel[i][j];
+      pos[i][j] += vel[i][j] * dt + 0.5 * dt * dt * accel[i][j];
+      vel[i][j] += 0.5 * dt * force[i][j] / mass + 0.5 * dt * accel[i][j];
       accel[i][j] = force[i][j] / mass;
     }
   }

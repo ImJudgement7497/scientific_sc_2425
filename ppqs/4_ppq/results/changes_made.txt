@@ -3,3 +3,5 @@ compute() line 180, no need to calculate dv every time - KE changed by (0.002436
 compute() changed all to += or -= - KE changed by (0.00243672236278765072 - 0.00243672236278765029)
 (((((compute() implemented N3L, to save double calculations))))) 
 added MIN macro
+implemented N3L to only iterate over the lower diagnoal values, as that matrix is symmetric
+---- changed values quite significantly, but very good speedup.
