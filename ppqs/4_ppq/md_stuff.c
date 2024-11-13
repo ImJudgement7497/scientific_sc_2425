@@ -19,7 +19,7 @@ const int fixed_seed = 1; /* true (non-zero) => repeatable rands for testing */
 const double mass = 1.0;
 const double dt = 1.0e-4;
 
-/* CHANGE 4: Added MIN macro, to reduce the function overhead 
+/* CHANGE 4: Added MIN macro, to reduce the function overhead
 of calling min() */
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
@@ -163,10 +163,13 @@ void compute()
 
     /* CHANGE 5 Part 1: Iterate only through the lower diagonal
     to reduce computation */
-    for (j = 0; j < i - 1; j++)
+    /* for (j=0; j<nparts; j++) */
+    for (j = 0; j < i ; j++)
     {
 
- 
+      /* if (i != j)
+         { */
+
       d2 = 0;
       /* CHANGE 1: Fuse the loops over K */
       for (k = 0; k < ndim; k++)
@@ -192,6 +195,7 @@ void compute()
         on particle j */
         force[j][k] += force_contribution;
       }
+      /* } */
     }
     /* compute kinetic energy */
     for (k = 0; k < ndim; k++)

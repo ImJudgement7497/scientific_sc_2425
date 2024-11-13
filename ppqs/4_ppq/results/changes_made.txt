@@ -1,7 +1,7 @@
-compute() line 169, do we need two for loops here? - loop fusing
-compute() line 180, no need to calculate dv every time - KE changed by (0.00243672236278765072 - 0.00243672236278765029), worth saved 3 seconds
-compute() changed all to += or -= - KE changed by (0.00243672236278765072 - 0.00243672236278765029)
-(((((compute() implemented N3L, to save double calculations))))) 
-added MIN macro
-implemented N3L to only iterate over the lower diagnoal values, as that matrix is symmetric
+Change 1: do we need two for loops here? -- loop fusing
+Change 2: no need to calculate dv every time, introduce a temp variable -- KE changed by (4.3e-19)
+Change 3: changed all to += or -= -- KE changed by (4.3e-19)
+Change 4: added MIN macro
+Change 5: implemented N3L to only iterate over the lower diagnoal values, as that matrix is symmetric
 ---- changed values quite significantly, but very good speedup.
+Change 6: introduce another temp variable
