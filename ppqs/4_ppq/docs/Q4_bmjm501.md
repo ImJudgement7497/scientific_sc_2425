@@ -78,7 +78,7 @@ Each sample counts as 0.01 seconds.
 
 Note some discrepancies that will continue to arise between the flat profile and the `time` command. `gprof` does not profile things like I/O output, so will generally show a faster time than `time`. However, as changes are made, both times go down, thus it is not a huge problem. Also note that both `update()` and `init()` are not profiled at all, even though they both do 30,000 iterations each. This is likely due to the `gprof` sampling frequency at 0.01s.
 
-It is obvious that the hot spot for this code is the `compute()` function, thus I started there. All my major changes were made to that function, and they are described below. The full source code can be found in submitted `Q3_bmjm501_md_stuff.c`.
+It is obvious that the hot spot for this code is the `compute()` function, thus I started there. All my major changes were made to that function, and they are described below. The full source code can be found in submitted `Q4_bmjm501_md_stuff.c`.
 
 ```c
 /* CHANGE 4: Added MIN macro, to reduce the function overhead
