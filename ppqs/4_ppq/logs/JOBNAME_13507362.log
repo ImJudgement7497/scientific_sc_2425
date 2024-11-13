@@ -1,0 +1,62 @@
+My working directory is /users/bmjm501/scratch/scientific_sc_2425/ppqs/4_ppq
+Running job on host:
+	node002.viking2.yor.alces.network at Wed Nov 13 11:11:11 GMT 2024
+	with 4 CPU cores available
+	using OMP threads
+
+rm -f simple_md simple_md_pg simple_md_opt simple_md_C simple_md_C_pg simple_md_C_opt 
+rm -f *.o *.mod
+rm -f gmon.out *.gcno *.gcov *.gcda
+gcc -o simple_md_C_pg.o -O0 -pg -fprofile-arcs -ftest-coverage  -Wall -Wextra -pedantic -ansi -c simple_md.c
+gcc -o md_stuff_C_pg.o  -O0 -pg -fprofile-arcs -ftest-coverage  -Wall -Wextra -pedantic -ansi -c md_stuff.c
+md_stuff.c: In function ‘compute’:
+md_stuff.c:177:7: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+  177 |       double temp = dv(d) / d;
+      |       ^~~~~~
+gcc -o simple_md_C_pg   -O0 -pg -fprofile-arcs -ftest-coverage  -Wall -Wextra -pedantic -ansi simple_md_C_pg.o md_stuff_C_pg.o -lm
+2,3c2,3
+< 49844510.26374919712543487549	0.00000000000000000000	0.00000000000000000000
+< 49844510.26374919712543487549	0.00243606328416321382	0.00000000004887326951
+---
+> 49854482.95817039161920547485	0.00000000000000000000	0.00000000000000000000
+> 49854482.95817039161920547485	0.00243672236278765072	0.00000000004887664439
+rm -f simple_md simple_md_pg simple_md_opt simple_md_C simple_md_C_pg simple_md_C_opt 
+rm -f *.o *.mod
+rm -f gmon.out *.gcno *.gcov *.gcda
+gcc -o simple_md_C_opt.o -O0 -c simple_md.c
+gcc -o md_stuff_C_opt.o  -O0 -c md_stuff.c
+gcc -o simple_md_C_opt   -O0 simple_md_C_opt.o md_stuff_C_opt.o -lm
+Execution Time: 0:11.83
+OPT_FLAGS and the last line of program output saved to ./results/opt_flags_log.txt
+2,4c2,3
+< 49844510.26374919712543487549	0.00000000000000000000	0.00000000000000000000
+< 49844510.26374919712543487549	0.00243606328416321382	0.00000000004887326951
+< Execution Time: 0:11.83
+---
+> 49854482.95817039161920547485	0.00000000000000000000	0.00000000000000000000
+> 49854482.95817039161920547485	0.00243672236278765072	0.00000000004887664439
+rm -f simple_md simple_md_pg simple_md_opt simple_md_C simple_md_C_pg simple_md_C_opt 
+rm -f *.o *.mod
+rm -f gmon.out *.gcno *.gcov *.gcda
+
+Job completed at Wed Nov 13 11:11:35 GMT 2024
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 13507362
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 4
+CPU Utilized: 00:00:24
+CPU Efficiency: 24.00% of 00:01:40 core-walltime
+Job Wall-clock time: 00:00:25
+Memory Utilized: 3.89 MB
+Memory Efficiency: 0.02% of 20.96 GB
+ Requested wall clock time: 00:05:00
+    Actual wall clock time: 00:00:25
+Wall clock time efficiency: 8.3%
+           Job queued time: 00:00:29

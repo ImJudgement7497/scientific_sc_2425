@@ -25,7 +25,7 @@ echo -e '\t'with $SLURM_CPUS_ON_NODE CPU cores available
 echo -e '\t'using $OMP_NUM_THREADS OMP threads
 echo
 
-bash ./run_prof.sh
+#bash ./run_prof.sh
 bash ./run_opt_flags.sh
 
 echo
