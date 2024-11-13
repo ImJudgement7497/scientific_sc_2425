@@ -19,6 +19,8 @@ const int fixed_seed = 1; /* true (non-zero) => repeatable rands for testing */
 const double mass = 1.0;
 const double dt = 1.0e-4;
 
+/* CHANGE 4: Added MIN macro, to reduce the function overhead 
+of calling min() */
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 /* Simulation variables */
@@ -159,27 +161,36 @@ void compute()
       force[i][k] = 0.0;
     }
 
-    /* Loop over all other particles */
+    /* CHANGE 5 Part 1: Iterate only through the lower diagonal
+    to reduce computation */
     for (j = 0; j < i - 1; j++)
     {
 
-      /* d2 as the squared distance between  the particles */
+ 
       d2 = 0;
+      /* CHANGE 1: Fuse the loops over K */
       for (k = 0; k < ndim; k++)
       {
         rij[k] = pos[i][k] - pos[j][k];
         d2 += rij[k] * rij[k];
       }
       d = sqrt(d2);
-
+      /* CHANGE 3: Changed to +=/-= for better memory access*/
       PE += v(d);
 
+      /* CHANGE 2: Introduce temp variable so
+      only call dv() once per loop, not twice*/
       double temp = dv(d) / d;
-      /* Update the force on particle i*/
+
       for (k = 0; k < ndim; k++)
       {
-        force[i][k] -= rij[k] * temp;
-        force[j][k] += rij[k] * temp;
+        /* CHANGE 6: Introduce temp variable so only reading
+        from the array once */
+        double force_contribution = rij[k] * temp;
+        force[i][k] -= force_contribution;
+        /* CHANGE 5 Part 2: Equal and opposite force contribution
+        on particle j */
+        force[j][k] += force_contribution;
       }
     }
     /* compute kinetic energy */
