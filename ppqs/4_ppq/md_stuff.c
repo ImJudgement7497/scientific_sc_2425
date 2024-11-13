@@ -163,13 +163,8 @@ void compute()
 
     /* CHANGE 5 Part 1: Iterate only through the lower diagonal
     to reduce computation */
-    /* for (j=0; j<nparts; j++) */
-    for (j = 0; j < i ; j++)
+    for (j = 0; j < i; j++)
     {
-
-      /* if (i != j)
-         { */
-
       d2 = 0;
       /* CHANGE 1: Fuse the loops over K */
       for (k = 0; k < ndim; k++)
@@ -195,7 +190,6 @@ void compute()
         on particle j */
         force[j][k] += force_contribution;
       }
-      /* } */
     }
     /* compute kinetic energy */
     for (k = 0; k < ndim; k++)

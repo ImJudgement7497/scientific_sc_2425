@@ -106,7 +106,7 @@ void compute()
     /* CHANGE 5 Part 1: Iterate only through the lower diagonal
     to reduce computation */
     /* for (j=0; j<nparts; j++) */
-    for (j = 0; j < i - 1; j++)
+    for (j = 0; j < i ; j++)
     {
 
       /* if (i != j)
