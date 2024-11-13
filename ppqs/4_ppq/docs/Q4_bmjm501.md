@@ -5,11 +5,13 @@
 I established a `simple_md.log.ref` which is below:
 ```txt
 PE	KE	Error
-49854482.95817039161920547485	0.00000000000000000000	0.00000000000000000000
-49854482.95817039161920547485	0.00243672236278765072	0.00000000004887664439
+49854482.95817039161920547485	0.00000000000000000000	
+0.00000000000000000000
+49854482.95817039161920547485	0.00243672236278765072	
+0.00000000004887664439
 ```
 
-I then changed optimisation flags for the complier to get the best reference time (This was done on my Home PC with an Intel i5 processor). I used the Linux `time` command, extracting the wall clock time. The script for this can be found in `run_opt_flags.sh`.
+I then changed optimisation flags for the complier to get the best reference time (This was done on my Home PC with an Intel i5-10400F CPU processor). I used the Linux `time` command, extracting the wall clock time. The script for this can be found in `run_opt_flags.sh`.
 
 ```txt
 
@@ -81,6 +83,7 @@ It is obvious that the hot spot for this code is the `compute()` function, thus 
 ```c
 /* CHANGE 4: Added MIN macro, to reduce the function overhead
 of calling min() */
+/* Define a ternary operation for minimum value */
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 /* MORE CODE */
@@ -105,13 +108,8 @@ void compute()
 
     /* CHANGE 5 Part 1: Iterate only through the lower diagonal
     to reduce computation */
-    /* for (j=0; j<nparts; j++) */
-    for (j = 0; j < i ; j++)
+    for (j = 0; j < i; j++)
     {
-
-      /* if (i != j)
-         { */
-
       d2 = 0;
       /* CHANGE 1: Fuse the loops over K */
       for (k = 0; k < ndim; k++)
@@ -137,7 +135,6 @@ void compute()
         on particle j */
         force[j][k] += force_contribution;
       }
-      /* } */
     }
     /* compute kinetic energy */
     for (k = 0; k < ndim; k++)
@@ -166,12 +163,12 @@ Change 4: added MIN macro
 Change 5: implemented N3L to only iterate 
 over the lower diagnoal values 
 as that matrix is symmetric
--- Big changes
+-- PE changed by (4e-6), no change in KE
 Change 6: introduce another temp variable
--- Big changes
+-- PE changed by (4e-6), no change in KE
 ```
 
-The first 4 changes produce a significant result on the time `compute()` took, with insignifcant differences in results. The changes in the flat profile for `compute()` can be seen below in the first half (focus on the changes in `self seconds`), and the second half shows the speedup (focus on changes in `cumulative seconds`):
+The changes produce a significant result on the time `compute()` took, with insignifcant differences in results. The changes in the flat profile for `compute()` can be seen below in the first half (focus on the changes in `self seconds`), and the second half shows the speedup overall (focus on changes in `cumulative seconds`):
 
 ```txt
 
@@ -181,34 +178,21 @@ The first 4 changes produce a significant result on the time `compute()` took, w
 67.25     10.80    10.80        3     3.60     5.35  compute
 66.75     10.34    10.34        3     3.45     5.16  compute
 73.21     10.95    10.95        3     3.65     4.96  compute***
-
+77.26      6.76     6.76        3     2.25     2.89  compute
+80.70      6.73     6.73        3     2.24     2.77  compute
+--------------------------------------------------------------------
  0.00     27.46     0.00        2     0.00     0.00  update
  0.00     16.06     0.00        1     0.00     0.00  init
  0.00     15.49     0.00        2     0.00     0.00  update
  0.00     14.95     0.00        2     0.00     0.00  update***
+ 0.00      8.75     0.00        1     0.00     0.00  init
+ 0.00      8.34     0.00        1     0.00     0.00  init
 
 ***While compute() takes longer after this change, the overall time is faster 
 
+With each line corresponding to the specfic change
  ```
-
-However after the implementation of change 5, the values for `PE` changed significantly, by around -10,000. I implemented this change as by Newton's Third Law, the force acting on particle j by particle i is equal and opposite to the force acting on particle i by particle j. Thus only iterating over the lower diagnoal of the particle matrix, and updating the force on both particle i and j, we can get dramatic speedup. The force calculations seem to work, as `KE` only changes by 7e-7, but the distance calculations seem to not work. At this point, I do not know why my implentation does not work. I have left the code in, and lines under the specfied `CHANGE 5`, and `CHANGE 6` can be swapped out to get the most accurate values. 
-
-The speedups of these changes are presented similary:
-
-```txt
-
-  %   cumulative   self              self     total           
- time   seconds   seconds    calls   s/call   s/call  name    
- 77.26      6.76     6.76        3     2.25     2.89  compute
- 80.70      6.73     6.73        3     2.24     2.77  compute
-
-  0.00      8.75     0.00        1     0.00     0.00  init
-  0.00      8.34     0.00        1     0.00     0.00  init
-
-```
-
-If I could get the correct implementation, this would be a great implementation.
-
+The biggest change is `Change 5`. I implemented this change as by Newton's Third Law, the force acting on particle j by particle i is equal and opposite to the force acting on particle i by particle j, and their square distance is the same. Thus only iterating over the lower diagnoal of the particle matrix, and updating the force on both particle i and j, we can get dramatic speedup, with insignificant change in the value.
 ### Compliter Optimisation after profiling
 
 Found also in `./results/opt_flags_log.txt`, we can see the affects on the changes using compiler optimisation as well as the code optimisations:
@@ -277,4 +261,23 @@ Execution Time: 0:01.14
 
 ```
 
-From changes 1-4, I got a speedup of around x2 without compiler flags, and around
+Overall without any compiler optimisation, from zero changes to six changes there is a speedup of ~4.2x, and with compiler optimisation there is a speedup of ~1.7x. Overall from no changes, no compiler optimisation to all changes and complier optimisation, there is a ~48x speedup.
+
+Notably on VIKING, the timing results are:
+```txt
+
+***************VIKING*********************************
+Current OPT_FLAGS: -O0
+---------------------------------
+Execution Time: 0:11.83
+---------------------------------
+
+
+Current OPT_FLAGS: -O3 -march=native -funroll-all-loops -flto -mavx2
+---------------------------------
+Execution Time: 0:00.81
+---------------------------------
+
+```
+
+This is with all changes implemented. As can be seen, it is possible to get this to less than a second. 

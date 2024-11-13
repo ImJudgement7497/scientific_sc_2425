@@ -1,7 +1,15 @@
-Change 1: do we need two for loops here? -- loop fusing
-Change 2: no need to calculate dv every time, introduce a temp variable -- KE changed by (4.3e-19)
-Change 3: changed all to += or -= -- KE changed by (4.3e-19)
+Change 1: do we need two for loops? loop fusing
+-- no change
+Change 2: no need to calculate dv every time, 
+introduce a temp variable
+-- KE changed by (4.3e-19)
+Change 3: changed all to += or -=
+-- KE changed by (4.3e-19)
 Change 4: added MIN macro
-Change 5: implemented N3L to only iterate over the lower diagnoal values, as that matrix is symmetric
----- changed values quite significantly, but very good speedup.
+-- KE changed by (4.3e-19)
+Change 5: implemented N3L to only iterate 
+over the lower diagnoal values 
+as that matrix is symmetric
+-- PE changed by (4e-6), no change in KE
 Change 6: introduce another temp variable
+-- PE changed by (4e-6), no change in KE

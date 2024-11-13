@@ -21,6 +21,7 @@ const double dt = 1.0e-4;
 
 /* CHANGE 4: Added MIN macro, to reduce the function overhead
 of calling min() */
+/* Define a ternary operation for minimum value */
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 /* Simulation variables */
