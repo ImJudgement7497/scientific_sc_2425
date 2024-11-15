@@ -68,6 +68,26 @@ void print_vector(const vector<int> &vec)
 }
 
 // Function to check if two vectors are close within a tolerance
+bool allclose(const vector<double> &vec1, const vector<double> &vec2, double &TOLERANCE)
+{
+    if (vec1.size() != vec2.size())
+    {
+        return false;
+    }
+
+    // Compare each element within tolerance
+    for (size_t i = 0; i < vec1.size(); ++i)
+    {
+        double test = fabs(vec1[i] - vec2[i]);
+        if (test > TOLERANCE)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Function to check if two vectors are close within a tolerance
 bool allclose(const vector<double> &vec1, const vector<double> &vec2, double &TOLERANCE, vector<int> &iterating_indices)
 {
     if (vec1.size() != vec2.size())
