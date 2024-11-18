@@ -1,7 +1,7 @@
 program test_inv
 implicit none
 integer, parameter :: my_kind=kind(1.d0)
-real (kind=precision) :: x,y,z
+real (kind=my_kind) :: x,y,z
 integer :: i, found
 
 x=0
