@@ -11,7 +11,7 @@ do i=1,1000
    y=1.0/x
    z=y*x
    if (z /= 1.0) then
-      print *,'failed with x=',x,'y=',y
+      ! print *,'failed with x=',x,'y=',y
       found=found+1
    end if
 end do
