@@ -27,7 +27,7 @@ echo
 
 module purge
 module load intel-compilers
-ifort -O3 test_inv.f90
+ifort -O0 test_inv.f90
 ./a.out >> ./results_c1/viking_INTEL.txt
 rm ./a.out
 
