@@ -1,8 +1,5 @@
 program test_inv
 implicit none
-! part a
-! integer, parameter :: precision=kind(1.0)
-! part b
 integer, parameter :: my_kind=kind(1.d0)
 real (kind=precision) :: x,y,z
 integer :: i, found
