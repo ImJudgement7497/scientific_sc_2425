@@ -27,7 +27,7 @@ echo
 
 module purge 
 module load GCC
-gfortran -O3 test_inv.f90
+gfortran -Ofast test_inv.f90
 ./a.out >> ./results_c5/viking_GCC.txt
 rm ./a.out
 
