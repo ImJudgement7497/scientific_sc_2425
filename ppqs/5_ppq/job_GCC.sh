@@ -29,6 +29,7 @@ module purge
 module load GCC
 gfortran -O0 test_inv.f90
 ./a.out
+rm ./a.out
 
 echo
 echo Job completed at `date`
