@@ -2,6 +2,6 @@
 
 module purge 
 module load compiler/GCC
-gfortran -O3 test_inv.f90
-./a.out >> ./results_c2/teaching0_GCC.txt
+gfortran -Ofast test_inv.f90
+./a.out >> ./results_c3/teaching0_GCC.txt
 rm ./a.out
