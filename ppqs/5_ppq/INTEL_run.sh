@@ -2,6 +2,6 @@
 
 module purge
 module load compiler/intel-compilers 
-ifort -Ofast test_inv.f90
-./a.out >> ./results_c3/teaching0_INTEL.txt
+ifort -O0 test_inv.f90
+./a.out >> ./results_c4/teaching0_INTEL.txt
 rm ./a.out
