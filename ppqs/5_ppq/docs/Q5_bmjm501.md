@@ -61,3 +61,4 @@ CPU: AMD EPYC3 7643
 The tables are exactly the same until the last 3 rows.
 
 
+https://www.tablesgenerator.com/markdown_tables#
