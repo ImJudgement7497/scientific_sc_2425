@@ -20,7 +20,7 @@ int main()
     // Thus is we break this condition, the computer thinks the numbers are the same
     while (flt + delta_f != flt)
     {
-        delta_f /= 10.0; // Divide by 10 as we are checking digits
+        delta_f /= 10.0f; // Divide by 10 as we are checking digits
         digits_f++;
     }
 
