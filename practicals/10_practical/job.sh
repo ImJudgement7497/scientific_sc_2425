@@ -8,6 +8,7 @@
 #SBATCH --partition=gpu         # priority queue for class work
 #SBATCH --account=pet-teach-2024           # specify your project account if NOT doing class work
 #SBATCH --gres=gpu:1
+#SBATCH --mem=8gb
 
 #customise these according to job size and time required:
 #SBATCH --ntasks=1                         # Run 4 MPI tasks...
