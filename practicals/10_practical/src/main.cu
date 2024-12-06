@@ -15,7 +15,7 @@ void hello()
 int main()
 {
     // call kernel hello with 10 blocks, 10 threads per block
-    hello<<<10, 10>>>();
+    hello<<<5, 5>>>();
     // ensure all computations are finished before exiting
     cudaDeviceSynchronize();
     // end main program with exit code 0 (all OK)
