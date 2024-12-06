@@ -1,0 +1,169 @@
+Fri Dec  6 13:12:37 2024       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.161.08             Driver Version: 535.161.08   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A40                     On  | 00000000:21:00.0 Off |                    0 |
+|  0%   28C    P8              21W / 300W |      0MiB / 46068MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+WARNING: main.x and any of its children processes will be profiled.
+
+Hello from block 9, thread 0
+Hello from block 9, thread 1
+Hello from block 9, thread 2
+Hello from block 9, thread 3
+Hello from block 9, thread 4
+Hello from block 9, thread 5
+Hello from block 9, thread 6
+Hello from block 9, thread 7
+Hello from block 9, thread 8
+Hello from block 9, thread 9
+Hello from block 2, thread 0
+Hello from block 2, thread 1
+Hello from block 2, thread 2
+Hello from block 2, thread 3
+Hello from block 2, thread 4
+Hello from block 2, thread 5
+Hello from block 2, thread 6
+Hello from block 2, thread 7
+Hello from block 2, thread 8
+Hello from block 2, thread 9
+Hello from block 8, thread 0
+Hello from block 8, thread 1
+Hello from block 8, thread 2
+Hello from block 8, thread 3
+Hello from block 8, thread 4
+Hello from block 8, thread 5
+Hello from block 8, thread 6
+Hello from block 8, thread 7
+Hello from block 8, thread 8
+Hello from block 8, thread 9
+Hello from block 3, thread 0
+Hello from block 3, thread 1
+Hello from block 3, thread 2
+Hello from block 3, thread 3
+Hello from block 3, thread 4
+Hello from block 3, thread 5
+Hello from block 3, thread 6
+Hello from block 3, thread 7
+Hello from block 3, thread 8
+Hello from block 3, thread 9
+Hello from block 4, thread 0
+Hello from block 4, thread 1
+Hello from block 4, thread 2
+Hello from block 4, thread 3
+Hello from block 4, thread 4
+Hello from block 4, thread 5
+Hello from block 4, thread 6
+Hello from block 4, thread 7
+Hello from block 4, thread 8
+Hello from block 4, thread 9
+Hello from block 1, thread 0
+Hello from block 1, thread 1
+Hello from block 1, thread 2
+Hello from block 1, thread 3
+Hello from block 1, thread 4
+Hello from block 1, thread 5
+Hello from block 1, thread 6
+Hello from block 1, thread 7
+Hello from block 1, thread 8
+Hello from block 1, thread 9
+Hello from block 7, thread 0
+Hello from block 7, thread 1
+Hello from block 7, thread 2
+Hello from block 7, thread 3
+Hello from block 7, thread 4
+Hello from block 7, thread 5
+Hello from block 7, thread 6
+Hello from block 7, thread 7
+Hello from block 7, thread 8
+Hello from block 7, thread 9
+Hello from block 0, thread 0
+Hello from block 0, thread 1
+Hello from block 0, thread 2
+Hello from block 0, thread 3
+Hello from block 0, thread 4
+Hello from block 0, thread 5
+Hello from block 0, thread 6
+Hello from block 0, thread 7
+Hello from block 0, thread 8
+Hello from block 0, thread 9
+Hello from block 5, thread 0
+Hello from block 5, thread 1
+Hello from block 5, thread 2
+Hello from block 5, thread 3
+Hello from block 5, thread 4
+Hello from block 5, thread 5
+Hello from block 5, thread 6
+Hello from block 5, thread 7
+Hello from block 5, thread 8
+Hello from block 5, thread 9
+Hello from block 6, thread 0
+Hello from block 6, thread 1
+Hello from block 6, thread 2
+Hello from block 6, thread 3
+Hello from block 6, thread 4
+Hello from block 6, thread 5
+Hello from block 6, thread 6
+Hello from block 6, thread 7
+Hello from block 6, thread 8
+Hello from block 6, thread 9
+Generating '/tmp/nsys-report-bbd2.qdstrm'
+[1/7] [0%                          ] report1.nsys-rep[1/7] [0%                          ] report1.nsys-rep[1/7] [=======38%                  ] report1.nsys-rep[1/7] [==================77%       ] report1.nsys-rep[1/7] [=====================87%    ] report1.nsys-rep[1/7] [=====================88%    ] report1.nsys-rep[1/7] [========================98% ] report1.nsys-rep[1/7] [========================100%] report1.nsys-rep[1/7] [========================100%] report1.nsys-rep
+[2/7] [0%                          ] report1.sqlite[2/7] [1%                          ] report1.sqlite[2/7] [2%                          ] report1.sqlite[2/7] [3%                          ] report1.sqlite[2/7] [4%                          ] report1.sqlite[2/7] [5%                          ] report1.sqlite[2/7] [6%                          ] report1.sqlite[2/7] [7%                          ] report1.sqlite[2/7] [8%                          ] report1.sqlite[2/7] [9%                          ] report1.sqlite[2/7] [10%                         ] report1.sqlite[2/7] [11%                         ] report1.sqlite[2/7] [12%                         ] report1.sqlite[2/7] [13%                         ] report1.sqlite[2/7] [14%                         ] report1.sqlite[2/7] [=15%                        ] report1.sqlite[2/7] [=16%                        ] report1.sqlite[2/7] [=17%                        ] report1.sqlite[2/7] [==18%                       ] report1.sqlite[2/7] [==19%                       ] report1.sqlite[2/7] [==20%                       ] report1.sqlite[2/7] [==21%                       ] report1.sqlite[2/7] [===22%                      ] report1.sqlite[2/7] [===23%                      ] report1.sqlite[2/7] [===24%                      ] report1.sqlite[2/7] [====25%                     ] report1.sqlite[2/7] [====26%                     ] report1.sqlite[2/7] [====27%                     ] report1.sqlite[2/7] [====28%                     ] report1.sqlite[2/7] [=====29%                    ] report1.sqlite[2/7] [=====30%                    ] report1.sqlite[2/7] [=====31%                    ] report1.sqlite[2/7] [=====32%                    ] report1.sqlite[2/7] [======33%                   ] report1.sqlite[2/7] [======34%                   ] report1.sqlite[2/7] [======35%                   ] report1.sqlite[2/7] [=======36%                  ] report1.sqlite[2/7] [=======37%                  ] report1.sqlite[2/7] [=======38%                  ] report1.sqlite[2/7] [=======39%                  ] report1.sqlite[2/7] [========40%                 ] report1.sqlite[2/7] [========41%                 ] report1.sqlite[2/7] [========42%                 ] report1.sqlite[2/7] [=========43%                ] report1.sqlite[2/7] [=========44%                ] report1.sqlite[2/7] [=========45%                ] report1.sqlite[2/7] [=========46%                ] report1.sqlite[2/7] [==========47%               ] report1.sqlite[2/7] [==========48%               ] report1.sqlite[2/7] [==========49%               ] report1.sqlite[2/7] [===========50%              ] report1.sqlite[2/7] [===========51%              ] report1.sqlite[2/7] [===========52%              ] report1.sqlite[2/7] [===========53%              ] report1.sqlite[2/7] [============54%             ] report1.sqlite[2/7] [============55%             ] report1.sqlite[2/7] [============56%             ] report1.sqlite[2/7] [============57%             ] report1.sqlite[2/7] [=============58%            ] report1.sqlite[2/7] [=============59%            ] report1.sqlite[2/7] [=============60%            ] report1.sqlite[2/7] [==============61%           ] report1.sqlite[2/7] [==============62%           ] report1.sqlite[2/7] [==============63%           ] report1.sqlite[2/7] [==============64%           ] report1.sqlite[2/7] [===============65%          ] report1.sqlite[2/7] [===============66%          ] report1.sqlite[2/7] [===============67%          ] report1.sqlite[2/7] [================68%         ] report1.sqlite[2/7] [================69%         ] report1.sqlite[2/7] [================70%         ] report1.sqlite[2/7] [================71%         ] report1.sqlite[2/7] [=================72%        ] report1.sqlite[2/7] [=================73%        ] report1.sqlite[2/7] [=================74%        ] report1.sqlite[2/7] [==================75%       ] report1.sqlite[2/7] [==================76%       ] report1.sqlite[2/7] [==================77%       ] report1.sqlite[2/7] [==================78%       ] report1.sqlite[2/7] [===================79%      ] report1.sqlite[2/7] [===================80%      ] report1.sqlite[2/7] [===================81%      ] report1.sqlite[2/7] [===================82%      ] report1.sqlite[2/7] [====================83%     ] report1.sqlite[2/7] [====================84%     ] report1.sqlite[2/7] [====================85%     ] report1.sqlite[2/7] [=====================86%    ] report1.sqlite[2/7] [=====================87%    ] report1.sqlite[2/7] [=====================88%    ] report1.sqlite[2/7] [=====================89%    ] report1.sqlite[2/7] [======================90%   ] report1.sqlite[2/7] [======================91%   ] report1.sqlite[2/7] [======================92%   ] report1.sqlite[2/7] [=======================93%  ] report1.sqlite[2/7] [=======================94%  ] report1.sqlite[2/7] [=======================95%  ] report1.sqlite[2/7] [=======================96%  ] report1.sqlite[2/7] [========================97% ] report1.sqlite[2/7] [========================98% ] report1.sqlite[2/7] [========================99% ] report1.sqlite[2/7] [========================100%] report1.sqlite[2/7] [========================100%] report1.sqlite
+SKIPPED: /mnt/scratch/users/bmjm501/scientific_sc_2425/practicals/10_practical/report1.sqlite does not contain NV Tools Extension (NVTX) data.
+SKIPPED: /mnt/scratch/users/bmjm501/scientific_sc_2425/practicals/10_practical/report1.sqlite does not contain GPU memory data.
+SKIPPED: /mnt/scratch/users/bmjm501/scientific_sc_2425/practicals/10_practical/report1.sqlite does not contain GPU memory data.
+[3/7] Executing 'nvtx_sum' stats report
+[4/7] Executing 'cuda_api_sum' stats report
+
+ Time (%)  Total Time (ns)  Num Calls    Avg (ns)       Med (ns)      Min (ns)     Max (ns)    StdDev (ns)           Name         
+ --------  ---------------  ---------  -------------  -------------  -----------  -----------  -----------  ----------------------
+     99.9      175,620,934          1  175,620,934.0  175,620,934.0  175,620,934  175,620,934          0.0  cudaLaunchKernel      
+      0.1          174,187          1      174,187.0      174,187.0      174,187      174,187          0.0  cudaDeviceSynchronize 
+      0.0            1,232          1        1,232.0        1,232.0        1,232        1,232          0.0  cuModuleGetLoadingMode
+
+[5/7] Executing 'cuda_gpu_kern_sum' stats report
+
+ Time (%)  Total Time (ns)  Instances  Avg (ns)   Med (ns)   Min (ns)  Max (ns)  StdDev (ns)   Name  
+ --------  ---------------  ---------  ---------  ---------  --------  --------  -----------  -------
+    100.0          151,872          1  151,872.0  151,872.0   151,872   151,872          0.0  hello()
+
+[6/7] Executing 'cuda_gpu_mem_time_sum' stats report
+[7/7] Executing 'cuda_gpu_mem_size_sum' stats report
+Generated:
+    /mnt/scratch/users/bmjm501/scientific_sc_2425/practicals/10_practical/report1.nsys-rep
+    /mnt/scratch/users/bmjm501/scientific_sc_2425/practicals/10_practical/report1.sqlite
+
+Job completed at Fri 6 Dec 13:12:40 GMT 2024
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14101662
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Cores: 1
+CPU Utilized: 00:00:02
+CPU Efficiency: 40.00% of 00:00:05 core-walltime
+Job Wall-clock time: 00:00:05
+Memory Utilized: 1.71 MB
+Memory Efficiency: 0.03% of 5.24 GB
+ Requested wall clock time: 00:05:00
+    Actual wall clock time: 00:00:05
+Wall clock time efficiency: 1.7%
+           Job queued time: 00:00:01
