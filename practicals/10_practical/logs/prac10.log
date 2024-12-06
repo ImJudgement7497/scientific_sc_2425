@@ -1,0 +1,94 @@
+Fri Dec  6 14:07:36 2024       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.161.08             Driver Version: 535.161.08   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A40                     On  | 00000000:21:00.0 Off |                    0 |
+|  0%   28C    P8              21W / 300W |      0MiB / 46068MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+WARNING: main.x and any of its children processes will be profiled.
+
+Hello from block 2, thread 0
+Hello from block 2, thread 1
+Hello from block 2, thread 2
+Hello from block 2, thread 3
+Hello from block 2, thread 4
+Hello from block 3, thread 0
+Hello from block 3, thread 1
+Hello from block 3, thread 2
+Hello from block 3, thread 3
+Hello from block 3, thread 4
+Hello from block 4, thread 0
+Hello from block 4, thread 1
+Hello from block 4, thread 2
+Hello from block 4, thread 3
+Hello from block 4, thread 4
+Hello from block 1, thread 0
+Hello from block 1, thread 1
+Hello from block 1, thread 2
+Hello from block 1, thread 3
+Hello from block 1, thread 4
+Hello from block 0, thread 0
+Hello from block 0, thread 1
+Hello from block 0, thread 2
+Hello from block 0, thread 3
+Hello from block 0, thread 4
+Generating '/tmp/nsys-report-4b77.qdstrm'
+[1/7] [0%                          ] report2.nsys-rep[1/7] [0%                          ] report2.nsys-rep[1/7] [=======39%                  ] report2.nsys-rep[1/7] [===================79%      ] report2.nsys-rep[1/7] [===================80%      ] report2.nsys-rep[1/7] [=====================89%    ] report2.nsys-rep[1/7] [========================98% ] report2.nsys-rep[1/7] [========================100%] report2.nsys-rep[1/7] [========================100%] report2.nsys-rep
+[2/7] [0%                          ] report2.sqlite[2/7] [1%                          ] report2.sqlite[2/7] [2%                          ] report2.sqlite[2/7] [3%                          ] report2.sqlite[2/7] [4%                          ] report2.sqlite[2/7] [5%                          ] report2.sqlite[2/7] [6%                          ] report2.sqlite[2/7] [7%                          ] report2.sqlite[2/7] [8%                          ] report2.sqlite[2/7] [9%                          ] report2.sqlite[2/7] [10%                         ] report2.sqlite[2/7] [11%                         ] report2.sqlite[2/7] [12%                         ] report2.sqlite[2/7] [13%                         ] report2.sqlite[2/7] [14%                         ] report2.sqlite[2/7] [=15%                        ] report2.sqlite[2/7] [=16%                        ] report2.sqlite[2/7] [=17%                        ] report2.sqlite[2/7] [==18%                       ] report2.sqlite[2/7] [==19%                       ] report2.sqlite[2/7] [==20%                       ] report2.sqlite[2/7] [==21%                       ] report2.sqlite[2/7] [===22%                      ] report2.sqlite[2/7] [===23%                      ] report2.sqlite[2/7] [===24%                      ] report2.sqlite[2/7] [====25%                     ] report2.sqlite[2/7] [====26%                     ] report2.sqlite[2/7] [====27%                     ] report2.sqlite[2/7] [====28%                     ] report2.sqlite[2/7] [=====29%                    ] report2.sqlite[2/7] [=====30%                    ] report2.sqlite[2/7] [=====31%                    ] report2.sqlite[2/7] [=====32%                    ] report2.sqlite[2/7] [======33%                   ] report2.sqlite[2/7] [======34%                   ] report2.sqlite[2/7] [======35%                   ] report2.sqlite[2/7] [=======36%                  ] report2.sqlite[2/7] [=======37%                  ] report2.sqlite[2/7] [=======38%                  ] report2.sqlite[2/7] [=======39%                  ] report2.sqlite[2/7] [========40%                 ] report2.sqlite[2/7] [========41%                 ] report2.sqlite[2/7] [========42%                 ] report2.sqlite[2/7] [=========43%                ] report2.sqlite[2/7] [=========44%                ] report2.sqlite[2/7] [=========45%                ] report2.sqlite[2/7] [=========46%                ] report2.sqlite[2/7] [==========47%               ] report2.sqlite[2/7] [==========48%               ] report2.sqlite[2/7] [==========49%               ] report2.sqlite[2/7] [===========50%              ] report2.sqlite[2/7] [===========51%              ] report2.sqlite[2/7] [===========52%              ] report2.sqlite[2/7] [===========53%              ] report2.sqlite[2/7] [============54%             ] report2.sqlite[2/7] [============55%             ] report2.sqlite[2/7] [============56%             ] report2.sqlite[2/7] [============57%             ] report2.sqlite[2/7] [=============58%            ] report2.sqlite[2/7] [=============59%            ] report2.sqlite[2/7] [=============60%            ] report2.sqlite[2/7] [==============61%           ] report2.sqlite[2/7] [==============62%           ] report2.sqlite[2/7] [==============63%           ] report2.sqlite[2/7] [==============64%           ] report2.sqlite[2/7] [===============65%          ] report2.sqlite[2/7] [===============66%          ] report2.sqlite[2/7] [===============67%          ] report2.sqlite[2/7] [================68%         ] report2.sqlite[2/7] [================69%         ] report2.sqlite[2/7] [================70%         ] report2.sqlite[2/7] [================71%         ] report2.sqlite[2/7] [=================72%        ] report2.sqlite[2/7] [=================73%        ] report2.sqlite[2/7] [=================74%        ] report2.sqlite[2/7] [==================75%       ] report2.sqlite[2/7] [==================76%       ] report2.sqlite[2/7] [==================77%       ] report2.sqlite[2/7] [==================78%       ] report2.sqlite[2/7] [===================79%      ] report2.sqlite[2/7] [===================80%      ] report2.sqlite[2/7] [===================81%      ] report2.sqlite[2/7] [===================82%      ] report2.sqlite[2/7] [====================83%     ] report2.sqlite[2/7] [====================84%     ] report2.sqlite[2/7] [====================85%     ] report2.sqlite[2/7] [=====================86%    ] report2.sqlite[2/7] [=====================87%    ] report2.sqlite[2/7] [=====================88%    ] report2.sqlite[2/7] [=====================89%    ] report2.sqlite[2/7] [======================90%   ] report2.sqlite[2/7] [======================91%   ] report2.sqlite[2/7] [======================92%   ] report2.sqlite[2/7] [=======================93%  ] report2.sqlite[2/7] [=======================94%  ] report2.sqlite[2/7] [=======================95%  ] report2.sqlite[2/7] [=======================96%  ] report2.sqlite[2/7] [========================97% ] report2.sqlite[2/7] [========================98% ] report2.sqlite[2/7] [========================99% ] report2.sqlite[2/7] [========================100%] report2.sqlite[2/7] [========================100%] report2.sqlite
+SKIPPED: /mnt/scratch/users/bmjm501/scientific_sc_2425/practicals/10_practical/report2.sqlite does not contain NV Tools Extension (NVTX) data.
+SKIPPED: /mnt/scratch/users/bmjm501/scientific_sc_2425/practicals/10_practical/report2.sqlite does not contain GPU memory data.
+SKIPPED: /mnt/scratch/users/bmjm501/scientific_sc_2425/practicals/10_practical/report2.sqlite does not contain GPU memory data.
+[3/7] Executing 'nvtx_sum' stats report
+[4/7] Executing 'cuda_api_sum' stats report
+
+ Time (%)  Total Time (ns)  Num Calls    Avg (ns)       Med (ns)      Min (ns)     Max (ns)    StdDev (ns)           Name         
+ --------  ---------------  ---------  -------------  -------------  -----------  -----------  -----------  ----------------------
+    100.0      246,051,268          1  246,051,268.0  246,051,268.0  246,051,268  246,051,268          0.0  cudaLaunchKernel      
+      0.0           97,723          1       97,723.0       97,723.0       97,723       97,723          0.0  cudaDeviceSynchronize 
+      0.0            1,272          1        1,272.0        1,272.0        1,272        1,272          0.0  cuModuleGetLoadingMode
+
+[5/7] Executing 'cuda_gpu_kern_sum' stats report
+
+ Time (%)  Total Time (ns)  Instances  Avg (ns)  Med (ns)  Min (ns)  Max (ns)  StdDev (ns)   Name  
+ --------  ---------------  ---------  --------  --------  --------  --------  -----------  -------
+    100.0           86,976          1  86,976.0  86,976.0    86,976    86,976          0.0  hello()
+
+[6/7] Executing 'cuda_gpu_mem_time_sum' stats report
+[7/7] Executing 'cuda_gpu_mem_size_sum' stats report
+Generated:
+    /mnt/scratch/users/bmjm501/scientific_sc_2425/practicals/10_practical/report2.nsys-rep
+    /mnt/scratch/users/bmjm501/scientific_sc_2425/practicals/10_practical/report2.sqlite
+
+Job completed at Fri 6 Dec 14:07:40 GMT 2024
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14103989
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Cores: 1
+CPU Utilized: 00:00:02
+CPU Efficiency: 33.33% of 00:00:06 core-walltime
+Job Wall-clock time: 00:00:06
+Memory Utilized: 1.71 MB
+Memory Efficiency: 0.02% of 8.00 GB
+ Requested wall clock time: 00:05:00
+    Actual wall clock time: 00:00:06
+Wall clock time efficiency: 2.0%
+           Job queued time: 00:00:00

@@ -1,6 +1,6 @@
 #!/bin/sh
 #SBATCH --job-name=prac10                # Job name
-#SBATCH --output=./logs/prac10_%j.log           # Standard out and error log
+#SBATCH --output=./logs/prac10.log           # Standard out and error log
 #SBATCH --mail-type=NONE                   # Specify when to mail (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=bmjm501@york.ac.uk         # NB change uid to your username if wanting to send mail
 
