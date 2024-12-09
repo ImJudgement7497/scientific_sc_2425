@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build with Makefile",
+            "type": "shell",
+            "command": "make", // Assumes "make" is installed and in PATH
+            "args": [
+                "serial"
+            ], // Target to build
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean with Makefile",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "clean"
+            ], // Target to clean build artifacts
+            "problemMatcher": []
+        }
+    ]
+}
