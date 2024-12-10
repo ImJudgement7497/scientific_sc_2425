@@ -14,8 +14,10 @@
 #SBATCH --time=01:00:00                    # Time limit hrs:min:sec
 
 
+rm done.txt
 touch TESTTTTT.txt
 bash ~/scratch/scientific_sc_2425/git_auto_commit.sh
+touch done.txt
 
 echo
 echo Job completed at `date`
