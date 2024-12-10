@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Define variables
+VIKING_USER="bmjm501"
+VIKING_HOST="viking.york.ac.uk"
+VIKING_DIR="~/scratch"
+COMMAND_TO_RUN="touch TESTTT.txt"
+
+# Copy the entire working directory (including subdirectories) to VIKING
+scp -rv "$(pwd)" "$VIKING_USER@$VIKING_HOST:$VIKING_DIR"
+
+# SSH into VIKING and run the specified command
+ssh "$VIKING_USER@$VIKING_HOST" << EOF
+    cd $VIKING_DIR
+    $COMMAND_TO_RUN
+EOF

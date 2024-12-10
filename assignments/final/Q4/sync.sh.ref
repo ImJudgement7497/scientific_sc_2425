@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Define variables
+VIKING_USER="bmjm501"
+VIKING_HOST="viking.york.ac.uk"
+VIKING_DIR="~/scratch"
+LOCAL_DIR="$(pwd)"
+CHECK_INTERVAL=60  # Time (in seconds) to wait between checks
+
+echo "Waiting for computations to finish on VIKING..."
+
+while true; do
+    # Check if computation has completed by looking for a specific "done" file
+    ssh viking "[ -f $VIKING_DIR/done.txt ]"
+    if [ $? -eq 0 ]; then
+        echo "Computation finished. Syncing changes back to local machine."
+        
+        # Use rsync to bring back changes
+        rsync -e "ssh -T" -avz "$LOCAL_DIR" "$VIKING_USER@$VIKING_HOST:$VIKING_DIR"
+        break
+    else
+        echo "Computation still running. Checking again in $CHECK_INTERVAL seconds..."
+        sleep $CHECK_INTERVAL
+    fi
+done
