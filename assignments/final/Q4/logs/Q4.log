@@ -1,44 +1,34 @@
-rm: cannot remove 'done.txt': No such file or directory
-[main 26495d6] final: Automated VIKING commit with results
- Committer: BMJ Mason <bmjm501@node002.viking2.yor.alces.network>
-Your name and email address were configured automatically based
-on your username and hostname. Please check that they are accurate.
-You can suppress this message by setting them explicitly. Run the
-following command and follow the instructions in your editor to edit
-your configuration file:
+rm -rf bin/*
+mkdir -p bin
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -Iinclude src/src_serial/vtimer_t.cpp src/src_serial/rng.cpp src/src_serial/main.cpp -o bin/main_serial 
+Running with L = 500 and r = 1.234
 
-    git config --global --edit
+Number of circles: 27115, Packing Fraction = 0.518859
+Plotting points now!
+Traceback (most recent call last):
+  File "graphing/graph.py", line 1, in <module>
+    import matplotlib.pyplot as plt
+ModuleNotFoundError: No module named 'matplotlib'
+mv: cannot stat 'distances.txt': No such file or directory
+mv: cannot stat './plots/*': No such file or directory
 
-After doing this, you may fix the identity used for this commit with:
-
-    git commit --amend --reset-author
-
- 3 files changed, 2 insertions(+), 1 deletion(-)
- create mode 100644 assignments/final/Q4/TESTTTTT.txt
- create mode 100644 assignments/final/Q4/logs/Q4.log
-git@github.com: Permission denied (publickey).
-fatal: Could not read from remote repository.
-
-Please make sure you have the correct access rights
-and the repository exists.
-
-Job completed at Tue Dec 10 16:58:17 GMT 2024
+Job completed at Tue Dec 10 17:02:17 GMT 2024
 
 ============================
  Job utilisation efficiency
 ============================
 
-Job ID: 14245608
+Job ID: 14245611
 Cluster: viking2.yor.alces.network
 User/Group: bmjm501/clusterusers
 State: COMPLETED (exit code 0)
 Cores: 1
-CPU Utilized: 00:00:00
-CPU Efficiency: 0.00% of 00:00:01 core-walltime
-Job Wall-clock time: 00:00:01
+CPU Utilized: 00:00:27
+CPU Efficiency: 96.43% of 00:00:28 core-walltime
+Job Wall-clock time: 00:00:28
 Memory Utilized: 1.74 MB
 Memory Efficiency: 0.03% of 5.24 GB
  Requested wall clock time: 00:20:00
-    Actual wall clock time: 00:00:01
-Wall clock time efficiency: 0.1%
-           Job queued time: 00:00:14
+    Actual wall clock time: 00:00:28
+Wall clock time efficiency: 2.3%
+           Job queued time: 00:00:06
