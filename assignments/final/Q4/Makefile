@@ -1,5 +1,5 @@
 CXX       := g++
-CXX_FLAGS := -std=c++17 -ggdb -Iinclude
+CXX_FLAGS := -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops
 
 BIN     := bin
 SRC_SERIAL     := src/src_serial
