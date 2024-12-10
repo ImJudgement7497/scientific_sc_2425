@@ -1,0 +1,1 @@
+Number of circles: 27115, Packing Fraction = 0.518859 k = 5, i = 1000000

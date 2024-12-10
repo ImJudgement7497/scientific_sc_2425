@@ -47,33 +47,43 @@ void write_string_to_file(const string &data, const string &file_name)
 }
 
 /* Parses and loads the config file */
-bool load_config(const string &filename) {
+bool load_config(const string &filename)
+{
     ifstream file(filename);
-    if (!file) {
+    if (!file)
+    {
         cerr << "Error: Could not open file " << filename << endl;
         return false;
     }
 
     string line;
-    while (getline(file, line)) {
+    while (getline(file, line))
+    {
         // Skip empty lines or lines that are comments
-        if (line.empty() || line[0] == '#') {
+        if (line.empty() || line[0] == '#')
+        {
             continue;
         }
-        
+
         size_t pos = line.find(' ');
-        if (pos != string::npos) {
-            string key = line.substr(0, pos); // Key is the part before the space
+        if (pos != string::npos)
+        {
+            string key = line.substr(0, pos);        // Key is the part before the space
             string value_str = line.substr(pos + 1); // Value is the part after the space
 
             float value = stof(value_str);
 
             // Assign the value to the corresponding parameter
-            if (key == "L") {
+            if (key == "L")
+            {
                 L = value;
-            } else if (key == "r") {
+            }
+            else if (key == "r")
+            {
                 r = value;
-            } else {
+            }
+            else
+            {
                 cerr << "Unknown parameter: " << key << endl;
                 return false;
             }
@@ -118,30 +128,29 @@ int main()
     }
     cout << "Running with L = " << L << " and r = " << r << endl;
     rng random_gen;
-    random_gen.seed(1829233);
+    random_gen.seed(1829233); // Make this a user parameter
+
 #ifdef DEBUG
     cout << "DEBUGGING ENABLED" << endl;
 #endif
     bool is_overlapping;
 
     vector<pair<double, double>> circle_coords;
-    pair<double, double> test = gen_random_pair(random_gen);
-    circle_coords.push_back(test);
-
-    cout << circle_coords[0].first << " " << circle_coords[0].second << endl;
-    cout << "number of circles = " << circle_coords.size() << endl;
+    pair<double, double> first_circle = gen_random_pair(random_gen);
+    circle_coords.push_back(first_circle);
 
     for (int k = 0; k < 5; k++)
     {
-        for (int i = 0; i < 10000; i++)
+        for (int i = 0; i < 1000000; i++)
         {
-            // PUT THIS IN A NEW FLAG CALLED VISULATION OR SOMETHING
+#ifdef VIS
             {
                 printf("\r k = %d, i = %d, size = %zu", k, i, circle_coords.size());
                 fflush(stdout); // Ensure it flushes to the terminal
 
                 printf("\r%s", string(30, ' ').c_str()); // Clear the line (30 spaces)
             }
+#endif
 
             pair<double, double> new_circle = gen_random_pair(random_gen);
 
@@ -163,6 +172,7 @@ int main()
 #ifdef DEBUG
                         {
                             string temp = "Distance Squared = " + to_string(distance_squared) + ", compared to " + to_string((2 * r) * (2 * r));
+                            // Produces a large file called distances, only use on a small number of iterations
                             write_string_to_file(temp, "distances.txt");
                         }
 #endif
@@ -180,8 +190,12 @@ int main()
         }
     }
 
-    cout << "Number of circles: " << circle_coords.size() << endl;
+    u_long N = circle_coords.size();
+    double P = M_PI * N * r * r / (L * L);
+    string message = "Number of circles: " + to_string(N) + ", Packing Fraction = " + to_string(P);
+    cout << endl;
+    cout << message << endl;
     write_coordinates(circle_coords, "coords.txt");
-
+    write_string_to_file(message, "./results/runs.txt");
     return 0;
 }

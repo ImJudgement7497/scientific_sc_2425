@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Check if a make rule is provided as a parameter
+if [ -z "$1" ]; then
+    echo "Error: Please provide a make rule as an argument"
+    exit 1
+fi
+
+MAKE_RULE=$1
+
 # Load the values for L and r from the input file
 L=$(grep -oP '^L\s*\K[0-9.]+$' ./config/config.txt)
 r=$(grep -oP '^r\s*\K[0-9.]+$' ./config/config.txt)
@@ -11,13 +19,12 @@ if [ -z "$L" ] || [ -z "$r" ]; then
 fi
 
 make clean
-make serial_debug
+make $MAKE_RULE
 
 output_dir="L=${L}, r=${r}"
-mkdir -p "./results/$output_dir" 
+mkdir -p "./results/$output_dir"
 
-./bin/main_serial_debug
-
+./bin/main_$MAKE_RULE
 echo "Plotting points now!"
 
 python3 graphing/graph.py
