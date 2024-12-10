@@ -22,25 +22,19 @@ def check_overlap(centers, radius):
 
 def plot_circles(centers, radius, L):
     fig, ax = plt.subplots()
-
-    # if check_overlap(centers, radius):
-    #     print("Overlap detected! Adjusting coordinates may be necessary.")
-    #     return
-
     for (x, y) in centers:
         circle = plt.Circle((x, y), radius, color='blue', fill=True, linewidth=0.2) # Make this a user parametr
         ax.add_patch(circle)
-        # ax.plot(x, y, 'ro')
 
     ax.set_aspect('equal', adjustable='box')
     ax.set_xlim((0, L))
     ax.set_ylim(0, L)
 
     plt.grid(False)
-    plt.title("Circles In Box")
+    plt.title(f"Circles In Box, L = {L}, r = {radius}")
     plt.savefig("./plots/Circles_in_Box.png", dpi=300)
 
-def plot_points_in_box(centers, L):
+def plot_points_in_box(centers, radius, L):
     box_limit = 0.025 * L
     filtered_points = [(x, y) for (x, y) in centers if 0 <= x <= box_limit and 0 <= y <= box_limit]
 
@@ -54,13 +48,40 @@ def plot_points_in_box(centers, L):
     ax.set_ylim(0, box_limit)
 
     plt.grid(False)
-    plt.title("Circles in Smaller Box")
+    plt.title(f"Circles in Smaller Box, L = {L}, r = {radius}")
     plt.savefig("./plots/Circles_in_Smaller_Box.png", dpi=300)
 
-circle_centers = load_coordinates("coords.txt")
-# READ THESE FROM THE USER
-radius = 1.234
-L = 500  
+def load_config(filename):
+    config = {}
+    
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                key, value = line.split()
+                value = float(value)
+                config[key] = value
+        
+        return config
+    
+    except FileNotFoundError:
+        print(f"Error: Could not open file {filename}")
+        return None
+    except ValueError as e:
+        print(f"Error parsing the file {filename}: {e}")
+        return None
 
-plot_circles(circle_centers, radius, L)
-plot_points_in_box(circle_centers, L)
+config = load_config("./config/config.txt")
+
+if config:
+    L = config.get('L')
+    r = config.get('r')
+else:
+    print("PYTHON: Failed to load configuration.")
+
+circle_centers = load_coordinates("coords.txt")
+
+plot_circles(circle_centers, r, L)
+plot_points_in_box(circle_centers, r, L)
