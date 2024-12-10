@@ -11,7 +11,7 @@
 #customise these according to job size and time required:
 #SBATCH --ntasks=1                         # Run 4 MPI tasks...
 #SBATCH --cpus-per-task=1                  # ...with each task using 1 core
-#SBATCH --time=01:00:00                    # Time limit hrs:min:sec
+#SBATCH --time=00:20:00                    # Time limit hrs:min:sec
 
 
 rm done.txt
