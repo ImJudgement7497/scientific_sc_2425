@@ -1,1 +1,44 @@
 rm: cannot remove 'done.txt': No such file or directory
+[main 26495d6] final: Automated VIKING commit with results
+ Committer: BMJ Mason <bmjm501@node002.viking2.yor.alces.network>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 3 files changed, 2 insertions(+), 1 deletion(-)
+ create mode 100644 assignments/final/Q4/TESTTTTT.txt
+ create mode 100644 assignments/final/Q4/logs/Q4.log
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+Job completed at Tue Dec 10 16:58:17 GMT 2024
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14245608
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Cores: 1
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 00:00:01 core-walltime
+Job Wall-clock time: 00:00:01
+Memory Utilized: 1.74 MB
+Memory Efficiency: 0.03% of 5.24 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:00:01
+Wall clock time efficiency: 0.1%
+           Job queued time: 00:00:14
