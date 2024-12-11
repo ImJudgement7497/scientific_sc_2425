@@ -149,7 +149,7 @@ int main()
     {
         return -1;
     }
-    cout << "Running with L = " << L << " and r = " << r << endl;
+    cout << "Running with L = " << L << " and r = " << r << " and sf = " << sampling_frequency << endl;
     rng random_gen;
     random_gen.seed(1829233); // Make this a user parameter
 
