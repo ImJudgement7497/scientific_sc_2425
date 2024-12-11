@@ -8,3 +8,5 @@ Number of circles: 27537, Packing Fraction = 0.526935
 Number of circles: 27526, Packing Fraction = 0.526724
 Number of circles: 27526, Packing Fraction = 0.526724
 Number of circles: 28077, Packing Fraction = 0.537268 Different sampling frequency
+Number of circles: 28203, Packing Fraction = 0.539679
+Number of circles: 28247, Packing Fraction = 0.540521
