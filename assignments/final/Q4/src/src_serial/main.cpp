@@ -146,7 +146,7 @@ int main()
     circle_coords.push_back(first_circle);
     u_long current_size = circle_coords.size();
     u_long previous_size = 0;
-
+    int k = 0;
 
     while (true)
     {
@@ -205,6 +205,7 @@ int main()
         else
         {
             previous_size = current_size;
+            k++;
         }
     }
 

@@ -2,3 +2,4 @@ Number of circles: 16671, Packing Fraction = 0.319008
 Number of circles: 27115, Packing Fraction = 0.518859 k = 5, i = 1000000
 Number of circles: 27115, Packing Fraction = 0.518859
 Number of circles: 27115, Packing Fraction = 0.518859
+Number of circles: 27526, Packing Fraction = 0.526724 First run with convergence
