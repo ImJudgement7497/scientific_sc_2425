@@ -1,7 +1,7 @@
 #!/bin/sh
-#SBATCH --job-name=Q4                # Job name
+#SBATCH --job-name=Q4_%j                # Job name
 #SBATCH --output=./logs/Q4.log           # Standard out and error log
-#SBATCH --mail-type=END                   # Specify when to mail (NONE, BEGIN, END, FAIL, ALL)
+#SBATCH --mail-type=ALL                   # Specify when to mail (NONE, BEGIN, END, FAIL, ALL)
 #SBATCH --mail-user=bmjm501@york.ac.uk         # NB change uid to your username if wanting to send mail
 
 #need ONE of the following two lines:

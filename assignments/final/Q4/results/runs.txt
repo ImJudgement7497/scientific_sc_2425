@@ -7,3 +7,4 @@ Number of circles: 27537, Packing Fraction = 0.526935 Got rid of boundary condit
 Number of circles: 27537, Packing Fraction = 0.526935
 Number of circles: 27526, Packing Fraction = 0.526724
 Number of circles: 27526, Packing Fraction = 0.526724
+Number of circles: 28077, Packing Fraction = 0.537268
