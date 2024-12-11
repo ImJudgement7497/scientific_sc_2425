@@ -14,6 +14,7 @@
 #SBATCH --time=00:20:00                    # Time limit hrs:min:sec
 
 module load matplotlib/3.7.2-gfbf-2023a
+mkdir plots
 #bash ./run_serial.sh serial
 python3 graphing/graph.py
 echo
