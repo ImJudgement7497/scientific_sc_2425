@@ -11,17 +11,18 @@ MAKE_RULE=$1
 # Load the values for L and r from the input file
 L=$(grep -oP '^L\s*\K[0-9.]+$' ./config/config.txt)
 r=$(grep -oP '^r\s*\K[0-9.]+$' ./config/config.txt)
+sf=$(grep -oP '^sampling_frequency\s*\K[0-9.]+$' ./config/config.txt)
 
 # Check if values for L and r are found
-if [ -z "$L" ] || [ -z "$r" ]; then
-    echo "Error: Could not find L or r values in config file"
+if [ -z "$L" ] || [ -z "$r" ] || [ -z "$sf" ]; then
+    echo "Error: Could not find L, r or sampling freuqency values in config file"
     exit 1
 fi
 
 make clean
 make $MAKE_RULE
 
-output_dir="L=${L}, r=${r}"
+output_dir="L=${L}, r=${r}, sf=${sf}"
 mkdir -p "./results/$output_dir"
 
 time ./bin/main_$MAKE_RULE
@@ -29,4 +30,4 @@ echo "Plotting points now!"
 
 python3 graphing/graph.py
 
-mv coords.txt distances.txt ./plots/* "./results/$output_dir"
+mv coords.txt distances.txt p_fractions.txt ./plots/* "./results/$output_dir"

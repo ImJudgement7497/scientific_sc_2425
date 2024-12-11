@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import math
+from matplotlib.ticker import MaxNLocator
 
 def load_coordinates(filename):
     with open(filename, "r") as file:
@@ -8,6 +10,13 @@ def load_coordinates(filename):
             x, y = map(float, line.split())
             coordinates.append((x, y))
     return coordinates
+
+def load_p_fractions(filename):
+    with open(filename, "r") as file:
+        p_fractions = []
+        for line in file:
+            p_fractions.append(line)
+    return p_fractions
 
 def check_overlap(centers, radius):
     for i, (x1, y1) in enumerate(centers):
@@ -33,6 +42,7 @@ def plot_circles(centers, radius, L):
     plt.grid(False)
     plt.title(f"Circles In Box, L = {L}, r = {radius}")
     plt.savefig("./plots/Circles_in_Box.png", dpi=300)
+    plt.close()
 
 def plot_points_in_box(centers, radius, L):
     box_limit = 0.025 * L
@@ -50,6 +60,16 @@ def plot_points_in_box(centers, radius, L):
     plt.grid(False)
     plt.title(f"Circles in Smaller Box, L = {L}, r = {radius}")
     plt.savefig("./plots/Circles_in_Smaller_Box.png", dpi=300)
+    plt.close()
+
+def plot_p_fractions(p_fractions, sampling_frequency):
+    x = np.arange(0, len(p_fractions)*sampling_frequency, sampling_frequency)
+    plt.plot(x, p_fractions)
+    plt.gca().yaxis.set_major_locator(MaxNLocator(integer=False, prune='lower', nbins=10))
+    plt.title("Convergence of P with number of trials")
+    plt.xlabel(f"Number of trials * sampling_frequency")
+    plt.ylabel("Packing Fraction")
+    plt.savefig("./plots/p_fraction_convergence.png", dpi=300)
 
 def load_config(filename):
     config = {}
@@ -78,10 +98,13 @@ config = load_config("./config/config.txt")
 if config:
     L = config.get('L')
     r = config.get('r')
+    sampling_frequency = config.get('sampling_frequency')
 else:
     print("PYTHON: Failed to load configuration.")
 
-circle_centers = load_coordinates("coords.txt")
+# circle_centers = load_coordinates("coords.txt")
 
-plot_circles(circle_centers, r, L)
-plot_points_in_box(circle_centers, r, L)
+# plot_circles(circle_centers, r, L)
+# plot_points_in_box(circle_centers, r, L)
+p_fractions = load_p_fractions("p_fractions.txt")
+plot_p_fractions(p_fractions, sampling_frequency)

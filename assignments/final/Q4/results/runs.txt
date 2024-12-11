@@ -6,3 +6,4 @@ Number of circles: 27526, Packing Fraction = 0.526724 First run with convergence
 Number of circles: 27537, Packing Fraction = 0.526935 Got rid of boundary conditions (slightly changed rng)
 Number of circles: 27537, Packing Fraction = 0.526935
 Number of circles: 27526, Packing Fraction = 0.526724
+Number of circles: 27526, Packing Fraction = 0.526724

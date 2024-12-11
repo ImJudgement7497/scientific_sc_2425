@@ -14,7 +14,7 @@ int sampling_frequency; // The frequency of trials before checking for convergen
 
 /* ------------------------------I/O FUNCTIONS------------------------------ */
 
-/* Writes a vector of pairs to a file */
+/* Writes a vector of pairs to a file - COULD BE REWRITTEN INTO BINARY */
 void write_coordinates(const vector<pair<double, double>> &coordinates, const string &file_name)
 {
     ofstream file(file_name);
@@ -32,6 +32,23 @@ void write_coordinates(const vector<pair<double, double>> &coordinates, const st
     }
 }
 
+/* Writes a vector of doubles to a file - COULD BE REWRITTEN INTO BINARY */
+void write_vector(const vector<double> &vec, const string &file_name)
+{
+    ofstream file(file_name);
+    if (file.is_open())
+    {
+        for (const auto &elm : vec)
+        {
+            file << elm << "\n";
+        }
+        file.close();
+    }
+    else
+    {
+        cerr << "Error opening file: " << file_name << endl;
+    }
+}
 /* Writes a string to a file */
 void write_string_to_file(const string &data, const string &file_name)
 {
@@ -142,9 +159,12 @@ int main()
     bool is_overlapping;
 
     vector<pair<double, double>> circle_coords;
+    vector<double> p_fractions;
     pair<double, double> first_circle = gen_random_pair(random_gen);
     circle_coords.push_back(first_circle);
     u_long current_size = circle_coords.size();
+    double first_P = M_PI * current_size * r * r / (L * L);
+    p_fractions.push_back(first_P);
     u_long previous_size = 0;
     int k = 0;
 
@@ -154,7 +174,7 @@ int main()
         {
 #ifdef VIS
             {
-                printf("\r k = %d, i = %d, size = %zu", k, i, circle_coords.size());
+                printf("\r k = %d, i = %d, size = %zu, P = %f", k, i, circle_coords.size(), p_fractions[k]);
                 fflush(stdout); // Ensure it flushes to the terminal
 
                 printf("\r%s", string(30, ' ').c_str()); // Clear the line (30 spaces)
@@ -205,16 +225,18 @@ int main()
         else
         {
             previous_size = current_size;
+            double P = M_PI * current_size * r * r / (L * L);
+            p_fractions.push_back(P);
             k++;
         }
     }
 
-    u_long N = circle_coords.size();
-    double P = M_PI * N * r * r / (L * L);
-    string message = "Number of circles: " + to_string(N) + ", Packing Fraction = " + to_string(P);
+    double P = p_fractions.back();
+    string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P);
     cout << endl;
     cout << message << endl;
     write_coordinates(circle_coords, "coords.txt");
+    write_vector(p_fractions, "p_fractions.txt");
     write_string_to_file(message, "./results/runs.txt");
     return 0;
 }
