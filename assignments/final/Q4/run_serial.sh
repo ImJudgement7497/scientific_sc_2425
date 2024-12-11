@@ -24,7 +24,7 @@ make $MAKE_RULE
 output_dir="L=${L}, r=${r}"
 mkdir -p "./results/$output_dir"
 
-./bin/main_$MAKE_RULE
+time ./bin/main_$MAKE_RULE
 echo "Plotting points now!"
 
 python3 graphing/graph.py
