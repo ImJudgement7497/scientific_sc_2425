@@ -4,12 +4,13 @@
 #include <string>
 #include "vtimer_t.h"
 #include "rng.h"
-
+/* NEED TO APPLY FORMATTING TO ALL THE FILES */
 using namespace std;
 
 /* ------------------------------GLOBAL VARIABlE------------------------------ */
-double L; // Length of box (read in from input)
-double r; // Radius of circle (read in from input)
+double L;               // Length of box (read in from input)
+double r;               // Radius of circle (read in from input)
+int sampling_frequency; // The frequency of trials before checking for convergence
 
 /* ------------------------------I/O FUNCTIONS------------------------------ */
 
@@ -47,6 +48,7 @@ void write_string_to_file(const string &data, const string &file_name)
 }
 
 /* Parses and loads the config file */
+/* CAN MAKE THIS BETTER BY NOT HAVING THE IF STATEMENTS, BUT WORK FOR NOW */
 bool load_config(const string &filename)
 {
     ifstream file(filename);
@@ -81,6 +83,10 @@ bool load_config(const string &filename)
             else if (key == "r")
             {
                 r = value;
+            }
+            else if (key == "sampling_frequency")
+            {
+                sampling_frequency = value;
             }
             else
             {
@@ -138,10 +144,13 @@ int main()
     vector<pair<double, double>> circle_coords;
     pair<double, double> first_circle = gen_random_pair(random_gen);
     circle_coords.push_back(first_circle);
+    u_long current_size = circle_coords.size();
+    u_long previous_size = 0;
 
-    for (int k = 0; k < 5; k++)
+
+    while (true)
     {
-        for (int i = 0; i < 1000000; i++)
+        for (int i = 0; i < sampling_frequency; i++)
         {
 #ifdef VIS
             {
@@ -187,6 +196,15 @@ int main()
                     circle_coords.push_back(new_circle);
                 }
             }
+        }
+        current_size = circle_coords.size();
+        if (current_size == previous_size)
+        {
+            break;
+        }
+        else
+        {
+            previous_size = current_size;
         }
     }
 
