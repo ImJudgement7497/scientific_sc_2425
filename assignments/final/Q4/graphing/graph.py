@@ -32,7 +32,7 @@ def check_overlap(centers, radius):
 def plot_circles(centers, radius, L):
     fig, ax = plt.subplots()
     for (x, y) in centers:
-        circle = plt.Circle((x, y), radius, color='blue', fill=True, linewidth=0.01) # Make this a user parametr
+        circle = plt.Circle((x, y), radius, color='blue', fill=True, linewidth=0.001) # Make this a user parametr
         ax.add_patch(circle)
 
     ax.set_aspect('equal', adjustable='box')
@@ -50,7 +50,7 @@ def plot_points_in_box(centers, radius, L):
 
     fig, ax = plt.subplots()
     for (x, y) in centers:
-        circle = plt.Circle((x, y), radius, color='blue', fill=True, linewidth=0.01) # Make this a user parametr
+        circle = plt.Circle((x, y), radius, color='blue', fill=True, linewidth=0.001) # Make this a user parametr
         ax.add_patch(circle)
 
     ax.set_aspect('equal', adjustable='box')
