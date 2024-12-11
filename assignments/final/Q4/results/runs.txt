@@ -12,3 +12,5 @@ Number of circles: 28203, Packing Fraction = 0.539679
 Number of circles: 28247, Packing Fraction = 0.540521
 Number of circles: 28203, Packing Fraction = 0.539679
 Number of circles: 28203, Packing Fraction = 0.539679
+Number of circles: 28203, Packing Fraction = 0.539679
+Number of circles: 28203, Packing Fraction = 0.539679
