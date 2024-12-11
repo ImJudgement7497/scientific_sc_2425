@@ -1,0 +1,1 @@
+Number of circles: 28203, Packing Fraction = 0.539679
