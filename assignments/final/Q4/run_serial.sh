@@ -30,4 +30,4 @@ echo "Plotting points now!"
 
 python3 graphing/graph.py
 
-mv coords.txt distances.txt p_fractions.txt ./plots/* "./results/$output_dir"
+mv *.txt ./plots/* "./results/$output_dir"

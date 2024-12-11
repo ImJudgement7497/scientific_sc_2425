@@ -238,5 +238,6 @@ int main()
     write_coordinates(circle_coords, "coords.txt");
     write_vector(p_fractions, "p_fractions.txt");
     write_string_to_file(message, "./results/runs.txt");
+    write_string_to_file(message, "./data.txt");
     return 0;
 }
