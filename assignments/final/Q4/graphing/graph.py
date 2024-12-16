@@ -107,7 +107,7 @@ else:
 
 circle_centers = load_coordinates("coords.txt")
 
-# plot_circles(circle_centers, r, L)
-# plot_points_in_box(circle_centers, r, L)
+plot_circles(circle_centers, r, L)
+plot_points_in_box(circle_centers, r, L)
 p_fractions = load_p_fractions("p_fractions.txt")
 plot_p_fractions(p_fractions, sampling_frequency)
