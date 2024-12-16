@@ -76,15 +76,17 @@ bool check_overlap(const Point &new_circle)
 
 /* ------------------------------I/O FUNCTIONS------------------------------ */
 
-/* Writes a vector of pairs to a file - COULD BE REWRITTEN INTO BINARY */
+/* Writes a vector of pairs to a binary file */
 void write_coordinates(const vector<Point> &coordinates, const string &file_name)
 {
-    ofstream file(file_name);
+    ofstream file(file_name, ios::binary);
     if (file.is_open())
     {
+        // Write each coordinate (pair of doubles) to the file
         for (const auto &coord : coordinates)
         {
-            file << coord.first << " " << coord.second << "\n";
+            file.write(reinterpret_cast<const char *>(&coord.first), sizeof(coord.first));
+            file.write(reinterpret_cast<const char *>(&coord.second), sizeof(coord.second));
         }
         file.close();
     }
@@ -94,15 +96,16 @@ void write_coordinates(const vector<Point> &coordinates, const string &file_name
     }
 }
 
-/* Writes a vector of doubles to a file - COULD BE REWRITTEN INTO BINARY */
+/* Writes a vector of doubles to a binary file */
 void write_vector(const vector<double> &vec, const string &file_name)
 {
-    ofstream file(file_name);
+    ofstream file(file_name, ios::binary);
     if (file.is_open())
     {
+        // Write each double to the file
         for (const auto &elm : vec)
         {
-            file << elm << "\n";
+            file.write(reinterpret_cast<const char *>(&elm), sizeof(elm));
         }
         file.close();
     }
@@ -283,8 +286,8 @@ int main()
     cout << endl;
     cout << message << endl;
 
-    write_coordinates(circle_coords, "coords.txt");
-    write_vector(p_fractions, "p_fractions.txt");
+    write_coordinates(circle_coords, "coords.bin");
+    write_vector(p_fractions, "p_fractions.bin");
     write_string_to_file(message, "./results/runs.txt");
     write_string_to_file(message, "./data.txt");
 

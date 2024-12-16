@@ -1,3 +1,0 @@
-L 500
-r 1.234
-sampling_frequency 10000000

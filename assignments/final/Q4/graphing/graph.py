@@ -1,33 +1,54 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-from matplotlib.ticker import MaxNLocator
+import struct
 
+# ------------------------------I/O FUNCTIONS------------------------------ #
 def load_coordinates(filename):
-    with open(filename, "r") as file:
+    with open(filename, "rb") as file:
         coordinates = []
-        for line in file:
-            x, y = map(float, line.split())
+        while True:
+            byte_pair = file.read(2 * struct.calcsize('d')) 
+            if not byte_pair: 
+                break
+            x, y = struct.unpack('dd', byte_pair)
             coordinates.append((x, y))
     return coordinates
 
 def load_p_fractions(filename):
-    with open(filename, "r") as file:
+    with open(filename, "rb") as file:
         p_fractions = []
-        for line in file:
-            p_fractions.append(line)
+        while True:
+            byte_data = file.read(struct.calcsize('d')) 
+            if not byte_data: 
+                break
+            p_fraction = struct.unpack('d', byte_data)[0]
+            p_fractions.append(p_fraction)
     return p_fractions
 
-def check_overlap(centers, radius):
-    for i, (x1, y1) in enumerate(centers):
-        for j, (x2, y2) in enumerate(centers):
-            if i != j:
-                dist = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-                if dist < 2 * radius:
-                    print(f"Circles {i} and {j} overlap: Distance = {dist}, Required = {2 * radius}")
-                    return True
-    print("No overlaps detected!")
-    return False
+def load_config(filename):
+    config = {}
+    
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                key, value = line.split()
+                value = float(value)
+                config[key] = value
+        
+        return config
+    
+    except FileNotFoundError:
+        print(f"Error: Could not open file {filename}")
+        return None
+    except ValueError as e:
+        print(f"Error parsing the file {filename}: {e}")
+        return None
+
+# ------------------------------PLOTTING FUNCTIONS------------------------------ #
 
 def plot_circles(centers, radius, L):
     fig, ax = plt.subplots()
@@ -74,28 +95,7 @@ def plot_p_fractions(p_fractions, sampling_frequency):
     plt.legend()
     plt.savefig("./plots/p_fraction_convergence.png", dpi=300)
 
-def load_config(filename):
-    config = {}
-    
-    try:
-        with open(filename, 'r') as file:
-            for line in file:
-                line = line.strip()
-                if not line or line.startswith('#'):
-                    continue
-                key, value = line.split()
-                value = float(value)
-                config[key] = value
-        
-        return config
-    
-    except FileNotFoundError:
-        print(f"Error: Could not open file {filename}")
-        return None
-    except ValueError as e:
-        print(f"Error parsing the file {filename}: {e}")
-        return None
-
+# ------------------------------PLOTTING------------------------------ #
 config = load_config("./config/config.txt")
 
 if config:
@@ -105,9 +105,9 @@ if config:
 else:
     print("PYTHON: Failed to load configuration.")
 
-circle_centers = load_coordinates("coords.txt")
+circle_centers = load_coordinates("coords.bin")
 
 plot_circles(circle_centers, r, L)
 plot_points_in_box(circle_centers, r, L)
-p_fractions = load_p_fractions("p_fractions.txt")
+p_fractions = load_p_fractions("p_fractions.bin")
 plot_p_fractions(p_fractions, sampling_frequency)
