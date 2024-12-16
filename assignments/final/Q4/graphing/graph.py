@@ -64,11 +64,14 @@ def plot_points_in_box(centers, radius, L):
 
 def plot_p_fractions(p_fractions, sampling_frequency):
     x = np.arange(0, len(p_fractions)*sampling_frequency, sampling_frequency)
-    plt.plot(x, p_fractions)
-    plt.gca().yaxis.set_major_locator(MaxNLocator(integer=False, prune='lower', nbins=10))
+    plt.figure(figsize=(10, 6))
+    plt.plot(x, p_fractions, marker='o', linestyle='-', color='b', label='Convergence')
     plt.title("Convergence of P with number of trials")
     plt.xlabel(f"Number of trials * sampling_frequency")
-    plt.ylabel("Packing Fraction")
+    plt.ylabel("log(Packing Fraction)")
+    plt.yscale('log')
+    plt.grid(False)
+    plt.legend()
     plt.savefig("./plots/p_fraction_convergence.png", dpi=300)
 
 def load_config(filename):
@@ -104,7 +107,7 @@ else:
 
 circle_centers = load_coordinates("coords.txt")
 
-plot_circles(circle_centers, r, L)
-plot_points_in_box(circle_centers, r, L)
+# plot_circles(circle_centers, r, L)
+# plot_points_in_box(circle_centers, r, L)
 p_fractions = load_p_fractions("p_fractions.txt")
 plot_p_fractions(p_fractions, sampling_frequency)

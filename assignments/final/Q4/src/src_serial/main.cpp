@@ -160,6 +160,8 @@ int main()
     rng random_gen;
     random_gen.seed(1829233); // Make this a user parameter
 
+    vtimer_t timer;
+
 #ifdef DEBUG
     cout << "DEBUGGING ENABLED" << endl;
 #endif
@@ -181,6 +183,7 @@ int main()
     u_long previous_size = 0;
     int k = 0;
 
+    timer.start();
     while (true)
     {
         /* Sampling frequency is a user parameter that determiens how many random generations are done
@@ -251,11 +254,12 @@ int main()
         }
     }
 
+    timer.stop();
     // Get the last packing fraction
     double P = p_fractions.back();
 
     // Outputs all necessary data
-    string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P);
+    string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P) + ", Time = " + to_string(timer.elapsed_time());
     cout << endl;
     cout << message << endl;
 
