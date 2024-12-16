@@ -30,4 +30,4 @@ echo "Plotting points now!"
 
 python3 graphing/graph.py
 
-mv *.txt ./plots/* "./results/$output_dir"
+mv *.txt *.bin ./plots/* "./results/$output_dir"
