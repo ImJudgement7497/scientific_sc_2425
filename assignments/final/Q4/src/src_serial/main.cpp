@@ -243,6 +243,7 @@ int main()
 
     size_t previous_size = 0;
     int k = 0;
+    int sample_interval = sampling_frequency / 4; // MAKE THIS A USER PARAMETER
 
     while (true)
     {
@@ -260,19 +261,27 @@ int main()
                 circle_coords.push_back(new_circle);
                 place_circle(new_circle);
             }
+
+            if (i != 0 && i % sample_interval == 0) // Every "sampling_frequency / 4" intervals
+            {
+                current_size = circle_coords.size();
+                P = M_PI * current_size * r * r / (L * L);
+                p_fractions.push_back(P);
+            }
         }
 
         // Check for convergence
         current_size = circle_coords.size();
         if (current_size == previous_size)
         {
+            // Add final packing fraction
+            P = M_PI * current_size * r * r / (L * L);
+            p_fractions.push_back(P);
             break;
         }
         else
         {
             previous_size = current_size;
-            P = M_PI * current_size * r * r / (L * L);
-            p_fractions.push_back(P);
             k++;
         }
     }

@@ -84,7 +84,7 @@ def plot_points_in_box(centers, radius, L):
     plt.close()
 
 def plot_p_fractions(p_fractions, sampling_frequency):
-    x = np.arange(0, len(p_fractions)*sampling_frequency, sampling_frequency)
+    x = np.arange(0, len(p_fractions) * (sampling_frequency // 4), step=sampling_frequency // 4)
     plt.figure(figsize=(10, 6))
     plt.plot(x, p_fractions, marker='o', linestyle='-', color='b', label='Convergence')
     plt.title("Convergence of P with number of trials")
