@@ -14,3 +14,31 @@ mkdir: cannot create directory ‘plots’: File exists
 rm -rf bin/*
 g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -Iinclude src/src_serial/vtimer_t.cpp src/src_serial/rng.cpp src/src_serial/main.cpp -o bin/main_serial 
 Running with L = 500 and r = 1.234 and sf = 2500000
+
+Number of circles: 28224, Packing Fraction = 0.540081, Time = 316.136677
+
+real	5m16.168s
+user	5m15.259s
+sys	0m0.009s
+Plotting points now!
+
+Job completed at Mon Dec 16 12:29:48 GMT 2024
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14329284
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Cores: 1
+CPU Utilized: 00:05:19
+CPU Efficiency: 99.69% of 00:05:20 core-walltime
+Job Wall-clock time: 00:05:20
+Memory Utilized: 14.69 MB
+Memory Efficiency: 0.27% of 5.24 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:05:20
+Wall clock time efficiency: 26.7%
+           Job queued time: 00:00:01
