@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <unordered_map>
 #include "vtimer_t.h"
 #include "rng.h"
 /* NEED TO APPLY FORMATTING TO ALL THE FILES */
@@ -10,12 +11,73 @@ using namespace std;
 /* ------------------------------GLOBAL VARIABlE------------------------------ */
 double L;               // Length of box (read in from input)
 double r;               // Radius of circle (read in from input)
+double r_comp;          // Value to compare against
 int sampling_frequency; // The frequency of trials before checking for convergence
+int grid_size;          // Grid size (dependent on r)
+
+typedef pair<double, double> Point; // Pre-define type for ease
+typedef pair<int, int> Cell;        // Pre-define type for ease
+
+/* ------------------------------GRID UTILITIES------------------------------ */
+
+/* Cell Hash needed for the unordered map */
+/* It is strange that C++ does not have a hash for standard data structures */
+struct CellHash
+{
+    size_t operator()(const pair<int, int> &cell) const
+    {
+        size_t h1 = hash<int>{}(cell.first);
+        size_t h2 = hash<int>{}(cell.second);
+        return h1 ^ (h2 << 1);
+    }
+};
+
+/* Map of grid cells to points in the grid */
+unordered_map<Cell, vector<Point>, CellHash> grid;
+
+// Helper to compute the grid cell for a point - specify inline for the compiler
+inline Cell get_grid_cell(const Point &p)
+{
+    return {static_cast<int>(p.first / (L / grid_size)), static_cast<int>(p.second / (L / grid_size))};
+}
+
+// Check if a new circle overlaps with circles in nearby grid cells
+bool check_overlap(const Point &new_circle)
+{
+    Cell cell = get_grid_cell(new_circle);
+
+    // Check nearby neighbour cells
+    for (int dx = -1; dx <= 1; dx++)
+    {
+        for (int dy = -1; dy <= 1; dy++)
+        {
+            Cell neighbor_cell = {cell.first + dx, cell.second + dy};
+
+            // Check if neighbor cell exists in the spatial grid
+            if (grid.find(neighbor_cell) != grid.end())
+            {
+                for (const auto &existing_circle : grid[neighbor_cell])
+                {
+                    // Compute squared distance for comparison
+                    double dx = existing_circle.first - new_circle.first;
+                    double dy = existing_circle.second - new_circle.second;
+                    double distance_squared = dx * dx + dy * dy;
+
+                    if (distance_squared < r_comp)
+                    {
+                        return true; // If overlap, return true
+                    }
+                }
+            }
+        }
+    }
+    return false; // No overlap found
+}
 
 /* ------------------------------I/O FUNCTIONS------------------------------ */
 
 /* Writes a vector of pairs to a file - COULD BE REWRITTEN INTO BINARY */
-void write_coordinates(const vector<pair<double, double>> &coordinates, const string &file_name)
+void write_coordinates(const vector<Point> &coordinates, const string &file_name)
 {
     ofstream file(file_name);
     if (file.is_open())
@@ -114,36 +176,27 @@ bool load_config(const string &filename)
         }
     }
 
+    r_comp = (2 * r) * (2 * r); // Pre-compute comparison
     file.close();
     return true;
 }
 
 /* ------------------------------SIMULATION FUNCTIONS------------------------------*/
 
-/* Generates and returns a pair of random doubles */
-pair<double, double> gen_random_pair(rng &random_gen)
+/* Updates grid with circle */
+void place_circle(const Point &circle)
 {
-    pair<double, double> rand_coords;
-    rand_coords.first = L * random_gen.grnd();
-    rand_coords.second = L * random_gen.grnd();
-
-    return rand_coords;
+    Cell cell = get_grid_cell(circle);
+    grid[cell].push_back(circle);
 }
 
-/* Checks if a coordiante is outside a boundary*/
-/* MAYBE NOT NECESSARY IF ONLY GENERATE NUMBERS BETWEEN r and L-r*/
-bool check_boundaries(pair<double, double> &coords)
+/* Generates and returns a Point, within the boundaries */
+Point gen_random_pair(rng &random_gen)
 {
-
-    double x = coords.first;
-    double y = coords.second;
-
-    if (x - r < 0 || x + r > L || y - r < 0 || y + r > L)
-    {
-        return true;
-    }
-
-    return false;
+    return {
+        r + (L - 2 * r) * random_gen.grnd(),
+        r + (L - 2 * r) * random_gen.grnd(),
+    };
 }
 
 int main()
@@ -154,6 +207,10 @@ int main()
         return -1;
     }
 
+#ifdef DEBUG
+    cout << "DEBUGGING ENABLED" << endl;
+#endif
+
     cout << "Running with L = " << L << " and r = " << r << " and sf = " << sampling_frequency << endl;
 
     /* Initalise random number generator */
@@ -161,94 +218,57 @@ int main()
     random_gen.seed(1829233); // Make this a user parameter
 
     vtimer_t timer;
-
-#ifdef DEBUG
-    cout << "DEBUGGING ENABLED" << endl;
-#endif
+    timer.start();
 
     /* Initalise data types*/
     bool is_overlapping;
-    vector<pair<double, double>> circle_coords;
+    vector<Point> circle_coords;
     vector<double> p_fractions;
 
+    // Determine the grid size dynamically based on r
+    grid_size = static_cast<int>(L / (2 * r));
+
     /* Place first circle */
-    pair<double, double> first_circle = gen_random_pair(random_gen);
+    Point first_circle = gen_random_pair(random_gen);
     circle_coords.push_back(first_circle);
+    place_circle(first_circle);
 
     /* Calculate first packing fraction */
-    u_long current_size = circle_coords.size();
-    double first_P = M_PI * current_size * r * r / (L * L);
-    p_fractions.push_back(first_P);
+    size_t current_size = circle_coords.size();
+    double P = M_PI * current_size * r * r / (L * L);
+    p_fractions.push_back(P);
 
-    u_long previous_size = 0;
+    size_t previous_size = 0;
     int k = 0;
 
-    timer.start();
     while (true)
     {
-        /* Sampling frequency is a user parameter that determiens how many random generations are done
-        before a check for convergence */
         for (int i = 0; i < sampling_frequency; i++)
         {
 #ifdef VIS
-            {
-                // Coninually prints and clears the output as the loop goes on, giving a visual output
-                printf("\r k = %d, i = %d, size = %zu, P = %f", k, i, circle_coords.size(), p_fractions[k]);
-                fflush(stdout);
-
-                printf("\r%s", string(30, ' ').c_str());
-            }
+            printf("\r k = %d, i = %d, size = %zu, P = %f", k, i, circle_coords.size(), p_fractions[k]);
+            fflush(stdout);
 #endif
+            Point new_circle = gen_random_pair(random_gen);
 
-            // Generate new circle
-            pair<double, double> new_circle = gen_random_pair(random_gen);
-
-            // First checks if the circle is overlapping the boudaries
-            is_overlapping = check_boundaries(new_circle);
-            if (!is_overlapping)
+            // Check for overlaps in the grid
+            if (!check_overlap(new_circle))
             {
-                for (int j = 0; j < circle_coords.size(); j++)
-                {
-                    // More efficent to compare squared distances
-                    double dx = circle_coords[j].first - new_circle.first;
-                    double dy = circle_coords[j].second - new_circle.second;
-                    double distance_squared = dx * dx + dy * dy;
-
-                    if (distance_squared < (2 * r) * (2 * r))
-                    {
-                        is_overlapping = true;
-
-#ifdef DEBUG
-                        {
-                            string temp = "Distance Squared = " + to_string(distance_squared) + ", compared to " + to_string((2 * r) * (2 * r));
-                            // Produces a large file called distances, only use on a small number of iterations
-                            write_string_to_file(temp, "distances.txt");
-                        }
-#endif
-
-                        break; // Stop checking further if overlapping
-                    }
-                }
-
-                // If still not overlapping, add the new circle
-                if (!is_overlapping)
-                {
-                    circle_coords.push_back(new_circle);
-                }
+                circle_coords.push_back(new_circle);
+                place_circle(new_circle);
             }
         }
 
-        // Check if size has converged
+        // Check for convergence
         current_size = circle_coords.size();
         if (current_size == previous_size)
         {
             break;
         }
-        // If not converged, calculate the packing fraction
         else
         {
             previous_size = current_size;
-            double P = M_PI * current_size * r * r / (L * L);
+            P = M_PI * current_size * r * r / (L * L);
             p_fractions.push_back(P);
             k++;
         }
@@ -256,7 +276,7 @@ int main()
 
     timer.stop();
     // Get the last packing fraction
-    double P = p_fractions.back();
+    P = p_fractions.back();
 
     // Outputs all necessary data
     string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P) + ", Time = " + to_string(timer.elapsed_time());

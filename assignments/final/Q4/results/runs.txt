@@ -16,3 +16,5 @@ Number of circles: 28203, Packing Fraction = 0.539679
 Number of circles: 28203, Packing Fraction = 0.539679
 Number of circles: 28203, Packing Fraction = 0.539679
 Number of circles: 28077, Packing Fraction = 0.537268, Time = 1718.243442
+Number of circles: 19225, Packing Fraction = 0.367880, Time = 1.988734
+Number of circles: 28077, Packing Fraction = 0.537268, Time = 1483.947141
