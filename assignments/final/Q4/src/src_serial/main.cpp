@@ -49,6 +49,7 @@ void write_vector(const vector<double> &vec, const string &file_name)
         cerr << "Error opening file: " << file_name << endl;
     }
 }
+
 /* Writes a string to a file */
 void write_string_to_file(const string &data, const string &file_name)
 {
@@ -118,6 +119,7 @@ bool load_config(const string &filename)
 }
 
 /* ------------------------------SIMULATION FUNCTIONS------------------------------*/
+
 /* Generates and returns a pair of random doubles */
 pair<double, double> gen_random_pair(rng &random_gen)
 {
@@ -129,6 +131,7 @@ pair<double, double> gen_random_pair(rng &random_gen)
 }
 
 /* Checks if a coordiante is outside a boundary*/
+/* MAYBE NOT NECESSARY IF ONLY GENERATE NUMBERS BETWEEN r and L-r*/
 bool check_boundaries(pair<double, double> &coords)
 {
 
@@ -145,42 +148,56 @@ bool check_boundaries(pair<double, double> &coords)
 
 int main()
 {
+    /* Load config file*/
     if (!load_config("./config/config.txt"))
     {
         return -1;
     }
+
     cout << "Running with L = " << L << " and r = " << r << " and sf = " << sampling_frequency << endl;
+
+    /* Initalise random number generator */
     rng random_gen;
     random_gen.seed(1829233); // Make this a user parameter
 
 #ifdef DEBUG
     cout << "DEBUGGING ENABLED" << endl;
 #endif
-    bool is_overlapping;
 
+    /* Initalise data types*/
+    bool is_overlapping;
     vector<pair<double, double>> circle_coords;
     vector<double> p_fractions;
+
+    /* Place first circle */
     pair<double, double> first_circle = gen_random_pair(random_gen);
     circle_coords.push_back(first_circle);
+
+    /* Calculate first packing fraction */
     u_long current_size = circle_coords.size();
     double first_P = M_PI * current_size * r * r / (L * L);
     p_fractions.push_back(first_P);
+
     u_long previous_size = 0;
     int k = 0;
 
     while (true)
     {
+        /* Sampling frequency is a user parameter that determiens how many random generations are done
+        before a check for convergence */
         for (int i = 0; i < sampling_frequency; i++)
         {
 #ifdef VIS
             {
+                // Coninually prints and clears the output as the loop goes on, giving a visual output
                 printf("\r k = %d, i = %d, size = %zu, P = %f", k, i, circle_coords.size(), p_fractions[k]);
-                fflush(stdout); // Ensure it flushes to the terminal
+                fflush(stdout);
 
-                printf("\r%s", string(30, ' ').c_str()); // Clear the line (30 spaces)
+                printf("\r%s", string(30, ' ').c_str());
             }
 #endif
 
+            // Generate new circle
             pair<double, double> new_circle = gen_random_pair(random_gen);
 
             // First checks if the circle is overlapping the boudaries
@@ -217,11 +234,14 @@ int main()
                 }
             }
         }
+
+        // Check if size has converged
         current_size = circle_coords.size();
         if (current_size == previous_size)
         {
             break;
         }
+        // If not converged, calculate the packing fraction
         else
         {
             previous_size = current_size;
@@ -231,13 +251,18 @@ int main()
         }
     }
 
+    // Get the last packing fraction
     double P = p_fractions.back();
+
+    // Outputs all necessary data
     string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P);
     cout << endl;
     cout << message << endl;
+
     write_coordinates(circle_coords, "coords.txt");
     write_vector(p_fractions, "p_fractions.txt");
     write_string_to_file(message, "./results/runs.txt");
     write_string_to_file(message, "./data.txt");
+
     return 0;
 }
