@@ -3,7 +3,7 @@ CXX_FLAGS := -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops
 
 BIN     := bin
 SRC_SERIAL     := src/src_serial
-INCLUDE := include
+INCLUDE_SERIAL := include/include_serial
 
 LIBRARIES   := 
 
@@ -32,13 +32,13 @@ run_serial_debug: clean serial_debug
 	@./$(BIN)/$(SERIAL_EXEC)
 
 $(BIN)/$(SERIAL_EXEC): $(SRC_SERIAL)/*.cpp | $(BIN)
-	$(CXX) $(CXX_FLAGS) -I$(INCLUDE) $^ -o $@ $(LIBRARIES)
+	$(CXX) $(CXX_FLAGS) -I$(INCLUDE_SERIAL) $^ -o $@ $(LIBRARIES)
 
 $(BIN)/$(SERIAL_EXEC_DEBUG): $(SRC_SERIAL)/*.cpp | $(BIN)
-	$(CXX) $(CXX_FLAGS) -DDEBUG -I$(INCLUDE) $^ -o $@ $(LIBRARIES)
+	$(CXX) $(CXX_FLAGS) -DDEBUG -I$(INCLUDE_SERIAL) $^ -o $@ $(LIBRARIES)
 
 $(BIN)/$(SERIAL_EXEC_VIS): $(SRC_SERIAL)/*.cpp | $(BIN)
-	$(CXX) $(CXX_FLAGS) -DVIS -I$(INCLUDE) $^ -o $@ $(LIBRARIES)
+	$(CXX) $(CXX_FLAGS) -DVIS -I$(INCLUDE_SERIAL) $^ -o $@ $(LIBRARIES)
 
 $(BIN):
 	mkdir -p $(BIN)
