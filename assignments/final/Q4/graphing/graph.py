@@ -105,9 +105,9 @@ if config:
 else:
     print("PYTHON: Failed to load configuration.")
 
-# circle_centers = load_coordinates("coords.bin")
-# plot_circles(circle_centers, r, L)
-# plot_points_in_box(circle_centers, r, L)
+circle_centers = load_coordinates("coords.bin")
+plot_circles(circle_centers, r, L)
+plot_points_in_box(circle_centers, r, L)
 p_fractions = load_p_fractions("p_fractions.bin")
 print(p_fractions)
 plot_p_fractions(p_fractions, sampling_frequency)

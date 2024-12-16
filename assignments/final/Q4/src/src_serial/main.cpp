@@ -238,8 +238,9 @@ int main()
 
     /* Calculate first packing fraction */
     size_t current_size = circle_coords.size();
-    double P = M_PI * current_size * r * r / (L * L);
-    p_fractions.push_back(P);
+    double P;
+    double P_const = M_PI * r * r / (L * L);
+    // p_fractions.push_back(P);
 
     size_t previous_size = 0;
     int k = 0;
@@ -265,7 +266,7 @@ int main()
             if (i != 0 && i % sample_interval == 0) // Every "sampling_frequency / 4" intervals
             {
                 current_size = circle_coords.size();
-                P = M_PI * current_size * r * r / (L * L);
+                P = current_size * P_const;
                 p_fractions.push_back(P);
             }
         }
@@ -275,7 +276,7 @@ int main()
         if (current_size == previous_size)
         {
             // Add final packing fraction
-            P = M_PI * current_size * r * r / (L * L);
+            P = current_size * P_const;
             p_fractions.push_back(P);
             break;
         }
