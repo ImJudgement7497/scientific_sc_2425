@@ -23,11 +23,11 @@ make clean
 make $MAKE_RULE
 
 output_dir="L=${L}, r=${r}, sf=${sf}"
-mkdir -p "./results/$output_dir"
+mkdir -p "./results/serial_results/$output_dir"
 
 time ./bin/main_$MAKE_RULE
 echo "Plotting points now!"
 
 python3 graphing/graph.py
 
-mv *.txt *.bin ./plots/* "./results/$output_dir"
+mv *.txt *.bin ./plots/* "./results/serial_results/$output_dir"
