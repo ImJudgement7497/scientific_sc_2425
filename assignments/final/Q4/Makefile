@@ -28,7 +28,8 @@ parallel: $(BIN)/$(PARALLEL_EXEC)
 
 parallel_vis: $(BIN)/$(PARALLEL_EXEC_VIS)
 
-clean: -rm -rf $(BIN)/*
+clean:
+	@rm -rf $(BIN)/*
 
 run_serial: clean serial
 	@clear

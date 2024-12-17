@@ -3,7 +3,7 @@
 #include <fstream>
 #include <string>
 #include <unordered_map>
-#include "vtimer_t.h"
+#include <omp.h>
 #include "rng.h"
 /* NEED TO APPLY FORMATTING TO ALL THE FILES */
 using namespace std;
@@ -204,24 +204,17 @@ Point gen_random_pair(rng &random_gen)
 
 int main()
 {
-    /* Load config file*/
+    // Load configuration
     if (!load_config("./config/config.txt"))
     {
         return -1;
     }
 
-#ifdef DEBUG
-    cout << "DEBUGGING ENABLED" << endl;
-#endif
-
-    cout << "Running with L = " << L << " and r = " << r << " and sf = " << sampling_frequency << endl;
+    cout << "Running with L = " << L << ", r = " << r << ", and sf = " << sampling_frequency << endl;
 
     /* Initalise random number generator */
     rng random_gen;
     random_gen.seed(1829233); // Make this a user parameter
-
-    vtimer_t timer;
-    timer.start();
 
     /* Initalise data types*/
     bool is_overlapping;
@@ -243,63 +236,74 @@ int main()
     // p_fractions.push_back(P);
 
     size_t previous_size = 0;
-    int k = 0;
     int sample_interval = sampling_frequency / 4; // MAKE THIS A USER PARAMETER
 
-    while (true)
-    {
-        for (int i = 0; i < sampling_frequency; i++)
-        {
-#ifdef VIS
-            printf("\r k = %d, i = %d, size = %zu, P = %f", k, i, circle_coords.size(), p_fractions[k]);
-            fflush(stdout);
-#endif
-            Point new_circle = gen_random_pair(random_gen);
+    double start_time = omp_get_wtime();
 
-            // Check for overlaps in the grid
-            if (!check_overlap(new_circle))
+    bool done = false;
+
+#pragma omp parallel shared(done)
+    {
+        // Each thread has its own instance of the random number generator
+        rng local_random_gen;
+        local_random_gen.seed(omp_get_thread_num() * 1829233 + omp_get_num_threads()); // Unique seed per thread
+
+        while (!done)
+        {
+// Parallel sampling loop
+#pragma omp for schedule(dynamic)
+            for (int i = 0; i < sampling_frequency; i++)
             {
-                circle_coords.push_back(new_circle);
-                place_circle(new_circle);
+                if (done)
+                    continue; // Check shared flag to stop work early
+
+                Point new_circle = gen_random_pair(local_random_gen);
+
+                if (!check_overlap(new_circle))
+                {
+#pragma omp critical
+                    {
+                        circle_coords.push_back(new_circle);
+                        place_circle(new_circle);
+                    }
+                }
+
+                if (i != 0 && i % sample_interval == 0) // Every "sampling_frequency / 4" intervals
+                {
+                    current_size = circle_coords.size();
+                    P = current_size * P_const;
+                    p_fractions.push_back(P);
+                }
             }
 
-            if (i != 0 && i % sample_interval == 0) // Every "sampling_frequency / 4" intervals
+// Only one thread checks for convergence
+#pragma omp single
             {
                 current_size = circle_coords.size();
-                P = current_size * P_const;
-                p_fractions.push_back(P);
+                if (current_size == previous_size)
+                {
+                    // Add final packing fraction
+                    P = current_size * P_const;
+                    p_fractions.push_back(P);
+                    done = true; // Signal all threads to stop
+                }
+                else
+                {
+                    previous_size = current_size;
+                }
             }
-        }
-
-        // Check for convergence
-        current_size = circle_coords.size();
-        if (current_size == previous_size)
-        {
-            // Add final packing fraction
-            P = current_size * P_const;
-            p_fractions.push_back(P);
-            break;
-        }
-        else
-        {
-            previous_size = current_size;
-            k++;
         }
     }
 
-    timer.stop();
-    // Get the last packing fraction
-    P = p_fractions.back();
+    double end_time = omp_get_wtime();
+    double elpased_time = end_time - start_time;
 
-    // Outputs all necessary data
-    string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P) + ", Time = " + to_string(timer.elapsed_time());
+    string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P) + ", Time = " + to_string(elpased_time);
     cout << endl;
     cout << message << endl;
 
     write_coordinates(circle_coords, "coords.bin");
     write_vector(p_fractions, "p_fractions.bin");
-    write_string_to_file(message, "./results/serial_results/runs_serial.txt");
     write_string_to_file(message, "./data.txt");
-
     return 0;
 }
