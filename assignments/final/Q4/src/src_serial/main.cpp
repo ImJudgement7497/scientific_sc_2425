@@ -251,7 +251,14 @@ int main()
         for (int i = 0; i < sampling_frequency; i++)
         {
 #ifdef VIS
-            printf("\r k = %d, i = %d, size = %zu, P = %f", k, i, circle_coords.size(), p_fractions[k]);
+            if (k < p_fractions.size())
+            {
+                printf("\r k = %d, i = %d, size = %zu, P = %f", k, i, circle_coords.size(), p_fractions[k]);
+            }
+            else
+            {
+                printf("\r k = %d, i = %d, size = %zu", k, i, circle_coords.size());
+            }
             fflush(stdout);
 #endif
             Point new_circle = gen_random_pair(random_gen);
