@@ -29,7 +29,7 @@ mkdir -p "./results/parallel_results/$output_dir"
 time ./bin/main_$MAKE_RULE
 echo "Plotting points now!"
 
-python3 graphing/graph.py
+# python3 graphing/graph.py
 
 mv *.txt *.bin ./plots/* "./results/parallel_results/$output_dir"
 
