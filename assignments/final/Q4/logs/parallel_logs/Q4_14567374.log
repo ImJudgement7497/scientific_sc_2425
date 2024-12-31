@@ -1,0 +1,55 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.10-GCC-13.2.0 => FFTW/3.3.10-GCC-12.3.0
+  2) FlexiBLAS/3.3.1-GCC-13.2.0 => FlexiBLAS/3.3.1-GCC-12.3.0
+  3) GCC/13.2.0 => GCC/12.3.0
+  4) GCCcore/13.2.0 => GCCcore/12.3.0
+  5) OpenBLAS/0.3.24-GCC-13.2.0 => OpenBLAS/0.3.23-GCC-12.3.0
+  6) XZ/5.4.4-GCCcore-13.2.0 => XZ/5.4.2-GCCcore-12.3.0
+  7) binutils/2.40-GCCcore-13.2.0 => binutils/2.40-GCCcore-12.3.0
+  8) libpciaccess/0.17-GCCcore-13.2.0 => libpciaccess/0.17-GCCcore-12.3.0
+  9) zlib/1.2.13-GCCcore-13.2.0 => zlib/1.2.13-GCCcore-12.3.0
+
+mkdir: cannot create directory ‘plots’: File exists
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel 
+Running with L = 500, r = 1.234, and sf = 100000
+
+Number of circles: 27592, Packing Fraction = 0.527987, Time = 1.705922
+
+real	0m1.732s
+user	1m18.076s
+sys	0m0.069s
+Plotting points now!
+Traceback (most recent call last):
+  File "/mnt/scratch/users/bmjm501/scientific_sc_2425/assignments/final/Q4/graphing/graph.py", line 111, in <module>
+    p_fractions = load_p_fractions("p_fractions.bin")
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/scratch/users/bmjm501/scientific_sc_2425/assignments/final/Q4/graphing/graph.py", line 19, in load_p_fractions
+    with open(filename, "rb") as file:
+         ^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'p_fractions.bin'
+mv: cannot stat '*.txt': No such file or directory
+mv: cannot stat '*.bin': No such file or directory
+mv: cannot stat './plots/*': No such file or directory
+
+Job completed at Tue Dec 31 14:14:16 GMT 2024
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14567374
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 48
+CPU Utilized: 00:03:28
+CPU Efficiency: 3.33% of 01:44:00 core-walltime
+Job Wall-clock time: 00:02:10
+Memory Utilized: 357.66 MB
+Memory Efficiency: 0.14% of 251.48 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:02:10
+Wall clock time efficiency: 10.8%
+           Job queued time: 00:00:00
