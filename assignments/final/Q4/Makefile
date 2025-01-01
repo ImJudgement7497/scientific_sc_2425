@@ -16,6 +16,7 @@ SERIAL_EXEC_DEBUG := main_serial_debug
 SERIAL_EXEC_VIS := main_serial_vis
 
 PARALLEL_EXEC := main_parallel
+PARALLEL_EXEC_DEBUG := main_parallel_debug
 PARALLEL_EXEC_VIS := main_parallel_vis
 
 serial: $(BIN)/$(SERIAL_EXEC)
@@ -26,18 +27,12 @@ serial_vis: $(BIN)/$(SERIAL_EXEC_VIS)
 
 parallel: $(BIN)/$(PARALLEL_EXEC)
 
+parallel_debug: $(BIN)/$(PARALLEL_EXEC_DEBUG)
+
 parallel_vis: $(BIN)/$(PARALLEL_EXEC_VIS)
 
 clean:
 	@rm -rf $(BIN)/*
-
-run_serial: clean serial
-	@clear
-	@./$(BIN)/$(SERIAL_EXEC)
-
-run_serial_debug: clean serial_debug
-	@clear
-	@./$(BIN)/$(SERIAL_EXEC)
 
 $(BIN)/$(SERIAL_EXEC): $(SRC_SERIAL)/*.cpp | $(BIN)
 	$(CXX) $(CXX_FLAGS) -I$(INCLUDE_SERIAL) $^ -o $@ $(LIBRARIES)
@@ -51,10 +46,11 @@ $(BIN)/$(SERIAL_EXEC_VIS): $(SRC_SERIAL)/*.cpp | $(BIN)
 $(BIN)/$(PARALLEL_EXEC): $(SRC_PARALLEL)/*.cpp | $(BIN)
 	$(CXX) $(CXX_FLAGS) -fopenmp -I$(INCLUDE_PARALLEL) $^ -o $@ $(LIBRARIES)
 
+$(BIN)/$(PARALLEL_EXEC_DEBUG): $(SRC_PARALLEL)/*.cpp | $(BIN)
+	$(CXX) $(CXX_FLAGS) -DDEBUG -I$(INCLUDE_PARALLEL) $^ -o $@ $(LIBRARIES)
+
 $(BIN)/$(PARALLEL_EXEC_VIS): $(SRC_PARALLEL)/*.cpp | $(BIN)
 	$(CXX) $(CXX_FLAGS) -fopenmp -DVIS -I$(INCLUDE_PARALLEL) $^ -o $@ $(LIBRARIES)
-
-
 
 $(BIN):
 	mkdir -p $(BIN)

@@ -4,16 +4,18 @@
 #include <string>
 #include <unordered_map>
 #include <omp.h>
+#include <mutex>
 #include "rng.h"
 /* NEED TO APPLY FORMATTING TO ALL THE FILES */
 using namespace std;
 
 /* ------------------------------GLOBAL VARIABlE------------------------------ */
-double L;               // Length of box (read in from input)
-double r;               // Radius of circle (read in from input)
-double r_comp;          // Value to compare against
-int sampling_frequency; // The frequency of trials before checking for convergence
-int grid_size;          // Grid size (dependent on r)
+double L;                        // Length of box (read in from input)
+double r;                        // Radius of circle (read in from input)
+int sampling_frequency;          // The frequency of trials before checking for convergence (read in from input)
+double r_comp;                   // Value to compare against
+int grid_size;                   // Grid size (dependent on r)
+const size_t NUM_MUTEXES = 1024; // Fixed number of mutexes
 
 typedef pair<double, double> Point; // Pre-define type for ease
 typedef pair<int, int> Cell;        // Pre-define type for ease
@@ -34,6 +36,11 @@ struct CellHash
 
 /* Map of grid cells to points in the grid */
 unordered_map<Cell, vector<Point>, CellHash> grid;
+unordered_map<Cell, vector<Point>, CellHash> trial_grid;
+
+// /* Array of mutex locks */
+// array<mutex, NUM_MUTEXES> mutex_grid;
+// array<mutex, NUM_MUTEXES> trial_mutex_grid;
 
 // Helper to compute the grid cell for a point - specify inline for the compiler
 inline Cell get_grid_cell(const Point &p)
@@ -42,8 +49,9 @@ inline Cell get_grid_cell(const Point &p)
 }
 
 // Check if a new circle overlaps with circles in nearby grid cells
-bool check_overlap(const Point &new_circle)
+int check_overlap(pair<Point, bool> &trial_placement, unordered_map<Cell, vector<Point>, CellHash> &map)
 {
+    Point new_circle = trial_placement.first;
     Cell cell = get_grid_cell(new_circle);
 
     // Check nearby neighbour cells
@@ -54,24 +62,40 @@ bool check_overlap(const Point &new_circle)
             Cell neighbor_cell = {cell.first + dx, cell.second + dy};
 
             // Check if neighbor cell exists in the spatial grid
-            if (grid.find(neighbor_cell) != grid.end())
+            if (map.find(neighbor_cell) != map.end())
             {
-                for (const auto &existing_circle : grid[neighbor_cell])
+                for (const auto &existing_circle : map[neighbor_cell])
                 {
-                    // Compute squared distance for comparison
-                    double dx = existing_circle.first - new_circle.first;
-                    double dy = existing_circle.second - new_circle.second;
-                    double distance_squared = dx * dx + dy * dy;
 
-                    if (distance_squared < r_comp)
+                    if (new_circle == existing_circle)
                     {
-                        return true; // If overlap, return true
+                        continue; // Skip self comparison
+                    }
+                    // Compute squared distance for comparison
+                    double delta_x = existing_circle.first - new_circle.first;
+                    double delta_y = existing_circle.second - new_circle.second;
+                    double distance_squared = delta_x * delta_x + delta_y * delta_y;
+
+#ifdef DENUG
+                    cout << "Checking overlap between circle at ("
+                         << new_circle.first << ", " << new_circle.second << ") "
+                         << "and existing circle at (" << existing_circle.first << ", "
+                         << existing_circle.second << ") with distance squared = "
+                         << distance_squared << endl;
+
+#endif
+
+                    if (distance_squared < r_comp && distance_squared != 0)
+                    {
+                        trial_placement.second = true; // If overlap, set the flag to true
+                        return 0;
                     }
                 }
             }
         }
     }
-    return false; // No overlap found
+
+    return 1; // No overlap detected
 }
 
 /* ------------------------------I/O FUNCTIONS------------------------------ */
@@ -186,13 +210,36 @@ bool load_config(const string &filename)
 
 /* ------------------------------SIMULATION FUNCTIONS------------------------------*/
 
-/* Updates grid with circle */
-void place_circle(const Point &circle)
+// size_t get_mutex_index(const Cell &cell)
+// {
+//     return CellHash{}(cell) % NUM_MUTEXES; // Use your custom CellHash
+// }
+
+// // void place_circle_in_grid(const Point &circle)
+// // {
+// //     Cell cell = get_grid_cell(circle);
+// //     size_t mutex_index = get_mutex_index(cell);
+
+// //     // Use the associated mutex based on the hashed cell
+// //     lock_guard<mutex> lock(mutex_grid[mutex_index]);
+// //     grid[cell].push_back(circle);
+// // }
+
+// // void place_circle_in_trial_grid(const Point &circle)
+// // {
+// //     Cell cell = get_grid_cell(circle);
+// //     size_t mutex_index = get_mutex_index(cell);
+
+// //     // Use the associated mutex based on the hashed cell
+// //     lock_guard<mutex> lock(trial_mutex_grid[mutex_index]);
+// //     trial_grid[cell].push_back(circle);
+// // }
+
+void place_circle(const Point &circle, unordered_map<Cell, vector<Point>, CellHash> &grid)
 {
     Cell cell = get_grid_cell(circle);
     grid[cell].push_back(circle);
 }
-
 /* Generates and returns a Point, within the boundaries */
 Point gen_random_pair(rng &random_gen)
 {
@@ -220,6 +267,7 @@ int main()
     bool is_overlapping;
     vector<Point> circle_coords;
     vector<double> p_fractions;
+    vector<pair<Point, bool>> trial_placements(sampling_frequency);
 
     // Determine the grid size dynamically based on r
     grid_size = static_cast<int>(L / (2 * r));
@@ -227,10 +275,10 @@ int main()
     /* Place first circle */
     Point first_circle = gen_random_pair(random_gen);
     circle_coords.push_back(first_circle);
-    place_circle(first_circle);
+    place_circle(first_circle, grid);
 
     /* Calculate first packing fraction */
-    size_t current_size = circle_coords.size();
+
     double P;
     double P_const = M_PI * r * r / (L * L);
     // p_fractions.push_back(P);
@@ -238,65 +286,131 @@ int main()
     size_t previous_size = 0;
     int sample_interval = sampling_frequency / 4; // MAKE THIS A USER PARAMETER
 
+    bool done = false;
     double start_time = omp_get_wtime();
 
-    bool done = false;
-
-#pragma omp parallel shared(done)
+#pragma omp parallel shared(done, trial_placements, circle_coords, grid, trial_grid)
     {
-        // Each thread has its own instance of the random number generator
         rng local_random_gen;
-        local_random_gen.seed(omp_get_thread_num() * 1829233 + omp_get_num_threads()); // Unique seed per thread
+        int tid = omp_get_thread_num();
+        local_random_gen.seed(tid * 1829233 + omp_get_num_threads()); // Unique seed per thread
 
         while (!done)
         {
-// Parallel sampling loop
+// Parallel loop to generate trials
+#pragma omp for schedule(dynamic)
+            for (int i = 0; i < sampling_frequency; i++)
+            {
+                if (done)
+                    continue; // Check shared flag to stop early
+
+                Point new_circle = gen_random_pair(local_random_gen); // Generate new trial circle
+                trial_placements[i] = {new_circle, false};            // Store it globally
+#pragma omp critical
+                {
+#ifdef DEBUG
+
+                    cout << "Thread " << tid << " placing circle (" << new_circle.first << ", " << new_circle.second << ")" << endl;
+#endif // DEBUG
+                    place_circle(new_circle, trial_grid);
+                }
+            }
+
+// Sync all threads, ensuring that trials are generated before checking overlaps
+#pragma omp barrier
+
+// **Overlap Check Between Trials Internally**
+// All trials generated by all threads must be compared with each other.
+#pragma omp for schedule(dynamic)
+            for (int i = 0; i < sampling_frequency; i++)
+            {
+                if (done)
+                    continue; // Check shared flag to stop early
+                check_overlap(trial_placements[i], trial_grid);
+            }
+#ifdef DEBUG
+
+#pragma omp single
+            {
+                for (int i = 0; i < sampling_frequency; i++)
+                {
+                    cout << i << " " << trial_placements[i].second << endl;
+                }
+            }
+#endif // DEBUG
+
+// Sync all threads after overlap check
+#pragma omp barrier
+
+// **Overlap Check Between Trials and Grid**
 #pragma omp for schedule(dynamic)
             for (int i = 0; i < sampling_frequency; i++)
             {
                 if (done)
                     continue; // Check shared flag to stop work early
+                check_overlap(trial_placements[i], grid);
 
-                Point new_circle = gen_random_pair(local_random_gen);
-
-                if (!check_overlap(new_circle))
-                {
-#pragma omp critical
-                    {
-                        circle_coords.push_back(new_circle);
-                        place_circle(new_circle);
-                    }
-                }
-
-                if (i != 0 && i % sample_interval == 0) // Every "sampling_frequency / 4" intervals
-                {
-                    current_size = circle_coords.size();
-                    P = current_size * P_const;
-                    p_fractions.push_back(P);
-                }
+                // if (i != 0 && i % sample_interval == 0) // Every "sampling_frequency / 4" intervals
+                // {
+                //     current_size = circle_coords.size();
+                //     P = current_size * P_const;
+                //     p_fractions.push_back(P);
+                // }
             }
 
-// Only one thread checks for convergence
+#pragma omp barrier
+
+// Place the trials in the grid based on their flag
+#pragma omp for schedule(dynamic)
+            for (int i = 0; i < sampling_frequency; i++)
+            {
+                if (done)
+                    continue;
+
+                // cout << "Checking trial " << i << ": " << trial_placements[i].second << " (overlap status)\n";
+                if (!trial_placements[i].second) // No overlap
+                {
+                    // cout << "Placing trial " << i << " into grid\n";
+
+// Enter critical section to update shared resources
+#pragma omp critical
+                    {
+                        Point new_circle = trial_placements[i].first;
+                        circle_coords.push_back(new_circle); // Add to circle coordinates
+                        place_circle(new_circle, grid);      // Place circle in the grid
+                    }
+                }
+            }
+#pragma omp barrier
+
+// Only one thread performs the convergence check
 #pragma omp single
             {
-                current_size = circle_coords.size();
+                size_t current_size = circle_coords.size();
+#ifdef VIS
+
+                cout << "SIZE OF CIRCLE " << current_size << endl;
+                cout << "------------------------" << endl;
+#endif // VIS
                 if (current_size == previous_size)
                 {
-                    // Add final packing fraction
+                    // If no progress, we can stop the simulation (convergence reached)
                     P = current_size * P_const;
-                    p_fractions.push_back(P);
-                    done = true; // Signal all threads to stop
+                    p_fractions.push_back(P); // Store packing fraction
+                    done = true;              // Signal threads to stop
                 }
                 else
                 {
                     previous_size = current_size;
+                    trial_placements.clear();
+                    trial_grid.clear();
                 }
             }
         }
     }
-
     double end_time = omp_get_wtime();
     double elpased_time = end_time - start_time;
+    size_t current_size = circle_coords.size();
 
     string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P) + ", Time = " + to_string(elpased_time);
     cout << endl;
