@@ -291,10 +291,8 @@ int main()
                     if (distance_squared < r_comp)
                     {
                         // Set overlap flag for one trial if they overlap, the other is still possible trial
-#pragma omp critical
-                        {
-                            trial_placements[i].second = true;
-                        }
+                        trial_placements[i].second = true;
+                        break;
                     }
                 }
             }
