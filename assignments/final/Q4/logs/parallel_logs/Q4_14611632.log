@@ -1,0 +1,129 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.10-GCC-13.2.0 => FFTW/3.3.10-GCC-12.3.0
+  2) FlexiBLAS/3.3.1-GCC-13.2.0 => FlexiBLAS/3.3.1-GCC-12.3.0
+  3) GCC/13.2.0 => GCC/12.3.0
+  4) GCCcore/13.2.0 => GCCcore/12.3.0
+  5) OpenBLAS/0.3.24-GCC-13.2.0 => OpenBLAS/0.3.23-GCC-12.3.0
+  6) XZ/5.4.4-GCCcore-13.2.0 => XZ/5.4.2-GCCcore-12.3.0
+  7) binutils/2.40-GCCcore-13.2.0 => binutils/2.40-GCCcore-12.3.0
+  8) libpciaccess/0.17-GCCcore-13.2.0 => libpciaccess/0.17-GCCcore-12.3.0
+  9) zlib/1.2.13-GCCcore-13.2.0 => zlib/1.2.13-GCCcore-12.3.0
+
+mkdir: cannot create directory ‘plots’: File exists
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel 
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26799, Packing Fraction = 0.512813, Time = 39.574640
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26692, Packing Fraction = 0.510765, Time = 38.547386
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26822, Packing Fraction = 0.513253, Time = 42.814139
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26521, Packing Fraction = 0.507493, Time = 31.088397
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26867, Packing Fraction = 0.514114, Time = 44.926776
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26829, Packing Fraction = 0.513387, Time = 38.929881
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26502, Packing Fraction = 0.507129, Time = 27.451895
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26847, Packing Fraction = 0.513731, Time = 46.027314
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26486, Packing Fraction = 0.506823, Time = 27.592177
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26525, Packing Fraction = 0.507570, Time = 27.753287
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26806, Packing Fraction = 0.512947, Time = 40.020799
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 27030, Packing Fraction = 0.517233, Time = 49.450303
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26693, Packing Fraction = 0.510784, Time = 36.752318
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26725, Packing Fraction = 0.511397, Time = 38.655525
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26460, Packing Fraction = 0.506326, Time = 27.224747
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26707, Packing Fraction = 0.511052, Time = 38.574433
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26577, Packing Fraction = 0.508565, Time = 29.886607
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26876, Packing Fraction = 0.514286, Time = 41.077232
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26863, Packing Fraction = 0.514037, Time = 46.186085
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26838, Packing Fraction = 0.513559, Time = 43.662796
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26986, Packing Fraction = 0.516391, Time = 50.951896
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26709, Packing Fraction = 0.511090, Time = 37.703186
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26696, Packing Fraction = 0.510842, Time = 32.946298
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26869, Packing Fraction = 0.514152, Time = 43.602165
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26561, Packing Fraction = 0.508258, Time = 28.935582
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26571, Packing Fraction = 0.508450, Time = 30.999752
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26821, Packing Fraction = 0.513234, Time = 43.366914
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26952, Packing Fraction = 0.515740, Time = 48.389573
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26931, Packing Fraction = 0.515339, Time = 50.702036
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26774, Packing Fraction = 0.512334, Time = 41.288336
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26569, Packing Fraction = 0.508412, Time = 32.181124
+Running with L = 500, r = 1.234, and sf = 1000000
+slurmstepd: error: *** JOB 14611632 ON node002 CANCELLED AT 2025-01-01T19:39:18 DUE TO TIME LIMIT ***
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14611632
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: TIMEOUT (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 00:00:01
+CPU Efficiency: 0.00% of 1-08:35:12 core-walltime
+Job Wall-clock time: 00:20:22
+Memory Utilized: 42.55 MB
+Memory Efficiency: 0.01% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:20:22
+Wall clock time efficiency: 101.8%
+           Job queued time: 00:00:01
