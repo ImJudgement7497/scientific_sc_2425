@@ -248,7 +248,7 @@ int main()
 
     bool done = false;
 
-#pragma omp parallel shared(done, trial_placements, circle_coords, grid)
+#pragma omp parallel shared(done, trial_placements, circle_coords, grid, p_fractions)
     {
         rng local_random_gen;
         int tid = omp_get_thread_num();
