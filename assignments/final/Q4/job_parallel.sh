@@ -15,6 +15,6 @@
 
 module load matplotlib/3.7.2-gfbf-2023a
 mkdir plots
-bash ./run_parallel.sh parallel 96
+bash ./run_parallel.sh parallel 96 >> text.txt
 echo
 echo Job completed at `date`
