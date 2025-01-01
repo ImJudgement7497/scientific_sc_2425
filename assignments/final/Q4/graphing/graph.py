@@ -95,6 +95,16 @@ def plot_p_fractions(p_fractions, sampling_frequency):
     plt.legend()
     plt.savefig("./plots/p_fraction_convergence.png", dpi=300)
 
+def check_overlap(centers, radius):
+    for i, (x1, y1) in enumerate(centers):
+        for j, (x2, y2) in enumerate(centers):
+            if i != j:
+                dist = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+                if dist < 2 * radius:
+                    print(f"Circles {i} and {j} overlap: Distance = {dist}, Required = {2 * radius}")
+                    return True
+    print("No overlaps detected!")
+    return False
 # ------------------------------PLOTTING------------------------------ #
 config = load_config("./config/config.txt")
 
@@ -110,3 +120,4 @@ plot_circles(circle_centers, r, L)
 plot_points_in_box(circle_centers, r, L)
 p_fractions = load_p_fractions("p_fractions.bin")
 plot_p_fractions(p_fractions, sampling_frequency)
+# check_overlap(circle_centers, r)
