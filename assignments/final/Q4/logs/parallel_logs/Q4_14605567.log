@@ -1,0 +1,44 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.10-GCC-13.2.0 => FFTW/3.3.10-GCC-12.3.0
+  2) FlexiBLAS/3.3.1-GCC-13.2.0 => FlexiBLAS/3.3.1-GCC-12.3.0
+  3) GCC/13.2.0 => GCC/12.3.0
+  4) GCCcore/13.2.0 => GCCcore/12.3.0
+  5) OpenBLAS/0.3.24-GCC-13.2.0 => OpenBLAS/0.3.23-GCC-12.3.0
+  6) XZ/5.4.4-GCCcore-13.2.0 => XZ/5.4.2-GCCcore-12.3.0
+  7) binutils/2.40-GCCcore-13.2.0 => binutils/2.40-GCCcore-12.3.0
+  8) libpciaccess/0.17-GCCcore-13.2.0 => libpciaccess/0.17-GCCcore-12.3.0
+  9) zlib/1.2.13-GCCcore-13.2.0 => zlib/1.2.13-GCCcore-12.3.0
+
+mkdir: cannot create directory ‘plots’: File exists
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel 
+Running with L = 500, r = 1.234, and sf = 100000
+
+Number of circles: 14116, Packing Fraction = 0.270117, Time = 248.633601
+
+real	4m8.743s
+user	193m5.534s
+sys	0m0.702s
+Plotting points now!
+
+Job completed at Wed Jan 1 12:38:22 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14605567
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 48
+CPU Utilized: 03:14:15
+CPU Efficiency: 76.84% of 04:12:48 core-walltime
+Job Wall-clock time: 00:05:16
+Memory Utilized: 187.96 MB
+Memory Efficiency: 0.07% of 251.48 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:05:16
+Wall clock time efficiency: 26.3%
+           Job queued time: 00:00:01

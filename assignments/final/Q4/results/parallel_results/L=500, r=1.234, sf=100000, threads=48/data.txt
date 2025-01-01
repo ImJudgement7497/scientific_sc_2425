@@ -1,3 +1,1 @@
-Number of circles: 27820, Packing Fraction = 0.532350, Time = 1.840571
-Number of circles: 27592, Packing Fraction = 0.527987, Time = 1.705922
-Number of circles: 27634, Packing Fraction = 0.528791, Time = 0.940813
+Number of circles: 17353, Packing Fraction = 0.332059, Time = 425.814303
