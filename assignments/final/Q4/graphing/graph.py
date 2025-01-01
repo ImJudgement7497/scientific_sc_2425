@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 import struct
+import os
 
 # ------------------------------I/O FUNCTIONS------------------------------ #
 def load_coordinates(filename):
@@ -118,6 +119,8 @@ else:
 circle_centers = load_coordinates("coords.bin")
 plot_circles(circle_centers, r, L)
 plot_points_in_box(circle_centers, r, L)
-p_fractions = load_p_fractions("p_fractions.bin")
-plot_p_fractions(p_fractions, sampling_frequency)
+
+if os.path.exists("p_fractions.bin"):
+    p_fractions = load_p_fractions("p_fractions.bin")
+    plot_p_fractions(p_fractions, sampling_frequency)
 # check_overlap(circle_centers, r)

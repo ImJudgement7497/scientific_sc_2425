@@ -15,6 +15,8 @@
 
 module load matplotlib/3.7.2-gfbf-2023a
 mkdir plots
-bash ./run_parallel.sh parallel 96 >> text.txt
+rm num_of_circles.txt
+rm times.txt
+bash ./run_parallel.sh parallel 96
 echo
 echo Job completed at `date`

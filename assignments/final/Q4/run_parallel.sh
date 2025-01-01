@@ -23,13 +23,19 @@ fi
 make clean
 make $MAKE_RULE
 
-output_dir="L=${L}, r=${r}, sf=${sf}, threads=${NUM_THREADS}"
-mkdir -p "./results/parallel_results/$output_dir"
+output_dir="L=${L}, r=${r}"
+output_dir2="/sf=${sf}/threads=${NUM_THREADS}"
+mkdir -p "./results/parallel_results/$output_dir/$output_dir2"
 
-time ./bin/main_$MAKE_RULE
+
+for i in {1..100}; do
+    ./bin/main_$MAKE_RULE
+done
 echo "Plotting points now!"
 
 python3 graphing/graph.py
 
-mv *.txt *.bin ./plots/* "./results/parallel_results/$output_dir"
+mv data.txt *.bin ./plots/* "./results/parallel_results/$output_dir/$output_dir2"
+mv num_of_circles.txt "./results/parallel_results/$output_dir"
+mv times.txt "./results/parallel_results/$output_dir"
 

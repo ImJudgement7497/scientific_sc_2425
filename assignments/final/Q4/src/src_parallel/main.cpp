@@ -14,6 +14,7 @@ double r;               // Radius of circle (read in from input)
 double r_comp;          // Value to compare against
 int sampling_frequency; // The frequency of trials before checking for convergence
 int grid_size;          // Grid size (dependent on r)
+int num_of_threads;     // Number of threads
 
 typedef pair<double, double> Point; // Pre-define type for ease
 typedef pair<int, int> Cell;        // Pre-define type for ease
@@ -217,6 +218,14 @@ int main()
 
     cout << "Running with L = " << L << ", r = " << r << ", and sf = " << sampling_frequency << endl;
 
+#pragma omp parallel shared(num_of_threads)
+    {
+#pragma omp single
+        {
+            num_of_threads = omp_get_num_threads();
+        }
+    }
+
     /* Initalise random number generator */
     rng random_gen;
     random_gen.seed(1829233); // Make this a user parameter
@@ -224,7 +233,6 @@ int main()
     /* Initalise data types*/
     bool is_overlapping;
     vector<Point> circle_coords;
-    vector<double> p_fractions;
     vector<pair<Point, bool>> trial_placements(sampling_frequency);
 
     // Determine the grid size dynamically based on r
@@ -239,7 +247,6 @@ int main()
 
     double P;
     double P_const = M_PI * r * r / (L * L);
-    // p_fractions.push_back(P);
 
     size_t previous_size = 0;
     int sample_interval = sampling_frequency / 4; // MAKE THIS A USER PARAMETER
@@ -248,7 +255,7 @@ int main()
 
     bool done = false;
 
-#pragma omp parallel shared(done, trial_placements, circle_coords, grid, p_fractions)
+#pragma omp parallel shared(done, trial_placements, circle_coords, grid)
     {
         rng local_random_gen;
         int tid = omp_get_thread_num();
@@ -368,8 +375,7 @@ int main()
                 {
                     // If no progress, we can stop the simulation (convergence reached)
                     P = current_size * P_const;
-                    p_fractions.push_back(P); // Store packing fraction
-                    done = true;              // Signal threads to stop
+                    done = true; // Signal threads to stop
                 }
                 else
                 {
@@ -388,7 +394,8 @@ int main()
     cout << message << endl;
 
     write_coordinates(circle_coords, "coords.bin");
-    write_vector(p_fractions, "p_fractions.bin");
     write_string_to_file(message, "./data.txt");
+    write_string_to_file(to_string(current_size), "./num_of_circles.txt");
+    write_string_to_file(to_string(elpased_time), "./times.txt");
     return 0;
 }
