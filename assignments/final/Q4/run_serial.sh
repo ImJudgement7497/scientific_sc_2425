@@ -23,12 +23,12 @@ make clean
 make $MAKE_RULE
 
 output_dir="L=${L}, r=${r}"
-output_dir2="/sf=${sf}/threads=${NUM_THREADS}"
-mkdir -p "./results/parallel_results/$output_dir/$output_dir2"
+output_dir2="sf=${sf}"
+mkdir -p "./results/serial_results/$output_dir/$output_dir2"
 
 time ./bin/main_$MAKE_RULE
 echo "Plotting points now!"
 
 python3 graphing/graph.py
 
-mv *.txt *.bin ./plots/* "./results/parallel_results/$output_dir/$output_dir2"
+mv *.txt *.bin ./plots/* "./results/serial_results/$output_dir/$output_dir2"

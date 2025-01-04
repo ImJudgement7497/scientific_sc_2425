@@ -13,3 +13,30 @@ The following have been reloaded with a version change:
 mkdir: cannot create directory ‘plots’: File exists
 g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -Iinclude/include_serial src/src_serial/vtimer_t.cpp src/src_serial/rng.cpp src/src_serial/main.cpp -o bin/main_serial 
 Running with L = 1000 and r = 5 and sf = 10000000
+
+Number of circles: 6908, Packing Fraction = 0.542553, Time = 108.275167
+
+real	1m48.288s
+user	1m47.967s
+sys	0m0.007s
+Plotting points now!
+slurmstepd: error: *** JOB 14707621 ON node002 CANCELLED AT 2025-01-04T18:10:14 ***
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14707621
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: CANCELLED (exit code 0)
+Cores: 1
+CPU Utilized: 00:00:01
+CPU Efficiency: 0.74% of 00:02:15 core-walltime
+Job Wall-clock time: 00:02:15
+Memory Utilized: 112.40 MB
+Memory Efficiency: 2.10% of 5.24 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:02:15
+Wall clock time efficiency: 11.2%
+           Job queued time: 00:00:02

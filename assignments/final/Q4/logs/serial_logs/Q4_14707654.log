@@ -1,0 +1,53 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.10-GCC-13.2.0 => FFTW/3.3.10-GCC-12.3.0
+  2) FlexiBLAS/3.3.1-GCC-13.2.0 => FlexiBLAS/3.3.1-GCC-12.3.0
+  3) GCC/13.2.0 => GCC/12.3.0
+  4) GCCcore/13.2.0 => GCCcore/12.3.0
+  5) OpenBLAS/0.3.24-GCC-13.2.0 => OpenBLAS/0.3.23-GCC-12.3.0
+  6) XZ/5.4.4-GCCcore-13.2.0 => XZ/5.4.2-GCCcore-12.3.0
+  7) binutils/2.40-GCCcore-13.2.0 => binutils/2.40-GCCcore-12.3.0
+  8) libpciaccess/0.17-GCCcore-13.2.0 => libpciaccess/0.17-GCCcore-12.3.0
+  9) zlib/1.2.13-GCCcore-13.2.0 => zlib/1.2.13-GCCcore-12.3.0
+
+mkdir: cannot create directory ‘plots’: File exists
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -Iinclude/include_serial src/src_serial/vtimer_t.cpp src/src_serial/rng.cpp src/src_serial/main.cpp -o bin/main_serial 
+Running with L = 500 and r = 1.234 and sf = 1000000
+
+Number of circles: 28141, Packing Fraction = 0.538493, Time = 182.397742
+
+real	3m2.409s
+user	3m1.686s
+sys	0m0.012s
+Plotting points now!
+mv: cannot stat '*.txt': No such file or directory
+mv: cannot stat '*.bin': No such file or directory
+Traceback (most recent call last):
+  File "/mnt/scratch/users/bmjm501/scientific_sc_2425/assignments/final/Q4/./graphing/graph.py", line 119, in <module>
+    circle_centers = load_coordinates("coords.bin")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/scratch/users/bmjm501/scientific_sc_2425/assignments/final/Q4/./graphing/graph.py", line 9, in load_coordinates
+    with open(filename, "rb") as file:
+         ^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'coords.bin'
+
+Job completed at Sat Jan 4 18:20:59 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14707654
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Cores: 1
+CPU Utilized: 00:05:14
+CPU Efficiency: 99.37% of 00:05:16 core-walltime
+Job Wall-clock time: 00:05:16
+Memory Utilized: 338.69 MB
+Memory Efficiency: 6.31% of 5.24 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:05:16
+Wall clock time efficiency: 26.3%
+           Job queued time: 00:00:17
