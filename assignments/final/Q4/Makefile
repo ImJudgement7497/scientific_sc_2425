@@ -57,7 +57,7 @@ $(BIN)/$(PARALLEL_EXEC_VIS): $(SRC_PARALLEL)/*.cpp | $(BIN)
 	$(CXX) $(CXX_FLAGS) -fopenmp -DVIS -I$(INCLUDE_PARALLEL) $^ -o $@ $(LIBRARIES)
 
 $(BIN)/$(PARALLEL_EXEC_MPI): $(SRC_PARALLEL)/*.cpp | $(BIN)
-	$(MPI) $(CXX_FLAGS) -fopenmp -I$(INCLUDE_PARALLEL) $^ -o $@ $(LIBRARIES)
+	$(MPI) $(CXX_FLAGS) -DMPII -fopenmp -I$(INCLUDE_PARALLEL) $^ -o $@ $(LIBRARIES)
 
 $(BIN):
 	mkdir -p $(BIN)
