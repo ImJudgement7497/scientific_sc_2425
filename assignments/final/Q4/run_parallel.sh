@@ -1,13 +1,14 @@
 #!/bin/bash
 
-if [ -z "$1" ] || [ -z "$2" ]; then
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3"]; then
     echo "Error: Please provide a make rule and number of threads as arguments"
-    echo "Usage: $0 <make_rule> <num_of_threads>"
+    echo "Usage: $0 <make_rule> <num_of_threads> <num_of_procs>"
     exit 1
 fi
 
 MAKE_RULE=$1
 NUM_THREADS=$2
+NUM_OF_PROCS=$3
 
 export OMP_NUM_THREADS=$NUM_THREADS
 
@@ -31,12 +32,12 @@ mkdir -p "./results/parallel_results/$output_dir/$output_dir2"
 # for i in {1..40}; do
 #     ./bin/main_$MAKE_RULE
 # done
-./bin/main_$MAKE_RULE
+mpirun -np $NUM_OF_PROCS ./bin/main_$MAKE_RULE
 echo "Plotting points now!"
 
 python3 graphing/graph.py
 
-mv data.txt *.bin ./plots/* "./results/parallel_results/$output_dir/$output_dir2"
+mv data_*.txt *.bin ./plots/* "./results/parallel_results/$output_dir/$output_dir2"
 mv num_of_circles.txt "./results/parallel_results/$output_dir"
 mv times.txt "./results/parallel_results/$output_dir"
 

@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <omp.h>
+#include <mpi.h>
 #include "rng.h"
 /* NEED TO APPLY FORMATTING TO ALL THE FILES */
 using namespace std;
@@ -178,6 +179,10 @@ bool load_config(const string &filename)
             {
                 sampling_frequency = value;
             }
+            else if (key == "seed")
+            {
+                seed = value;
+            }
             else
             {
                 cerr << "Unknown parameter: " << key << endl;
@@ -209,15 +214,30 @@ Point gen_random_pair(rng &random_gen)
     };
 }
 
-int main()
+int main(int argc, char **argv)
 {
+    int rank, size;
+    int mpi_thread_supported = 0;
+
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &mpi_thread_supported);
+    // check for minimum thread support
+    if (mpi_thread_supported < MPI_THREAD_FUNNELED)
+    {
+        cerr << "Error: MPI Library does not support threads" << endl;
+    }
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
     // Load configuration
     if (!load_config("./config/config.txt"))
     {
         return -1;
     }
 
-    cout << "Running with L = " << L << ", r = " << r << ", and sf = " << sampling_frequency << endl;
+    if (rank == 0)
+    {
+        cout << "Running with L = " << L << ", r = " << r << ", sf = " << sampling_frequency << ", num_of_procs = " << size << endl;
+    }
 
 #pragma omp parallel shared(num_of_threads)
     {
@@ -233,6 +253,8 @@ int main()
 
     /* Initalise data types*/
     bool is_overlapping;
+    size_t mean_num;
+    double mean_packing_fraction, mean_time;
     vector<Point> circle_coords;
     vector<pair<Point, bool>> trial_placements(sampling_frequency);
 
@@ -248,7 +270,7 @@ int main()
     double P_const = M_PI * r * r / (L * L);
 
     size_t previous_size = 0;
-    int sample_interval = sampling_frequency / 4; // MAKE THIS A USER PARAMETER
+    int sample_interval = sampling_frequency / 4;
 
     double start_time = omp_get_wtime();
 
@@ -377,17 +399,32 @@ int main()
             }
         }
     }
+
     double end_time = omp_get_wtime();
     double elpased_time = end_time - start_time;
     size_t current_size = circle_coords.size();
 
     string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P) + ", Time = " + to_string(elpased_time);
-    cout << endl;
-    cout << message << endl;
+    // cout << endl;
+    // cout << message << endl;
 
-    write_coordinates(circle_coords, "coords.bin");
-    write_string_to_file(message, "./data.txt");
-    write_string_to_file(to_string(current_size), "./num_of_circles.txt");
-    write_string_to_file(to_string(elpased_time), "./times.txt");
+    string coords = "./coords_" + to_string(rank) + ".bin";
+    string data_path = "./data_" + to_string(rank) + ".txt";
+
+    write_coordinates(circle_coords, coords);
+    write_string_to_file(message, data_path);
+
+    MPI_Reduce(&current_size, &mean_num, 1, MPI_UNSIGNED_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&P, &mean_packing_fraction, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&elpased_time, &mean_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+    if (rank == 0)
+    {
+        printf("Mean number of circles: %zu, Mean packing Fraction: %f, Mean time: %f \n", mean_num / size, mean_packing_fraction / size, mean_time / size);
+    }
+
+    MPI_Finalize();
+    // write_string_to_file(to_string(current_size), "./num_of_circles.txt");
+    // write_string_to_file(to_string(elpased_time), "./times.txt");
     return 0;
 }
