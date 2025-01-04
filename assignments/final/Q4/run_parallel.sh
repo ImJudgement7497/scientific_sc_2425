@@ -28,12 +28,13 @@ output_dir2="/sf=${sf}/threads=${NUM_THREADS}"
 mkdir -p "./results/parallel_results/$output_dir/$output_dir2"
 
 
-for i in {1..40}; do
-    ./bin/main_$MAKE_RULE
-done
+# for i in {1..40}; do
+#     ./bin/main_$MAKE_RULE
+# done
+./bin/main_$MAKE_RULE
 echo "Plotting points now!"
 
-#python3 graphing/graph.py
+python3 graphing/graph.py
 
 mv data.txt *.bin ./plots/* "./results/parallel_results/$output_dir/$output_dir2"
 mv num_of_circles.txt "./results/parallel_results/$output_dir"

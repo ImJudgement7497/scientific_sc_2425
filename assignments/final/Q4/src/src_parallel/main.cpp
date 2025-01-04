@@ -243,8 +243,6 @@ int main()
     circle_coords.push_back(first_circle);
     place_circle(first_circle);
 
-    /* Calculate first packing fraction */
-
     double P;
     double P_const = M_PI * r * r / (L * L);
 
@@ -271,7 +269,7 @@ int main()
                     continue; // Check shared flag to stop early
 
                 Point new_circle = gen_random_pair(local_random_gen); // Generate new trial circle
-                trial_placements[i] = {new_circle, false};            // Store it locally
+                trial_placements[i] = {new_circle, false};            // Store it globally
             }
 
 // Sync all threads, ensuring that trials are generated before checking overlaps
@@ -285,13 +283,6 @@ int main()
                     continue; // Check shared flag to stop work early
 
                 check_overlap(trial_placements[i]);
-
-                // if (i != 0 && i % sample_interval == 0) // Every "sampling_frequency / 4" intervals
-                // {
-                //     current_size = circle_coords.size();
-                //     P = current_size * P_const;
-                //     p_fractions.push_back(P);
-                // }
             }
 
 // Sync all threads after overlap check
