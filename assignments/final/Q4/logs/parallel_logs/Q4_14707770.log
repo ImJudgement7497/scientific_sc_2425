@@ -1,0 +1,51 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.10-GCC-13.2.0 => FFTW/3.3.10-GCC-12.3.0
+  2) FlexiBLAS/3.3.1-GCC-13.2.0 => FlexiBLAS/3.3.1-GCC-12.3.0
+  3) GCC/13.2.0 => GCC/12.3.0
+  4) GCCcore/13.2.0 => GCCcore/12.3.0
+  5) OpenBLAS/0.3.24-GCC-13.2.0 => OpenBLAS/0.3.23-GCC-12.3.0
+  6) XZ/5.4.4-GCCcore-13.2.0 => XZ/5.4.2-GCCcore-12.3.0
+  7) binutils/2.40-GCCcore-13.2.0 => binutils/2.40-GCCcore-12.3.0
+  8) libpciaccess/0.17-GCCcore-13.2.0 => libpciaccess/0.17-GCCcore-12.3.0
+  9) zlib/1.2.13-GCCcore-13.2.0 => zlib/1.2.13-GCCcore-12.3.0
+
+mkdir: cannot create directory ‘plots’: File exists
+rm: cannot remove 'num_of_circles.txt': No such file or directory
+rm: cannot remove 'times.txt': No such file or directory
+./run_parallel.sh: line 3: [: missing `]'
+mpic++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -DMPII -fopenmp -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel_mpi 
+Running with L = 500, r = 1.234, sf = 1000000, num_of_procs = 5
+Mean number of circles: 26717, Mean packing fraction: 0.511247 Mean time: 83.221125
+Plotting points now!
+Traceback (most recent call last):
+  File "/mnt/scratch/users/bmjm501/scientific_sc_2425/assignments/final/Q4/graphing/graph.py", line 119, in <module>
+    circle_centers = load_coordinates("coords.bin")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/scratch/users/bmjm501/scientific_sc_2425/assignments/final/Q4/graphing/graph.py", line 9, in load_coordinates
+    with open(filename, "rb") as file:
+         ^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'coords.bin'
+mv: cannot stat './plots/*': No such file or directory
+
+Job completed at Sat Jan 4 19:58:40 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14707770
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 3
+Cores per node: 80
+CPU Utilized: 01:11:57
+CPU Efficiency: 13.52% of 08:52:00 core-walltime
+Job Wall-clock time: 00:02:13
+Memory Utilized: 172.84 MB
+Memory Efficiency: 0.01% of 1.23 TB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:02:13
+Wall clock time efficiency: 11.1%
+           Job queued time: 00:00:01
