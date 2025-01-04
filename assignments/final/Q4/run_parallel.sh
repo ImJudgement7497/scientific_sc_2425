@@ -37,7 +37,7 @@ echo "Plotting points now!"
 
 python3 graphing/graph.py
 
-mv data_*.txt *.bin ./plots/* "./results/parallel_results/$output_dir/$output_dir2"
-mv num_of_circles.txt "./results/parallel_results/$output_dir"
-mv times.txt "./results/parallel_results/$output_dir"
+mv *.txt *.bin ./plots/* "./results/parallel_results/$output_dir/$output_dir2"
+# mv num_of_circles.txt "./results/parallel_results/$output_dir"
+# mv times.txt "./results/parallel_results/$output_dir"
 

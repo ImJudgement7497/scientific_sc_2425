@@ -420,7 +420,9 @@ int main(int argc, char **argv)
 
     if (rank == 0)
     {
-        printf("Mean number of circles: %zu, Mean packing Fraction: %f, Mean time: %f \n", mean_num / size, mean_packing_fraction / size, mean_time / size);
+        string mean_string = "Mean number of circles: " + to_string(mean_num / size) + ", Mean packing fraction: " + to_string(mean_packing_fraction / size) + " Mean time: " + to_string(mean_time / size);
+        cout << mean_string << endl;
+        write_string_to_file(mean_string, "./mean_data.txt");
     }
 
     MPI_Finalize();
