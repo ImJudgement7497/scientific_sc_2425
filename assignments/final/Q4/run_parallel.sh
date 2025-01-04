@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3"]; then
+if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
     echo "Error: Please provide a make rule and number of threads as arguments"
     echo "Usage: $0 <make_rule> <num_of_threads> <num_of_procs>"
     exit 1
