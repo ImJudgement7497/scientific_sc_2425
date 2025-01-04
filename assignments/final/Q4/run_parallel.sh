@@ -32,7 +32,7 @@ mkdir -p "./results/parallel_results/$output_dir/$output_dir2"
 # for i in {1..40}; do
 #     ./bin/main_$MAKE_RULE
 # done
-mpirun -np $NUM_OF_PROCS ./bin/main_$MAKE_RULE
+mpiexec -np $NUM_OF_PROCS ./bin/main_$MAKE_RULE
 echo "Plotting points now!"
 
 python3 graphing/graph.py

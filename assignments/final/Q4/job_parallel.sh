@@ -9,14 +9,14 @@
 ##SBATCH --account=dept-proj-year           # specify your project account if NOT doing class work
 
 #customise these according to job size and time required:
-#SBATCH --ntasks=1                         # Run 4 MPI tasks...
-#SBATCH --cpus-per-task=96                  # ...with each task using 1 core
+#SBATCH --ntasks=5                         # Run 4 MPI tasks...
+#SBATCH --cpus-per-task=48                  # ...with each task using 1 core
 #SBATCH --time=00:20:00                    # Time limit hrs:min:sec
 
 module load matplotlib/3.7.2-gfbf-2023a
 mkdir plots
 rm num_of_circles.txt
 rm times.txt
-bash ./run_parallel.sh parallel 96
+bash ./run_parallel.sh parallel_mpi 48 5
 echo
 echo Job completed at `date`

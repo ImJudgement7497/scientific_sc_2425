@@ -1,0 +1,39 @@
+
+The following have been reloaded with a version change:
+  1) FFTW/3.3.10-GCC-13.2.0 => FFTW/3.3.10-GCC-12.3.0
+  2) FlexiBLAS/3.3.1-GCC-13.2.0 => FlexiBLAS/3.3.1-GCC-12.3.0
+  3) GCC/13.2.0 => GCC/12.3.0
+  4) GCCcore/13.2.0 => GCCcore/12.3.0
+  5) OpenBLAS/0.3.24-GCC-13.2.0 => OpenBLAS/0.3.23-GCC-12.3.0
+  6) XZ/5.4.4-GCCcore-13.2.0 => XZ/5.4.2-GCCcore-12.3.0
+  7) binutils/2.40-GCCcore-13.2.0 => binutils/2.40-GCCcore-12.3.0
+  8) libpciaccess/0.17-GCCcore-13.2.0 => libpciaccess/0.17-GCCcore-12.3.0
+  9) zlib/1.2.13-GCCcore-13.2.0 => zlib/1.2.13-GCCcore-12.3.0
+
+mkdir: cannot create directory ‘plots’: File exists
+rm: cannot remove 'num_of_circles.txt': No such file or directory
+rm: cannot remove 'times.txt': No such file or directory
+Error: Please provide a make rule and number of threads as arguments
+Usage: ./run_parallel.sh <make_rule> <num_of_threads> <num_of_procs>
+
+Job completed at Sat Jan 4 18:53:56 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14707730
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/root
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 240
+CPU Utilized: 00:00:01
+CPU Efficiency: 0.42% of 00:04:00 core-walltime
+Job Wall-clock time: 00:00:01
+Memory Utilized: 4.06 MB
+Memory Efficiency: 0.00% of 1.23 TB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:00:01
+Wall clock time efficiency: 0.1%
+           Job queued time: 00:00:01
