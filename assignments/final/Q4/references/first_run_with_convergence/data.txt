@@ -1,1 +1,0 @@
-Number of circles: 27526, Packing Fraction = 0.526724 First run with convergence

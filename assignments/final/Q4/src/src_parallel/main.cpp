@@ -12,6 +12,7 @@ using namespace std;
 double L;               // Length of box (read in from input)
 double r;               // Radius of circle (read in from input)
 double r_comp;          // Value to compare against
+int seed;               // Seed for random number generator (read in from input)
 int sampling_frequency; // The frequency of trials before checking for convergence
 int grid_size;          // Grid size (dependent on r)
 int num_of_threads;     // Number of threads
@@ -228,7 +229,7 @@ int main()
 
     /* Initalise random number generator */
     rng random_gen;
-    random_gen.seed(1829233); // Make this a user parameter
+    random_gen.seed(seed);
 
     /* Initalise data types*/
     bool is_overlapping;
@@ -253,11 +254,11 @@ int main()
 
     bool done = false;
 
-#pragma omp parallel shared(done, trial_placements, circle_coords, grid)
+#pragma omp parallel shared(done, trial_placements, circle_coords, grid, seed)
     {
         rng local_random_gen;
         int tid = omp_get_thread_num();
-        local_random_gen.seed(tid * 1829233 + omp_get_num_threads()); // Unique seed per thread
+        local_random_gen.seed(tid * seed + omp_get_num_threads()); // Unique seed per thread
 
         while (!done)
         {

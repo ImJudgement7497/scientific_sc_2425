@@ -28,3 +28,5 @@ Number of circles: 28303, Packing Fraction = 0.541592, Time = 810.031675
 Number of circles: 24263, Packing Fraction = 0.464285, Time = 9.340850
 Number of circles: 28303, Packing Fraction = 0.541592, Time = 809.161253
 Number of circles: 28303, Packing Fraction = 0.541592, Time = 805.948486
+Number of circles: 2390, Packing Fraction = 0.187710, Time = 0.058629
+Number of circles: 2390, Packing Fraction = 0.187710, Time = 0.051515

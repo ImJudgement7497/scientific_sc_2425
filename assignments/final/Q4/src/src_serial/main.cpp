@@ -12,6 +12,7 @@ using namespace std;
 double L;               // Length of box (read in from input)
 double r;               // Radius of circle (read in from input)
 double r_comp;          // Value to compare against
+int seed;               // Seed for random number generator (read in from input)
 int sampling_frequency; // The frequency of trials before checking for convergence
 int grid_size;          // Grid size (dependent on r)
 
@@ -46,31 +47,32 @@ bool check_overlap(const Point &new_circle)
 {
     Cell cell = get_grid_cell(new_circle);
 
+    const vector<Cell> neighbours = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 0}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+
     // Check nearby neighbour cells
-    for (int dx = -1; dx <= 1; dx++)
+
+    for (auto &neighbour : neighbours)
     {
-        for (int dy = -1; dy <= 1; dy++)
+        Cell neighbor_cell = {cell.first + neighbour.first, cell.second + neighbour.second};
+
+        // Check if neighbor cell exists in the spatial grid
+        if (grid.find(neighbor_cell) != grid.end())
         {
-            Cell neighbor_cell = {cell.first + dx, cell.second + dy};
-
-            // Check if neighbor cell exists in the spatial grid
-            if (grid.find(neighbor_cell) != grid.end())
+            for (const auto &existing_circle : grid[neighbor_cell])
             {
-                for (const auto &existing_circle : grid[neighbor_cell])
-                {
-                    // Compute squared distance for comparison
-                    double dx = existing_circle.first - new_circle.first;
-                    double dy = existing_circle.second - new_circle.second;
-                    double distance_squared = dx * dx + dy * dy;
+                // Compute squared distance for comparison
+                double dx = existing_circle.first - new_circle.first;
+                double dy = existing_circle.second - new_circle.second;
+                double distance_squared = dx * dx + dy * dy;
 
-                    if (distance_squared < r_comp)
-                    {
-                        return true; // If overlap, return true
-                    }
+                if (distance_squared < r_comp)
+                {
+                    return true; // If overlap, return true
                 }
             }
         }
     }
+
     return false; // No overlap found
 }
 
@@ -171,6 +173,10 @@ bool load_config(const string &filename)
             {
                 sampling_frequency = value;
             }
+            else if (key == "seed")
+            {
+                seed = value;
+            }
             else
             {
                 cerr << "Unknown parameter: " << key << endl;
@@ -218,7 +224,7 @@ int main()
 
     /* Initalise random number generator */
     rng random_gen;
-    random_gen.seed(1829233); // Make this a user parameter
+    random_gen.seed(seed); // Make this a user parameter
 
     vtimer_t timer;
     timer.start();
@@ -244,7 +250,7 @@ int main()
 
     size_t previous_size = 0;
     int k = 0;
-    int sample_interval = sampling_frequency / 4; // MAKE THIS A USER PARAMETER
+    int sample_interval = sampling_frequency / 4;
 
     while (true)
     {
