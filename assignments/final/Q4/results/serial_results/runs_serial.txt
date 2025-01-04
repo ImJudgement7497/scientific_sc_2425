@@ -41,3 +41,4 @@ Number of circles: 28141, Packing Fraction = 0.538493, Time = 182.397742
 Number of circles: 28226, Packing Fraction = 0.540119, Time = 293.111602
 Number of circles: 28226, Packing Fraction = 0.540119, Time = 292.472959
 Number of circles: 27686, Packing Fraction = 0.529786, Time = 30.579685
+Number of circles: 28141, Packing Fraction = 0.538493, Time = 177.421618
