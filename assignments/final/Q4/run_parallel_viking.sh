@@ -9,7 +9,7 @@ fi
 MAKE_RULE=$1
 
 # Define the fixed list of thread counts inside the script
-THREADS=("1" "8" "16" "32" "40" "48")  # Add or remove thread numbers as needed
+THREADS=("48" "56" "64" "72" "80" "88" "96")  # Add or remove thread numbers as needed
 
 # Get L, r, and sampling frequency from config file
 L=$(grep -oP '^L\s*\K[0-9.]+$' ./config/config.txt)
