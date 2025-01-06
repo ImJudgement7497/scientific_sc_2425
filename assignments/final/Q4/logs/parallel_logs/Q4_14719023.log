@@ -1,0 +1,59 @@
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel 
+Running with 48 threads and job ID 14719023...
+File add on 14719023
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26821, Packing Fraction = 0.513234, Time = 64.194389
+Running with 56 threads and job ID 14719023...
+File add on 14719023
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26592, Packing Fraction = 0.508852, Time = 48.931389
+Running with 64 threads and job ID 14719023...
+File add on 14719023
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26708, Packing Fraction = 0.511071, Time = 46.139726
+Running with 72 threads and job ID 14719023...
+File add on 14719023
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26724, Packing Fraction = 0.511378, Time = 47.340216
+Running with 80 threads and job ID 14719023...
+File add on 14719023
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26944, Packing Fraction = 0.515587, Time = 59.207990
+Running with 88 threads and job ID 14719023...
+File add on 14719023
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26402, Packing Fraction = 0.505216, Time = 27.895672
+Running with 96 threads and job ID 14719023...
+File add on 14719023
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26549, Packing Fraction = 0.508029, Time = 29.630352
+Execution completed for all thread configurations from  to .
+
+Job completed at Mon Jan 6 15:34:29 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14719023
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 06:09:02
+CPU Efficiency: 70.75% of 08:41:36 core-walltime
+Job Wall-clock time: 00:05:26
+Memory Utilized: 35.12 MB
+Memory Efficiency: 0.01% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:05:26
+Wall clock time efficiency: 27.2%
+           Job queued time: 00:00:02
