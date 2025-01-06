@@ -44,3 +44,6 @@ Number of circles: 9568, Packing Fraction = 0.183089, Time = 0.014199
 Number of circles: 10266, Packing Fraction = 0.196445, Time = 0.017074
 Number of circles: 28141, Packing Fraction = 0.538493, Time = 176.691515, sf = 1000000
 Number of circles: 28199, Packing Fraction = 0.539602, Time = 253.402379, sf = 1250000
+Number of circles: 28226, Packing Fraction = 0.540119, Time = 290.254791, sf = 1500000
+Number of circles: 28226, Packing Fraction = 0.540119, Time = 289.473525, sf = 1750000
+Number of circles: 28335, Packing Fraction = 0.542205, Time = 841.623180, sf = 10000000
