@@ -13,10 +13,6 @@
 #SBATCH --cpus-per-task=96                  # ...with each task using 1 core
 #SBATCH --time=00:20:00                    # Time limit hrs:min:sec
 
-module load matplotlib/3.7.2-gfbf-2023a
-mkdir plots
-rm num_of_circles.txt
-rm times.txt
-bash ./run_parallel.sh parallel 96
+bash ./run_parallel_viking.sh parallel 1 4
 echo
 echo Job completed at `date`
