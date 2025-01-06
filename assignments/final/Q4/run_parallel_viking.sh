@@ -28,6 +28,14 @@ if [ -z "$L" ] || [ -z "$r" ] || [ -z "$sf" ]; then
     exit 1
 fi
 
+# Get SLURM job ID
+# JOB_ID=$SLURM_JOB_ID
+JOB_ID=1
+if [ -z "$JOB_ID" ]; then
+    echo "Error: SLURM job ID not found"
+    exit 1
+fi
+
 # Clean and compile
 make clean
 make $MAKE_RULE
@@ -37,20 +45,21 @@ for NUM_THREADS in $(seq $START_THREADS $END_THREADS); do
     export OMP_NUM_THREADS=$NUM_THREADS  # Set number of threads
 
     # Define output directories based on the current number of threads
-    output_dir="L=${L}, r=${r}/sf=${sf}"
+    output_dir="L=${L}, r=${r}/sf=${sf}/job_id=${JOB_ID}"
     output_dir2="/threads=${NUM_THREADS}"
 
     # Create the necessary directories
     mkdir -p "./results/parallel_results/$output_dir/$output_dir2"
 
-    # Run the binary with the current number of threads
-    echo "Running with $NUM_THREADS threads..."
-    ./bin/main_$MAKE_RULE
+    # Run the binary with the current number of threads and job ID passed as an argument
+    echo "Running with $NUM_THREADS threads and job ID $JOB_ID..."
+    ./bin/main_$MAKE_RULE $JOB_ID
 
     # Move output files to the results folder
     mv data.txt *.bin "./results/parallel_results/$output_dir/$output_dir2"
-    # mv num_of_circles.txt "./results/parallel_results/$output_dir"
-    # mv times.txt "./results/parallel_results/$output_dir"
 done
+
+mv num_of_circles_${JOB_ID}.txt "./results/parallel_results/$output_dir"
+mv times_${JOB_ID}.txt "./results/parallel_results/$output_dir"
 
 echo "Execution completed for all thread configurations from $START_THREADS to $END_THREADS."

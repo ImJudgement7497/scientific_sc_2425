@@ -213,8 +213,21 @@ Point gen_random_pair(rng &random_gen)
     };
 }
 
-int main()
+int main(int argc, char **argv)
 {
+
+    string file_add_on;
+
+    if (argc == 2)
+    {
+        file_add_on = argv[1];
+    }
+    else
+    {
+        file_add_on = "";
+    }
+
+    cout << "File add on " << file_add_on << endl;
     // Load configuration
     if (!load_config("./config/config.txt"))
     {
@@ -391,7 +404,7 @@ int main()
 
     write_coordinates(circle_coords, "coords.bin");
     write_string_to_file(message, "./data.txt");
-    write_string_to_file(to_string(current_size), "./num_of_circles.txt");
-    write_string_to_file(to_string(elpased_time), "./times.txt");
+    write_string_to_file(to_string(current_size), "./num_of_circles_" + file_add_on + ".txt");
+    write_string_to_file(to_string(elpased_time), "./times_" + file_add_on + ".txt");
     return 0;
 }
