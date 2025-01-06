@@ -2,3 +2,59 @@ g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -Iinclude/include
 Running with 41 threads and job ID 14717093...
 File add on 14717093
 Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26848, Packing Fraction = 0.513750, Time = 72.785784
+Running with 42 threads and job ID 14717093...
+File add on 14717093
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26930, Packing Fraction = 0.515319, Time = 81.830125
+Running with 43 threads and job ID 14717093...
+File add on 14717093
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26898, Packing Fraction = 0.514707, Time = 73.533258
+Running with 44 threads and job ID 14717093...
+File add on 14717093
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26716, Packing Fraction = 0.511224, Time = 62.800360
+Running with 45 threads and job ID 14717093...
+File add on 14717093
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26463, Packing Fraction = 0.506383, Time = 40.093409
+Running with 46 threads and job ID 14717093...
+File add on 14717093
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26852, Packing Fraction = 0.513827, Time = 73.927647
+Running with 47 threads and job ID 14717093...
+File add on 14717093
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26937, Packing Fraction = 0.515453, Time = 70.672545
+Running with 48 threads and job ID 14717093...
+File add on 14717093
+Running with L = 500, r = 1.234, and sf = 1000000
+slurmstepd: error: *** JOB 14717093 ON node004 CANCELLED AT 2025-01-06T14:52:41 ***
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14717093
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: CANCELLED (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 13:42:24 core-walltime
+Job Wall-clock time: 00:08:34
+Memory Utilized: 35.43 MB
+Memory Efficiency: 0.01% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:08:34
+Wall clock time efficiency: 42.8%
+           Job queued time: 00:23:25
