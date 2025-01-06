@@ -1,0 +1,24 @@
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel 
+Running with 1 threads and job ID 14727834...
+Running with L = 500, r = 1.234, and sf = 1000000
+slurmstepd: error: *** JOB 14727834 ON node002 CANCELLED AT 2025-01-06T18:58:47 ***
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14727834
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: CANCELLED (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 01:44:00 core-walltime
+Job Wall-clock time: 00:01:05
+Memory Utilized: 36.12 MB
+Memory Efficiency: 0.01% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:01:05
+Wall clock time efficiency: 5.4%
+           Job queued time: 00:00:00

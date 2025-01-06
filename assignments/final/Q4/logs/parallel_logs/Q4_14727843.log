@@ -1,0 +1,36 @@
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel 
+Running with 48 threads and job ID 14727843...
+Running with L = 500, r = 1.234, and sf = 1000000
+Mean number of circles: 26798, Mean Packing Fraction: 0.512794, Mean Elapsed Time: 60.394195
+Running with 56 threads and job ID 14727843...
+Running with L = 500, r = 1.234, and sf = 1000000
+Mean number of circles: 26860, Mean Packing Fraction: 0.513980, Mean Elapsed Time: 57.760489
+Running with 64 threads and job ID 14727843...
+Running with L = 500, r = 1.234, and sf = 1000000
+Mean number of circles: 26745, Mean Packing Fraction: 0.511779, Mean Elapsed Time: 48.780394
+Running with 72 threads and job ID 14727843...
+Running with L = 500, r = 1.234, and sf = 1000000
+Mean number of circles: 26664, Mean Packing Fraction: 0.510229, Mean Elapsed Time: 42.371885
+Running with 80 threads and job ID 14727843...
+Running with L = 500, r = 1.234, and sf = 1000000
+slurmstepd: error: *** JOB 14727843 ON node003 CANCELLED AT 2025-01-06T19:18:30 DUE TO TIME LIMIT ***
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14727843
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: TIMEOUT (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 00:00:00
+CPU Efficiency: 0.00% of 1-08:46:24 core-walltime
+Job Wall-clock time: 00:20:29
+Memory Utilized: 37.29 MB
+Memory Efficiency: 0.01% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:20:29
+Wall clock time efficiency: 102.4%
+           Job queued time: 00:00:01
