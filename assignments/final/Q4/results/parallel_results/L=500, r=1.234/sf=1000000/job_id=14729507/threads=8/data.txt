@@ -1,0 +1,1 @@
+Mean number of circles: 26646, Mean Packing Fraction: 0.509885, Mean Elapsed Time: 122.714003
