@@ -1,23 +1,17 @@
 #!/bin/bash
 
-# Check if the correct arguments are passed
-if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
-    echo "Error: Please provide a make rule, start thread, and end thread as arguments"
-    echo "Usage: $0 <make_rule> <start_threads> <end_threads>"
+if [ -z "$1" ]; then
+    echo "Error: Please provide a make rule as argument"
+    echo "Usage: $0 <make_rule>"
     exit 1
 fi
 
 MAKE_RULE=$1
-START_THREADS=$2
-END_THREADS=$3
 
-# Validate that start thread is less than or equal to end thread
-if [ "$START_THREADS" -gt "$END_THREADS" ]; then
-    echo "Error: Start threads must be less than or equal to end threads."
-    exit 1
-fi
+# Define the fixed list of thread counts inside the script
+THREADS=("1" "8" "16" "32" "40" "48")  # Add or remove thread numbers as needed
 
-# Get values for L, r, and sampling frequency from config file
+# Get L, r, and sampling frequency from config file
 L=$(grep -oP '^L\s*\K[0-9.]+$' ./config/config.txt)
 r=$(grep -oP '^r\s*\K[0-9.]+$' ./config/config.txt)
 sf=$(grep -oP '^sampling_frequency\s*\K[0-9.]+$' ./config/config.txt)
@@ -28,7 +22,6 @@ if [ -z "$L" ] || [ -z "$r" ] || [ -z "$sf" ]; then
     exit 1
 fi
 
-# Get SLURM job ID
 JOB_ID=$SLURM_JOB_ID
 if [ -z "$JOB_ID" ]; then
     echo "Error: SLURM job ID not found"
@@ -39,8 +32,8 @@ fi
 make clean
 make $MAKE_RULE
 
-# Loop from start to end thread counts
-for NUM_THREADS in $(seq $START_THREADS $END_THREADS); do
+# Loop over the predefined list of threads
+for NUM_THREADS in "${THREADS[@]}"; do
     export OMP_NUM_THREADS=$NUM_THREADS  # Set number of threads
 
     # Define output directories based on the current number of threads
