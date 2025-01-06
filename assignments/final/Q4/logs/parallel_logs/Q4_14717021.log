@@ -1,0 +1,44 @@
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel 
+Running with 16 threads and job ID 14717021...
+File add on 14717021
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26721, Packing Fraction = 0.511320, Time = 119.034325
+Running with 17 threads and job ID 14717021...
+File add on 14717021
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26834, Packing Fraction = 0.513482, Time = 126.472078
+Running with 18 threads and job ID 14717021...
+File add on 14717021
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26574, Packing Fraction = 0.508507, Time = 90.653723
+Running with 19 threads and job ID 14717021...
+File add on 14717021
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26657, Packing Fraction = 0.510095, Time = 94.221274
+Running with 20 threads and job ID 14717021...
+File add on 14717021
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26799, Packing Fraction = 0.512813, Time = 102.516553
+Running with 21 threads and job ID 14717021...
+File add on 14717021
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26882, Packing Fraction = 0.514401, Time = 114.012840
+Running with 22 threads and job ID 14717021...
+File add on 14717021
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26763, Packing Fraction = 0.512124, Time = 88.971549
+Running with 23 threads and job ID 14717021...
+File add on 14717021
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26741, Packing Fraction = 0.511703, Time = 89.427783
+Running with 24 threads and job ID 14717021...
+File add on 14717021
+Running with L = 500, r = 1.234, and sf = 1000000
