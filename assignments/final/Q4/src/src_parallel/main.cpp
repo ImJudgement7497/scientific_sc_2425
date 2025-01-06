@@ -280,7 +280,7 @@ int main()
 // Sync all threads, ensuring that trials are generated before checking overlaps
 #pragma omp barrier
 
-            // **Overlap Check Between Trials and Grid**
+// **Overlap Check Between Trials and Grid**
 #pragma omp for schedule(dynamic)
             for (int i = 0; i < sampling_frequency; i++)
             {

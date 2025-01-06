@@ -1,4 +1,4 @@
 r 1.234
 L 500
-sampling_frequency 1500000
+sampling_frequency 10
 seed 18293
