@@ -1,0 +1,9 @@
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel 
+Running with 1 threads and job ID 14716882...
+File add on 14716882
+Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26703, Packing Fraction = 0.510976, Time = 494.886958
+Running with 2 threads and job ID 14716882...
+File add on 14716882
+Running with L = 500, r = 1.234, and sf = 1000000
