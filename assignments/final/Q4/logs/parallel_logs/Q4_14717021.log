@@ -42,3 +42,28 @@ Number of circles: 26741, Packing Fraction = 0.511703, Time = 89.427783
 Running with 24 threads and job ID 14717021...
 File add on 14717021
 Running with L = 500, r = 1.234, and sf = 1000000
+
+Number of circles: 26740, Packing Fraction = 0.511684, Time = 85.819795
+Execution completed for all thread configurations from 16 to 24.
+
+Job completed at Mon Jan 6 14:44:40 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14717021
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 04:58:49
+CPU Efficiency: 20.46% of 1-00:20:48 core-walltime
+Job Wall-clock time: 00:15:13
+Memory Utilized: 35.75 MB
+Memory Efficiency: 0.01% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:15:13
+Wall clock time efficiency: 76.1%
+           Job queued time: 00:10:06
