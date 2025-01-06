@@ -213,29 +213,8 @@ Point gen_random_pair(rng &random_gen)
     };
 }
 
-int main(int argc, char **argv)
+pair<size_t, double> execute_parallel_viking()
 {
-
-    string file_add_on;
-
-    if (argc == 2)
-    {
-        file_add_on = argv[1];
-    }
-    else
-    {
-        file_add_on = "";
-    }
-
-    cout << "File add on " << file_add_on << endl;
-    // Load configuration
-    if (!load_config("./config/config.txt"))
-    {
-        return -1;
-    }
-
-    cout << "Running with L = " << L << ", r = " << r << ", and sf = " << sampling_frequency << endl;
-
 #pragma omp parallel shared(num_of_threads)
     {
 #pragma omp single
@@ -398,13 +377,49 @@ int main(int argc, char **argv)
     double elpased_time = end_time - start_time;
     size_t current_size = circle_coords.size();
 
-    string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P) + ", Time = " + to_string(elpased_time);
-    cout << endl;
-    cout << message << endl;
-
     write_coordinates(circle_coords, "coords.bin");
+    return {current_size, elpased_time};
+}
+
+int main(int argc, char **argv)
+{
+
+    string file_add_on;
+
+    if (argc == 2)
+    {
+        file_add_on = argv[1];
+    }
+    else
+    {
+        file_add_on = "";
+    }
+
+    // Load configuration
+    if (!load_config("./config/config.txt"))
+    {
+        return -1;
+    }
+
+    cout << "Running with L = " << L << ", r = " << r << ", and sf = " << sampling_frequency << endl;
+
+    size_t mean_size = 0;
+    double mean_time = 0.0;
+    int N = 5;
+
+    for (int i = 0; i < N; i++)
+    {
+        pair<size_t, double> temp = execute_parallel_viking();
+        mean_size += temp.first;
+        mean_time += temp.second;
+        grid.clear();
+    }
+
+    string message = "Mean number of circles: " + to_string(mean_size / N) + ", Mean Packing Fraction: " + to_string((((mean_size / N) * M_PI * r * r) / (L * L))) +
+                     ", Mean Elapsed Time: " + to_string(mean_time / N);
+    cout << message << endl;
+    write_string_to_file(to_string(mean_size / N), "./mean_sizes_" + file_add_on + ".txt");
+    write_string_to_file(to_string(mean_time / N), "./mean_times_" + file_add_on + ".txt");
     write_string_to_file(message, "./data.txt");
-    write_string_to_file(to_string(current_size), "./num_of_circles_" + file_add_on + ".txt");
-    write_string_to_file(to_string(elpased_time), "./times_" + file_add_on + ".txt");
     return 0;
 }

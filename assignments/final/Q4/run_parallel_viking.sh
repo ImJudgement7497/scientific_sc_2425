@@ -9,7 +9,8 @@ fi
 MAKE_RULE=$1
 
 # Define the fixed list of thread counts inside the script
-THREADS=("48" "56" "64" "72" "80" "88" "96")  # Add or remove thread numbers as needed
+THREADS=("1" "8" "16" "24" "32" "40")
+#THREADS=("48" "56" "64" "72" "80" "88" "96")  # Add or remove thread numbers as needed
 
 # Get L, r, and sampling frequency from config file
 L=$(grep -oP '^L\s*\K[0-9.]+$' ./config/config.txt)
@@ -23,6 +24,7 @@ if [ -z "$L" ] || [ -z "$r" ] || [ -z "$sf" ]; then
 fi
 
 JOB_ID=$SLURM_JOB_ID
+
 if [ -z "$JOB_ID" ]; then
     echo "Error: SLURM job ID not found"
     exit 1
@@ -51,7 +53,6 @@ for NUM_THREADS in "${THREADS[@]}"; do
     mv data.txt *.bin "./results/parallel_results/$output_dir/$output_dir2"
 done
 
-mv num_of_circles_${JOB_ID}.txt "./results/parallel_results/$output_dir"
-mv times_${JOB_ID}.txt "./results/parallel_results/$output_dir"
+mv mean_sizes_${JOB_ID}.txt "./results/parallel_results/$output_dir"
+mv mean_times_${JOB_ID}.txt "./results/parallel_results/$output_dir"
 
-echo "Execution completed for all thread configurations from $START_THREADS to $END_THREADS."
