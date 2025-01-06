@@ -23,7 +23,7 @@ make clean
 make $MAKE_RULE
 
 output_dir="L=${L}, r=${r}"
-output_dir2="/sf=${sf}
+output_dir2="/sf=${sf}"
 mkdir -p "./results/serial_results/$output_dir/$output_dir2"
 mkdir plots
 
