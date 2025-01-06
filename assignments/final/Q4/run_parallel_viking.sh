@@ -29,8 +29,7 @@ if [ -z "$L" ] || [ -z "$r" ] || [ -z "$sf" ]; then
 fi
 
 # Get SLURM job ID
-# JOB_ID=$SLURM_JOB_ID
-JOB_ID=1
+JOB_ID=$SLURM_JOB_ID
 if [ -z "$JOB_ID" ]; then
     echo "Error: SLURM job ID not found"
     exit 1
