@@ -305,7 +305,7 @@ int main()
     P = p_fractions.back();
 
     // Outputs all necessary data
-    string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P) + ", Time = " + to_string(timer.elapsed_time());
+    string message = "Number of circles: " + to_string(current_size) + ", Packing Fraction = " + to_string(P) + ", Time = " + to_string(timer.elapsed_time()) + ", sf = " + to_string(sampling_frequency);
     cout << endl;
     cout << message << endl;
 
