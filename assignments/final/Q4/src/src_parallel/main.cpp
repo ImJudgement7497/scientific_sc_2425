@@ -178,6 +178,10 @@ bool load_config(const string &filename)
             {
                 sampling_frequency = value;
             }
+            else if (key == "seed")
+            {
+                seed = value;
+            }
             else
             {
                 cerr << "Unknown parameter: " << key << endl;

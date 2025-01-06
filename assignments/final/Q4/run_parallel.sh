@@ -26,6 +26,7 @@ make $MAKE_RULE
 output_dir="L=${L}, r=${r}"
 output_dir2="/sf=${sf}/threads=${NUM_THREADS}"
 mkdir -p "./results/parallel_results/$output_dir/$output_dir2"
+mkdir plots
 
 
 # for i in {1..40}; do
