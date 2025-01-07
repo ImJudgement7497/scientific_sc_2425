@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <omp.h>
+#include <getopt.h>
 #include "rng.h"
 /* NEED TO APPLY FORMATTING TO ALL THE FILES */
 using namespace std;
@@ -381,36 +382,73 @@ pair<size_t, double> execute_parallel()
     return {current_size, elpased_time};
 }
 
+#include <iostream>
+#include <string>
+#include <getopt.h> // for handling command-line arguments
+
+using namespace std;
+
+// Assuming load_config and other necessary functions are defined elsewhere in the program
+extern bool load_config(const string &path);
+extern pair<size_t, double> execute_parallel();
+extern void write_string_to_file(const string &str, const string &filename);
+
+// Main function
 int main(int argc, char **argv)
 {
-    // Load configuration
-    if (!load_config("./config/config.txt"))
+    string config_path = "./config/config.txt"; // Default config path
+    string file_add_on = "";                    // File add-on string, empty by default
+
+    // Define long options
+    struct option long_options[] = {
+        {"config", required_argument, nullptr, 'c'},
+        {nullptr, 0, nullptr, 0} // End of options list
+    };
+
+    int opt;
+    while ((opt = getopt_long(argc, argv, "c:", long_options, nullptr)) != -1)
     {
+        switch (opt)
+        {
+        case 'c': // Handle --config=PATH_TO_CONFIG
+            config_path = optarg;
+            break;
+        case '?': // Handle unknown argument
+            cerr << "Usage: " << argv[0] << " [--config=PATH_TO_CONFIG] <file_add_on>" << endl;
+            return -1;
+        }
+    }
+
+    // Ensure file_add_on argument if VIK is defined
+#ifdef VIK
+    if (argc <= optind)
+    { // No file add-on argument given
+        cerr << "Error: Missing required file add-on argument when VIK is defined." << endl;
+        cerr << "Usage: " << argv[0] << " --config=PATH_TO_CONFIG <file_add_on>" << endl;
+        return -1;
+    }
+    file_add_on = argv[optind]; // Capture file add-on from command line
+#endif                          // VIK
+
+    // Load the configuration from the specified path
+    if (!load_config(config_path))
+    {
+        cerr << "Error loading config from path: " << config_path << endl;
         return -1;
     }
 
     cout << "Running with L = " << L << ", r = " << r << ", and sf = " << sampling_frequency << endl;
 
 #ifdef VIK
-
-    string file_add_on;
-
-    if (argc == 2)
-    {
-        file_add_on = argv[1];
-    }
-    else
-    {
-        file_add_on = "";
-    }
-
+    // If VIK is defined, use the file add-on for file names
     pair<size_t, double> temp = execute_parallel();
     write_string_to_file(to_string(temp.first), "./num_of_circles_" + file_add_on + ".txt");
     write_string_to_file(to_string(temp.second), "./times_" + file_add_on + ".txt");
+
 #endif // VIK
 
 #ifndef VIK
-
+    // If VIK is not defined, proceed with the default behavior
     pair<size_t, double> temp = execute_parallel();
     double P = temp.first * M_PI * r * r / (L * L);
 

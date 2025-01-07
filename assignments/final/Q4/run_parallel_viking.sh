@@ -8,14 +8,8 @@ fi
 
 MAKE_RULE=$1
 
-THREADS=("1")
-# THREADS=("2")
-# THREADS=("3")
-# THREADS=("4")
-# THREADS=("8" "16" "32")
-# THREADS=("40" "48" "56")
-# THREADS=("64" "72" "80")
-# THREADS=("88" "96")
+THREADS=("1" "96")
+#THREADS=("96")
 
 
 L=$(grep -oP '^L\s*\K[0-9.]+$' ./config/config.txt)
