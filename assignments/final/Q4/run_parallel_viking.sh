@@ -9,7 +9,14 @@ fi
 MAKE_RULE=$1
 
 THREADS=("1")
-#THREADS=("80" "88" "96")  # Add or remove thread numbers as needed
+# THREADS=("2")
+# THREADS=("3")
+# THREADS=("4")
+# THREADS=("8" "16" "32")
+# THREADS=("40" "48" "56")
+# THREADS=("64" "72" "80")
+# THREADS=("88" "96")
+
 
 L=$(grep -oP '^L\s*\K[0-9.]+$' ./config/config.txt)
 r=$(grep -oP '^r\s*\K[0-9.]+$' ./config/config.txt)
@@ -20,7 +27,8 @@ if [ -z "$L" ] || [ -z "$r" ] || [ -z "$sf" ]; then
     exit 1
 fi
 
-JOB_ID=$SLURM_JOB_ID
+#JOB_ID=$SLURM_JOB_ID
+JOB_ID=1
 
 if [ -z "$JOB_ID" ]; then
     echo "Error: SLURM job ID not found"
@@ -43,9 +51,9 @@ for NUM_THREADS in "${THREADS[@]}"; do
     echo "Running with $NUM_THREADS threads and job ID $JOB_ID..."
     ./bin/main_$MAKE_RULE $JOB_ID
 
-    mv data.txt *.bin "./results/parallel_results/$output_dir/$output_dir2"
+    mv *.bin "./results/parallel_results/$output_dir/$output_dir2"
 done
 
-mv mean_sizes_${JOB_ID}.txt "./results/parallel_results/$output_dir"
-mv mean_times_${JOB_ID}.txt "./results/parallel_results/$output_dir"
+mv num_of_circles_${JOB_ID}.txt "./results/parallel_results/$output_dir"
+mv times_${JOB_ID}.txt "./results/parallel_results/$output_dir"
 
