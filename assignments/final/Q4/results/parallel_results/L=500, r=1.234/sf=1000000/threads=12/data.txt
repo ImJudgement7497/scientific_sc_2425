@@ -1,0 +1,1 @@
+Number of circles: 26633, Packing Fraction = 0.509636, Time = 69.254470
