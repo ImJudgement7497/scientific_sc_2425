@@ -1,4 +1,0 @@
-r 14
-L 1000
-sampling_frequency 100000
-seed 18293
