@@ -13,7 +13,7 @@ shift  # Shift the positional arguments so we can handle --config or other argum
 
 # Default thread values
 THREADS=("1" "96")
-# THREADS=("96")
+#THREADS=("96")
 
 # Default config path
 CONFIG_PATH="./config/config.txt"  # Default config file location

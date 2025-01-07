@@ -10,7 +10,7 @@ if [[ ! -f $JOB_SCRIPT ]]; then
 fi
 
 # Loop through numbers 1 to 20
-for NUM in {1..11}; do
+for NUM in {1..2}; do
     # Create a temporary modified job script
     TEMP_SCRIPT="./temp_job_script_${NUM}.sh"
 
