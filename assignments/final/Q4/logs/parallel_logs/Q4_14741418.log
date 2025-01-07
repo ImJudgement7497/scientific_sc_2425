@@ -1,0 +1,28 @@
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -DVIK -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel_vik 
+Running with 1 threads and job ID 14741418...
+Running with L = 1500, r = 1, and sf = 10000
+Running with 96 threads and job ID 14741418...
+./run_parallel_viking_ratio.sh: line 70: ./bin/main_parallel_vik: No such file or directory
+mv: cannot stat '*.bin': No such file or directory
+
+Job completed at Tue Jan 7 17:15:58 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14741418
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 00:05:21
+CPU Efficiency: 1.04% of 08:36:48 core-walltime
+Job Wall-clock time: 00:05:23
+Memory Utilized: 55.01 MB
+Memory Efficiency: 0.01% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:05:23
+Wall clock time efficiency: 26.9%
+           Job queued time: 00:00:01
