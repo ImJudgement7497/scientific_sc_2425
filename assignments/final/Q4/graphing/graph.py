@@ -123,4 +123,4 @@ plot_points_in_box(circle_centers, r, L)
 if os.path.exists("p_fractions.bin"):
     p_fractions = load_p_fractions("p_fractions.bin")
     plot_p_fractions(p_fractions, sampling_frequency)
-# check_overlap(circle_centers, r)
+#check_overlap(circle_centers, r)
