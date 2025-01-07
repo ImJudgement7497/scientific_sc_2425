@@ -24,6 +24,9 @@ r_l_ratios = np.arange(1, 21, 1) / 1000
 differences = circles_96_threads - circles_1_thread
 speedup = times_1_thread / times_96_threads
 
+thread_scaling_circles = read_data_from_file("./data/thread_scaling/thread_scaling_circles.txt")
+thread_scaling_times = read_data_from_file("./data/thread_scaling/thread_scaling_times.txt")
+thread_nums = np.array([1, 2, 3, 4, 8, 16, 32, 40, 48, 56, 64, 72, 80, 88, 96])
 ##########################
 plt.plot(r_l_ratios, speedup, "o-")
 plt.title("Parallel Speedup from 1 -> 96 threads")
@@ -38,17 +41,17 @@ plt.xlabel("r/L")
 plt.ylabel("Difference")
 plt.savefig("./data/changing_r/ratio_scaling_differences.png")
 plt.close()
-# ##########################
-# plt.plot(thread_nums, mean_circles_thread_scaling, "o-")
-# plt.title("Thread Scaling for Mean Number of Circles")
-# plt.xlabel("Threads")
-# plt.ylabel("Mean Num. of Circles")
-# plt.savefig("./data/thread_scaling_mean_circles.png")
-# plt.close()
-# ##########################
-# plt.plot(thread_nums, mean_times_thread_scaling, "o-")
-# plt.title("Thread Scaling for Mean Time")
-# plt.xlabel("Threads")
-# plt.ylabel("Mean Time(s)")
-# plt.savefig("./data/thread_scaling_mean_times.png")
-# plt.close()
+##########################
+plt.plot(thread_nums, thread_scaling_circles, "o-")
+plt.title("Thread Scaling for Number of Circles")
+plt.xlabel("Threads")
+plt.ylabel("Num. of Circles")
+plt.savefig("./data/thread_scaling/thread_scaling_circles.png")
+plt.close()
+##########################
+plt.plot(thread_nums, thread_scaling_times, "o-")
+plt.title("Thread Scaling for Time")
+plt.xlabel("Threads")
+plt.ylabel("Time(s)")
+plt.savefig("./data/thread_scaling/thread_scaling_times.png")
+plt.close()
