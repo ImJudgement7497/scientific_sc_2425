@@ -1,0 +1,26 @@
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -DVIK -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel_vik 
+Running with 96 threads and job ID 14737424...
+Running with L = 1000, r = 1, and sf = 100000
+Mean number of circles: 166815, Mean Packing Fraction: 0.524065, Mean Elapsed Time: 18.910452
+
+Job completed at Tue Jan 7 10:27:00 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14737424
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 02:30:43
+CPU Efficiency: 96.12% of 02:36:48 core-walltime
+Job Wall-clock time: 00:01:38
+Memory Utilized: 45.23 MB
+Memory Efficiency: 0.01% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:01:38
+Wall clock time efficiency: 8.2%
+           Job queued time: 00:00:00
