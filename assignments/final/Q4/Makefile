@@ -18,6 +18,7 @@ SERIAL_EXEC_VIS := main_serial_vis
 PARALLEL_EXEC := main_parallel
 PARALLEL_EXEC_DEBUG := main_parallel_debug
 PARALLEL_EXEC_VIS := main_parallel_vis
+PARALLEL_EXEC_VIK := main_parallel_vik
 
 serial: $(BIN)/$(SERIAL_EXEC)
 
@@ -30,6 +31,8 @@ parallel: $(BIN)/$(PARALLEL_EXEC)
 parallel_debug: $(BIN)/$(PARALLEL_EXEC_DEBUG)
 
 parallel_vis: $(BIN)/$(PARALLEL_EXEC_VIS)
+
+parallel_vik: $(BIN)/$(PARALLEL_EXEC_VIK)
 
 clean:
 	@rm -rf $(BIN)/*
@@ -51,6 +54,9 @@ $(BIN)/$(PARALLEL_EXEC_DEBUG): $(SRC_PARALLEL)/*.cpp | $(BIN)
 
 $(BIN)/$(PARALLEL_EXEC_VIS): $(SRC_PARALLEL)/*.cpp | $(BIN)
 	$(CXX) $(CXX_FLAGS) -fopenmp -DVIS -I$(INCLUDE_PARALLEL) $^ -o $@ $(LIBRARIES)
+
+$(BIN)/$(PARALLEL_EXEC_VIK): $(SRC_PARALLEL)/*.cpp | $(BIN)
+	$(CXX) $(CXX_FLAGS) -fopenmp -DVIK -I$(INCLUDE_PARALLEL) $^ -o $@ $(LIBRARIES)
 
 $(BIN):
 	mkdir -p $(BIN)
