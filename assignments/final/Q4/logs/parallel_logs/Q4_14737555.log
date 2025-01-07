@@ -1,0 +1,29 @@
+g++ -std=c++17 -ggdb -Iinclude -O3 -funroll-all-loops -fopenmp -Iinclude/include_serial src/src_parallel/rng.cpp src/src_parallel/main.cpp -o bin/main_parallel 
+Running with 1 threads and job ID 14737555...
+Running with L = 1000, r = 1, and sf = 100000
+
+Number of circles: 166986, Packing Fraction = 0.524602, Time = 610.832874
+mv: cannot stat 'mean_sizes_14737555.txt': No such file or directory
+mv: cannot stat 'mean_times_14737555.txt': No such file or directory
+
+Job completed at Tue Jan 7 10:58:09 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14737555
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 00:10:11
+CPU Efficiency: 1.04% of 16:20:48 core-walltime
+Job Wall-clock time: 00:10:13
+Memory Utilized: 33.25 MB
+Memory Efficiency: 0.01% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:10:13
+Wall clock time efficiency: 51.1%
+           Job queued time: 00:00:00

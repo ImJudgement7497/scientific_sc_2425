@@ -13,7 +13,7 @@
 #SBATCH --cpus-per-task=96                  # ...with each task using 1 core
 #SBATCH --time=00:20:00                    # Time limit hrs:min:sec
 
-bash ./run_parallel_viking.sh parallel_vik
+bash ./run_parallel_viking.sh parallel
 
 echo
 echo Job completed at `date`
