@@ -8,16 +8,13 @@ fi
 
 MAKE_RULE=$1
 
-# Define the fixed list of thread counts inside the script
 THREADS=("1")
 #THREADS=("80" "88" "96")  # Add or remove thread numbers as needed
 
-# Get L, r, and sampling frequency from config file
 L=$(grep -oP '^L\s*\K[0-9.]+$' ./config/config.txt)
 r=$(grep -oP '^r\s*\K[0-9.]+$' ./config/config.txt)
 sf=$(grep -oP '^sampling_frequency\s*\K[0-9.]+$' ./config/config.txt)
 
-# Check if values for L, r, and sf are found
 if [ -z "$L" ] || [ -z "$r" ] || [ -z "$sf" ]; then
     echo "Error: Could not find L, r, or sampling_frequency values in config file"
     exit 1
@@ -38,18 +35,14 @@ make $MAKE_RULE
 for NUM_THREADS in "${THREADS[@]}"; do
     export OMP_NUM_THREADS=$NUM_THREADS  # Set number of threads
 
-    # Define output directories based on the current number of threads
     output_dir="L=${L}, r=${r}/sf=${sf}/job_id=${JOB_ID}"
     output_dir2="/threads=${NUM_THREADS}"
 
-    # Create the necessary directories
     mkdir -p "./results/parallel_results/$output_dir/$output_dir2"
 
-    # Run the binary with the current number of threads and job ID passed as an argument
     echo "Running with $NUM_THREADS threads and job ID $JOB_ID..."
     ./bin/main_$MAKE_RULE $JOB_ID
 
-    # Move output files to the results folder
     mv data.txt *.bin "./results/parallel_results/$output_dir/$output_dir2"
 done
 
