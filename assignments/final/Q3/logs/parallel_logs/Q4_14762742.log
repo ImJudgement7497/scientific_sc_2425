@@ -1,0 +1,49 @@
+Running with 8 threads...
+Mean radius: 3.62783
+System size: 115.176
+Final box size: 115.176
+Box size change: 0.0575882
+Final density: 0.54339
+Elapsed Time: 113.102
+Differences above (if any)
+-----------------------------------
+Running with 16 threads...
+Mean radius: 3.62783
+System size: 115.176
+Final box size: 115.176
+Box size change: 0.0575882
+Final density: 0.54339
+Elapsed Time: 58.5899
+Differences above (if any)
+-----------------------------------
+Running with 32 threads...
+Mean radius: 3.62783
+System size: 115.176
+Final box size: 115.176
+Box size change: 0.0575882
+Final density: 0.54339
+Elapsed Time: 31.6238
+Differences above (if any)
+-----------------------------------
+
+Job completed at Wed Jan 8 16:52:24 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14762742
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 32
+CPU Utilized: 00:47:18
+CPU Efficiency: 43.69% of 01:48:16 core-walltime
+Job Wall-clock time: 00:03:23
+Memory Utilized: 11.48 MB
+Memory Efficiency: 0.01% of 167.66 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:03:23
+Wall clock time efficiency: 16.9%
+           Job queued time: 00:00:23
