@@ -25,28 +25,24 @@ void pbc_loop(std::vector<double> &x,
    const int num_particles = x.size();
 
    // define function variables
-   // double rjx, rjy, rjz, rjr; // particle j positions/radii
-   // double dx, dy, dz, rr;     // position vector and radii
+   double rjx, rjy, rjz, rjr; // particle j positions/radii
+   double dx, dy, dz, rr;     // position vector and radii
 
-#pragma omp for default(shared)
    for (int j = 0; j < num_particles; j++)
    {
-      double rjx = x[j] + offset_x;
-      double rjy = y[j] + offset_y;
-      double rjz = z[j] + offset_z;
-      double rjr = particle_radius[j];
-      double dx = rjx - rix;
-      double dy = rjy - riy;
-      double dz = rjz - riz;
-      double rr = (rir + rjr) * (rir + rjr);
+      rjx = x[j] + offset_x;
+      rjy = y[j] + offset_y;
+      rjz = z[j] + offset_z;
+      rjr = particle_radius[j];
+      dx = rjx - rix;
+      dy = rjy - riy;
+      dz = rjz - riz;
+      rr = (rir + rjr) * (rir + rjr);
       // check if particles overlap
       if (dx * dx + dy * dy + dz * dz < rr)
       {
-#pragma omp atomic
          fx += -force_size * dx;
-#pragma omp atomic
          fy += -force_size * dy;
-#pragma omp atomic
          fz += -force_size * dz;
       }
    }
@@ -72,7 +68,8 @@ void calculate_forces(std::vector<double> &x,
    double fx, fy, fz;                 // force components
    bool bpx, bmx, bpy, bmy, bpz, bmz; // boolean tests
 
-   // loop over all particles and calculate total force
+// loop over all particles and calculate total force
+#pragma omp parallel for default(shared) private(rix, riy, riz, rir, fx, fy, fz, bpx, bmx, bpy, bmy, bpz, bmz)
    for (int i = 0; i < np; i++)
    {
       riz = z[i];
