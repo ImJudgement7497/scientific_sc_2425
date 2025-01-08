@@ -25,29 +25,29 @@ void pbc_loop(std::vector<double> &x,
    const int num_particles = x.size();
 
    // define function variables
-   double rjx, rjy, rjz, rjr; // particle j positions/radii
-   double dx, dy, dz, rr;     // position vector and radii
-#pragma omp parallel default(shared)
+   // double rjx, rjy, rjz, rjr; // particle j positions/radii
+   // double dx, dy, dz, rr;     // position vector and radii
+
+#pragma omp for default(shared)
+   for (int j = 0; j < num_particles; j++)
    {
-#pragma omp for reduction(+ : fx, fy, fz)
-      for (int j = 0; j < num_particles; j++)
+      double rjx = x[j] + offset_x;
+      double rjy = y[j] + offset_y;
+      double rjz = z[j] + offset_z;
+      double rjr = particle_radius[j];
+      double dx = rjx - rix;
+      double dy = rjy - riy;
+      double dz = rjz - riz;
+      double rr = (rir + rjr) * (rir + rjr);
+      // check if particles overlap
+      if (dx * dx + dy * dy + dz * dz < rr)
       {
-         // ALl read-only so is thread-safe
-         rjx = x[j] + offset_x;
-         rjy = y[j] + offset_y;
-         rjz = z[j] + offset_z;
-         rjr = particle_radius[j];
-         rr = (rir + rjr) * (rir + rjr);
-         dx = rjx - rix;
-         dy = rjy - riy;
-         dz = rjz - riz;
-         // check if particles overlap
-         if (dx * dx + dy * dy + dz * dz < rr)
-         {
-            fx += -force_size * dx;
-            fy += -force_size * dy;
-            fz += -force_size * dz;
-         }
+#pragma omp atomic
+         fx += -force_size * dx;
+#pragma omp atomic
+         fy += -force_size * dy;
+#pragma omp atomic
+         fz += -force_size * dz;
       }
    }
 }
