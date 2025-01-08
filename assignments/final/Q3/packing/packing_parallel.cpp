@@ -64,96 +64,103 @@ void calculate_forces(std::vector<double> &x,
    const double force_size = 0.1;
 
    // define function variables
-   double rix, riy, riz, rir;         // particle j positions/radii
-   double fx, fy, fz;                 // force components
-   bool bpx, bmx, bpy, bmy, bpz, bmz; // boolean tests
+   // double rix, riy, riz, rir;         // particle j positions/radii
+   // double fx, fy, fz;                 // force components
+   // bool bpx, bmx, bpy, bmy, bpz, bmz; // boolean tests
 
 // loop over all particles and calculate total force
-#pragma omp parallel for default(shared) private(rix, riy, riz, rir, fx, fy, fz, bpx, bmx, bpy, bmy, bpz, bmz)
-   for (int i = 0; i < np; i++)
+#pragma omp parallel
    {
-      riz = z[i];
-      rix = x[i];
-      riy = y[i];
-      rir = particle_radius[i];
-      fx = 0.0;
-      fy = 0.0;
-      fz = 0.0;
+#pragma omp single
+      {
+         for (int i = 0; i < np; i++)
+         {
+#pragma omp task firstprivate(i) shared(force_x, force_y, force_z)
+            {
+               double riz = z[i];
+               double rix = x[i];
+               double riy = y[i];
+               double rir = particle_radius[i];
+               double fx = 0.0;
+               double fy = 0.0;
+               double fz = 0.0;
 
-      // internal interactions
-      pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, 0.0, 0.0, force_size, rix, riy, riz, rir);
+               // internal interactions
+               pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, 0.0, 0.0, force_size, rix, riy, riz, rir);
 
-      bpx = rix > Lx - 1.1 * rir;
-      bmx = rix < 1.1 * rir;
-      bpy = riy > Ly - 1.1 * rir;
-      bmy = riy < 1.1 * rir;
-      bpz = riz > Lz - 1.1 * rir;
-      bmz = riz < 1.1 * rir;
+               bool bpx = rix > Lx - 1.1 * rir;
+               bool bmx = rix < 1.1 * rir;
+               bool bpy = riy > Ly - 1.1 * rir;
+               bool bmy = riy < 1.1 * rir;
+               bool bpz = riz > Lz - 1.1 * rir;
+               bool bmz = riz < 1.1 * rir;
 
-      // now check for boundary forces
-      // in the plane
-      if (bmx)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, 0.0, 0.0, force_size, rix, riy, riz, rir); //-x,0,0
-      if (bpx)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, 0.0, 0.0, force_size, rix, riy, riz, rir); //+x,0,0
-      if (bpy)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, Ly, 0.0, force_size, rix, riy, riz, rir); //+y,0,0
-      if (bmy)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, -Ly, 0.0, force_size, rix, riy, riz, rir); //-y,0,0
-      if (bpx && bpy)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, Ly, 0.0, force_size, rix, riy, riz, rir); //+x,+y,0
-      if (bpx && bmy)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, -Ly, 0.0, force_size, rix, riy, riz, rir); //+x,-y,0
-      if (bmx && bpy)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, Ly, 0.0, force_size, rix, riy, riz, rir); //-x,+y,0
-      if (bmx && bmy)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, -Ly, 0.0, force_size, rix, riy, riz, rir); //-x,-y,0
+               // now check for boundary forces
+               // in the plane
+               if (bmx)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, 0.0, 0.0, force_size, rix, riy, riz, rir); //-x,0,0
+               if (bpx)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, 0.0, 0.0, force_size, rix, riy, riz, rir); //+x,0,0
+               if (bpy)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, Ly, 0.0, force_size, rix, riy, riz, rir); //+y,0,0
+               if (bmy)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, -Ly, 0.0, force_size, rix, riy, riz, rir); //-y,0,0
+               if (bpx && bpy)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, Ly, 0.0, force_size, rix, riy, riz, rir); //+x,+y,0
+               if (bpx && bmy)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, -Ly, 0.0, force_size, rix, riy, riz, rir); //+x,-y,0
+               if (bmx && bpy)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, Ly, 0.0, force_size, rix, riy, riz, rir); //-x,+y,0
+               if (bmx && bmy)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, -Ly, 0.0, force_size, rix, riy, riz, rir); //-x,-y,0
 
-      // up
-      if (bpz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, 0.0, Lz, force_size, rix, riy, riz, rir); // 0,0,+z
-      if (bmx && bpz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, 0.0, Lz, force_size, rix, riy, riz, rir); //-x,0,+z
-      if (bpx && bpz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, 0.0, Lz, force_size, rix, riy, riz, rir); //+x,0,+z
-      if (bpy && bpz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, Ly, Lz, force_size, rix, riy, riz, rir); //+y,0,+z
-      if (bmy && bpz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, -Ly, Lz, force_size, rix, riy, riz, rir); //-y,0,+z
-      if (bpx && bpy && bpz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, Ly, Lz, force_size, rix, riy, riz, rir); //+x,+y,+z
-      if (bpx && bmy && bpz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, -Ly, Lz, force_size, rix, riy, riz, rir); //+x,-y,+z
-      if (bmx && bpy && bpz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, Ly, Lz, force_size, rix, riy, riz, rir); //-x,+y,+z
-      if (bmx && bmy && bpz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, -Ly, Lz, force_size, rix, riy, riz, rir); //-x,-y,+z
+               // up
+               if (bpz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, 0.0, Lz, force_size, rix, riy, riz, rir); // 0,0,+z
+               if (bmx && bpz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, 0.0, Lz, force_size, rix, riy, riz, rir); //-x,0,+z
+               if (bpx && bpz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, 0.0, Lz, force_size, rix, riy, riz, rir); //+x,0,+z
+               if (bpy && bpz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, Ly, Lz, force_size, rix, riy, riz, rir); //+y,0,+z
+               if (bmy && bpz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, -Ly, Lz, force_size, rix, riy, riz, rir); //-y,0,+z
+               if (bpx && bpy && bpz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, Ly, Lz, force_size, rix, riy, riz, rir); //+x,+y,+z
+               if (bpx && bmy && bpz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, -Ly, Lz, force_size, rix, riy, riz, rir); //+x,-y,+z
+               if (bmx && bpy && bpz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, Ly, Lz, force_size, rix, riy, riz, rir); //-x,+y,+z
+               if (bmx && bmy && bpz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, -Ly, Lz, force_size, rix, riy, riz, rir); //-x,-y,+z
 
-      // down
-      if (bmz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, 0.0, -Lz, force_size, rix, riy, riz, rir); // 0,0,-z
-      if (bmx && bmz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, 0.0, -Lz, force_size, rix, riy, riz, rir); //-x,0,-z
-      if (bpx && bmz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, 0.0, -Lz, force_size, rix, riy, riz, rir); //+x,0,-z
-      if (bpy && bmz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, Ly, -Lz, force_size, rix, riy, riz, rir); //+y,0,-z
-      if (bmy && bmz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, -Ly, -Lz, force_size, rix, riy, riz, rir); //-y,0,-z
-      if (bpx && bpy && bmz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, Ly, -Lz, force_size, rix, riy, riz, rir); //+x,+y,-z
-      if (bpx && bmy && bmz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, -Ly, -Lz, force_size, rix, riy, riz, rir); //+x,-y,-z
-      if (bmx && bpy && bmz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, Ly, -Lz, force_size, rix, riy, riz, rir); //-x,+y,-z
-      if (bmx && bmy && bmz)
-         pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, -Ly, -Lz, force_size, rix, riy, riz, rir); //-x,-y,-z
+               // down
+               if (bmz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, 0.0, -Lz, force_size, rix, riy, riz, rir); // 0,0,-z
+               if (bmx && bmz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, 0.0, -Lz, force_size, rix, riy, riz, rir); //-x,0,-z
+               if (bpx && bmz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, 0.0, -Lz, force_size, rix, riy, riz, rir); //+x,0,-z
+               if (bpy && bmz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, Ly, -Lz, force_size, rix, riy, riz, rir); //+y,0,-z
+               if (bmy && bmz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, 0.0, -Ly, -Lz, force_size, rix, riy, riz, rir); //-y,0,-z
+               if (bpx && bpy && bmz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, Ly, -Lz, force_size, rix, riy, riz, rir); //+x,+y,-z
+               if (bpx && bmy && bmz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, Lx, -Ly, -Lz, force_size, rix, riy, riz, rir); //+x,-y,-z
+               if (bmx && bpy && bmz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, Ly, -Lz, force_size, rix, riy, riz, rir); //-x,+y,-z
+               if (bmx && bmy && bmz)
+                  pbc_loop(x, y, z, particle_radius, fx, fy, fz, -Lx, -Ly, -Lz, force_size, rix, riy, riz, rir); //-x,-y,-z
 
-      force_x[i] = fx;
-      force_y[i] = fy;
-      force_z[i] = fz;
-
-   } // i-loop
+               force_x[i] = fx;
+               force_y[i] = fy;
+               force_z[i] = fz;
+            }
+         } // i-loop
+      }
+   }
 }
 
 void move_particles(std::vector<double> &x,
@@ -169,15 +176,23 @@ void move_particles(std::vector<double> &x,
    const int np = x.size();
 
 // relaxation algorithm - simply move particles along direction of force
-#pragma omp parallel for default(shared)
-   for (int i = 0; i < np; i++)
+#pragma omp parallel default(shared)
    {
-      x[i] = x[i] + fx[i] * dt;
-      y[i] = y[i] + fy[i] * dt;
-      z[i] = z[i] + fz[i] * dt;
-   }
+#pragma omp single
+      {
+         for (int i = 0; i < np; i++)
+         {
+#pragma omp task firstprivate(i)
+            {
+               x[i] = x[i] + fx[i] * dt;
+               y[i] = y[i] + fy[i] * dt;
+               z[i] = z[i] + fz[i] * dt;
+            }
+         }
+      }
 
-   return;
+      return;
+   }
 };
 
 void shrink(std::vector<double> &x,
@@ -191,12 +206,18 @@ void shrink(std::vector<double> &x,
    const int np = x.size();
 
 // relaxation algorithm - simply move particles along direction of force
-#pragma omp parallel for default(shared)
-   for (int i = 0; i < np; i++)
+#pragma omp parallel default(shared)
    {
-      x[i] = x[i] * shrink_factor;
-      y[i] = y[i] * shrink_factor;
-      z[i] = z[i] * shrink_factor;
+#pragma omp single
+      {
+         for (int i = 0; i < np; i++)
+         {
+#pragma omp task firstprivate(i)
+            x[i] = x[i] * shrink_factor;
+            y[i] = y[i] * shrink_factor;
+            z[i] = z[i] * shrink_factor;
+         }
+      }
    }
 
    // change box size

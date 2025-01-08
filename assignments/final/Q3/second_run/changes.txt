@@ -1,0 +1,1 @@
+Added an omp for to calculate_forces, move_particles and shrink
