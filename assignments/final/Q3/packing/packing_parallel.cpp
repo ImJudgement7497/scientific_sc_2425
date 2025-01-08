@@ -168,7 +168,8 @@ void move_particles(std::vector<double> &x,
    const double mass = 1.0;
    const int np = x.size();
 
-   // relaxation algorithm - simply move particles along direction of force
+// relaxation algorithm - simply move particles along direction of force
+#pragma omp parallel for default(shared)
    for (int i = 0; i < np; i++)
    {
       x[i] = x[i] + fx[i] * dt;
@@ -189,7 +190,8 @@ void shrink(std::vector<double> &x,
    const double shrink_factor = (L - dL) / L;
    const int np = x.size();
 
-   // relaxation algorithm - simply move particles along direction of force
+// relaxation algorithm - simply move particles along direction of force
+#pragma omp parallel for default(shared)
    for (int i = 0; i < np; i++)
    {
       x[i] = x[i] * shrink_factor;
@@ -341,6 +343,7 @@ int main()
    const double dL = (L_init - L_final) / double(num_steps);
    double dt = 0.1 * mean_radius;
 
+   double start_time = omp_get_wtime();
    // coarse relaxation
    L = L_init;
    for (int t = 0; t < num_steps; t++)
@@ -358,6 +361,7 @@ int main()
       calculate_forces(x, y, z, particle_radius, fx, fy, fz, L, L, L);
       move_particles(x, y, z, fx, fy, fz, dt);
    }
+   double end_time = omp_get_wtime();
 
    ofile.open("final_positions.txt");
    for (int i = 0; i < num_particles; i++)
@@ -373,6 +377,9 @@ int main()
    std::cout << "Final box size: " << L << std::endl;
    std::cout << "Box size change: " << dL << std::endl;
    std::cout << "Final density: " << vol_spheres / (L * L * L) << std::endl;
+   ofile.open("time.txt");
+   ofile << end_time - start_time << std::endl;
+   ofile.close();
 
    return 0;
 }
