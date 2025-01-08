@@ -1,0 +1,35 @@
+packing/packing_parallel.cpp: In function ‘void move_particles(std::vector<double>&, std::vector<double>&, std::vector<double>&, std::vector<double>&, std::vector<double>&, std::vector<double>&, double)’:
+packing/packing_parallel.cpp:194:7: error: invalid exit from OpenMP structured block
+  194 |       return;
+      |       ^~~~~~
+Mean radius: 3.62783
+System size: 115.176
+Final box size: 115.176
+Box size change: 0.0575882
+Final density: 0.54339
+
+real	0m13.078s
+user	20m43.052s
+sys	0m0.169s
+
+Job completed at Wed Jan 8 16:21:59 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14760415
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 00:20:44
+CPU Efficiency: 92.56% of 00:22:24 core-walltime
+Job Wall-clock time: 00:00:14
+Memory Utilized: 4.06 MB
+Memory Efficiency: 0.00% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:00:14
+Wall clock time efficiency: 1.2%
+           Job queued time: 00:00:11
