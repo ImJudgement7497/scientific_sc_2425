@@ -1,0 +1,27 @@
+packing/packing_parallel.cpp: In function ‘void pbc_loop(std::vector<double>&, std::vector<double>&, std::vector<double>&, std::vector<double>&, double&, double&, double&, double, double, double, double, double, double, double, double)’:
+packing/packing_parallel.cpp:31:17: error: ‘default’ is not valid for ‘#pragma omp for’
+   31 | #pragma omp for default(shared)
+      |                 ^~~~~~~
+Mean radius: 3.62783
+System size: 115.176
+slurmstepd: error: *** JOB 14757574 ON node002 CANCELLED AT 2025-01-08T15:18:57 ***
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14757574
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: CANCELLED (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 00:00:01
+CPU Efficiency: 0.00% of 1-06:46:24 core-walltime
+Job Wall-clock time: 00:19:14
+Memory Utilized: 8.86 MB
+Memory Efficiency: 0.00% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:19:14
+Wall clock time efficiency: 96.2%
+           Job queued time: 00:00:17

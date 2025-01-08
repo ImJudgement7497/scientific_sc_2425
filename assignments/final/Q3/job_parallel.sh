@@ -13,9 +13,9 @@
 #SBATCH --cpus-per-task=96                  # ...with each task using 1 core
 #SBATCH --time=00:20:00                    # Time limit hrs:min:sec
 
-g++ -pg -fopenmp packing/packing_parallel.cpp -o main_packing_parallel
+g++ -fopenmp packing/packing_parallel.cpp -o main_packing_parallel
 export OMP_NUM_THREADS=96
-./main_packing_parallel
+time ./main_packing_parallel
 
 echo
 echo Job completed at `date`

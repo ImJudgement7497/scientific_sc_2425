@@ -1,0 +1,31 @@
+Mean radius: 3.62783
+System size: 115.176
+Final box size: 115.176
+Box size change: 0.0575882
+Final density: 0.54339
+
+real	0m15.495s
+user	24m23.581s
+sys	0m0.134s
+
+Job completed at Wed Jan 8 15:52:34 GMT 2025
+
+============================
+ Job utilisation efficiency
+============================
+
+Job ID: 14757703
+Cluster: viking2.yor.alces.network
+User/Group: bmjm501/clusterusers
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 96
+CPU Utilized: 00:24:24
+CPU Efficiency: 89.71% of 00:27:12 core-walltime
+Job Wall-clock time: 00:00:17
+Memory Utilized: 4.06 MB
+Memory Efficiency: 0.00% of 502.97 GB
+ Requested wall clock time: 00:20:00
+    Actual wall clock time: 00:00:17
+Wall clock time efficiency: 1.4%
+           Job queued time: 00:00:17
