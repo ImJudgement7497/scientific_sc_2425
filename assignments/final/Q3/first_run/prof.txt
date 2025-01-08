@@ -1,0 +1,658 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 50.94    375.60   375.60 19121070     0.02     0.04  pbc_loop(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double&, double&, double, double, double, double, double, double, double, double)
+ 45.18    708.74   333.13 14183404272     0.00     0.00  std::vector<double, std::allocator<double> >::operator[](unsigned long)
+  3.71    736.11    27.38 19135071     0.00     0.00  std::vector<double, std::allocator<double> >::size() const
+  0.15    737.25     1.14     4000     0.28   183.18  calculate_forces(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double, double, double)
+  0.01    737.36     0.11     4000     0.03     0.87  move_particles(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double)
+  0.00    737.39     0.03     2000     0.01     0.58  shrink(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double)
+  0.00    737.39     0.00    34148     0.00     0.00  std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::min()
+  0.00    737.39     0.00    34148     0.00     0.00  std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::operator()()
+  0.00    737.39     0.00    24000     0.00     0.00  std::uniform_real_distribution<double>::param_type::a() const
+  0.00    737.39     0.00    17074     0.00     0.00  std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double>::operator()()
+  0.00    737.39     0.00    17074     0.00     0.00  double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&)
+  0.00    737.39     0.00    16000     0.00     0.00  std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double>::_Adaptor(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&)
+  0.00    737.39     0.00    12000     0.00     0.00  rng_t::grnd()
+  0.00    737.39     0.00    12000     0.00     0.00  std::uniform_real_distribution<double>::param_type::b() const
+  0.00    737.39     0.00    12000     0.00     0.00  double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&)
+  0.00    737.39     0.00    12000     0.00     0.00  double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_real_distribution<double>::param_type const&)
+  0.00    737.39     0.00     4000     0.00     0.00  ln_rng_t::grnd()
+  0.00    737.39     0.00     4000     0.00     0.00  std::normal_distribution<double>::param_type::mean() const
+  0.00    737.39     0.00     4000     0.00     0.00  std::normal_distribution<double>::param_type::stddev() const
+  0.00    737.39     0.00     4000     0.00     0.00  std::lognormal_distribution<double>::param_type::m() const
+  0.00    737.39     0.00     4000     0.00     0.00  std::lognormal_distribution<double>::param_type::s() const
+  0.00    737.39     0.00     4000     0.00     0.00  double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&)
+  0.00    737.39     0.00     4000     0.00     0.00  double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::normal_distribution<double>::param_type const&)
+  0.00    737.39     0.00     4000     0.00     0.00  double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&)
+  0.00    737.39     0.00     4000     0.00     0.00  double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::lognormal_distribution<double>::param_type const&)
+  0.00    737.39     0.00     2496     0.00     0.00  std::__detail::_Mod<unsigned long, 4294967296ul, 1ul, 0ul, true, true>::__calc(unsigned long)
+  0.00    737.39     0.00     2496     0.00     0.00  unsigned long std::__detail::__mod<unsigned long, 4294967296ul, 1ul, 0ul>(unsigned long)
+  0.00    737.39     0.00     2492     0.00     0.00  std::__detail::_Mod<unsigned long, 624ul, 1ul, 0ul, true, true>::__calc(unsigned long)
+  0.00    737.39     0.00     2492     0.00     0.00  unsigned long std::__detail::__mod<unsigned long, 624ul, 1ul, 0ul>(unsigned long)
+  0.00    737.39     0.00       56     0.00     0.00  std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::_M_gen_rand()
+  0.00    737.39     0.00       30     0.00     0.00  __gnu_cxx::new_allocator<double>::~new_allocator()
+  0.00    737.39     0.00       30     0.00     0.00  std::allocator<double>::~allocator()
+  0.00    737.39     0.00       20     0.00     0.00  __gnu_cxx::new_allocator<double>::new_allocator(__gnu_cxx::new_allocator<double> const&)
+  0.00    737.39     0.00       20     0.00     0.00  __gnu_cxx::new_allocator<double>::_M_max_size() const
+  0.00    737.39     0.00       20     0.00     0.00  std::allocator<double>::allocator(std::allocator<double> const&)
+  0.00    737.39     0.00       20     0.00     0.00  std::_Vector_base<double, std::allocator<double> >::_M_get_Tp_allocator()
+  0.00    737.39     0.00       10     0.00     0.00  __gnu_cxx::new_allocator<double>::deallocate(double*, unsigned long)
+  0.00    737.39     0.00       10     0.00     0.00  __gnu_cxx::new_allocator<double>::allocate(unsigned long, void const*)
+  0.00    737.39     0.00       10     0.00     0.00  __gnu_cxx::new_allocator<double>::new_allocator()
+  0.00    737.39     0.00       10     0.00     0.00  __gnu_cxx::new_allocator<double>::max_size() const
+  0.00    737.39     0.00       10     0.00     0.00  std::allocator<double>::allocator()
+  0.00    737.39     0.00       10     0.00     0.00  void std::_Destroy_aux<true>::__destroy<double*>(double*, double*)
+  0.00    737.39     0.00       10     0.00     0.00  std::_Vector_base<double, std::allocator<double> >::_M_allocate(unsigned long)
+  0.00    737.39     0.00       10     0.00     0.00  std::_Vector_base<double, std::allocator<double> >::_Vector_impl::_Vector_impl(std::allocator<double> const&)
+  0.00    737.39     0.00       10     0.00     0.00  std::_Vector_base<double, std::allocator<double> >::_Vector_impl::~_Vector_impl()
+  0.00    737.39     0.00       10     0.00     0.00  std::_Vector_base<double, std::allocator<double> >::_M_deallocate(double*, unsigned long)
+  0.00    737.39     0.00       10     0.00     0.00  std::_Vector_base<double, std::allocator<double> >::_M_create_storage(unsigned long)
+  0.00    737.39     0.00       10     0.00     0.00  std::_Vector_base<double, std::allocator<double> >::_Vector_impl_data::_Vector_impl_data()
+  0.00    737.39     0.00       10     0.00     0.00  std::_Vector_base<double, std::allocator<double> >::_Vector_base(unsigned long, std::allocator<double> const&)
+  0.00    737.39     0.00       10     0.00     0.00  std::_Vector_base<double, std::allocator<double> >::~_Vector_base()
+  0.00    737.39     0.00       10     0.00     0.00  std::allocator_traits<std::allocator<double> >::deallocate(std::allocator<double>&, double*, unsigned long)
+  0.00    737.39     0.00       10     0.00     0.00  std::allocator_traits<std::allocator<double> >::allocate(std::allocator<double>&, unsigned long)
+  0.00    737.39     0.00       10     0.00     0.00  std::allocator_traits<std::allocator<double> >::max_size(std::allocator<double> const&)
+  0.00    737.39     0.00       10     0.00     0.00  double* std::__uninitialized_default_n_1<true>::__uninit_default_n<double*, unsigned long>(double*, unsigned long)
+  0.00    737.39     0.00       10     0.00     0.00  std::vector<double, std::allocator<double> >::_S_max_size(std::allocator<double> const&)
+  0.00    737.39     0.00       10     0.00     0.00  std::vector<double, std::allocator<double> >::_S_check_init_len(unsigned long, std::allocator<double> const&)
+  0.00    737.39     0.00       10     0.00     0.00  std::vector<double, std::allocator<double> >::_M_default_initialize(unsigned long)
+  0.00    737.39     0.00       10     0.00     0.00  std::vector<double, std::allocator<double> >::vector(unsigned long, std::allocator<double> const&)
+  0.00    737.39     0.00       10     0.00     0.00  std::vector<double, std::allocator<double> >::~vector()
+  0.00    737.39     0.00       10     0.00     0.00  void std::_Construct<double>(double*)
+  0.00    737.39     0.00       10     0.00     0.00  double* std::__fill_n_a<double*, unsigned long, double>(double*, unsigned long, double const&, std::random_access_iterator_tag)
+  0.00    737.39     0.00       10     0.00     0.00  double* std::__addressof<double>(double&)
+  0.00    737.39     0.00       10     0.00     0.00  std::__size_to_integer(unsigned long)
+  0.00    737.39     0.00       10     0.00     0.00  std::iterator_traits<double*>::iterator_category std::__iterator_category<double*>(double* const&)
+  0.00    737.39     0.00       10     0.00     0.00  double* std::__uninitialized_default_n<double*, unsigned long>(double*, unsigned long)
+  0.00    737.39     0.00       10     0.00     0.00  double* std::__uninitialized_default_n_a<double*, unsigned long, double>(double*, unsigned long, std::allocator<double>&)
+  0.00    737.39     0.00       10     0.00     0.00  unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&)
+  0.00    737.39     0.00       10     0.00     0.00  double* std::fill_n<double*, unsigned long, double>(double*, unsigned long, double const&)
+  0.00    737.39     0.00       10     0.00     0.00  void std::_Destroy<double*>(double*, double*)
+  0.00    737.39     0.00       10     0.00     0.00  void std::_Destroy<double*, double>(double*, double*, std::allocator<double>&)
+  0.00    737.39     0.00       10     0.00     0.00  void std::__fill_a<double*, double>(double*, double*, double const&)
+  0.00    737.39     0.00       10     0.00     0.00  __gnu_cxx::__enable_if<std::__is_scalar<double>::__value, void>::__type std::__fill_a1<double*, double>(double*, double*, double const&)
+  0.00    737.39     0.00       10     0.00     0.00  operator new(unsigned long, void*)
+  0.00    737.39     0.00        4     0.00     0.00  std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long)
+  0.00    737.39     0.00        2     0.00     0.00  std::normal_distribution<double>::param_type::param_type(double, double)
+  0.00    737.39     0.00        2     0.00     0.00  std::normal_distribution<double>::normal_distribution(double, double)
+  0.00    737.39     0.00        2     0.00     0.00  std::normal_distribution<double>::normal_distribution()
+  0.00    737.39     0.00        2     0.00     0.00  std::lognormal_distribution<double>::param_type::param_type(double, double)
+  0.00    737.39     0.00        2     0.00     0.00  std::lognormal_distribution<double>::lognormal_distribution(double, double)
+  0.00    737.39     0.00        2     0.00     0.00  std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine(unsigned long)
+  0.00    737.39     0.00        2     0.00     0.00  std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine()
+  0.00    737.39     0.00        2     0.00     0.00  std::uniform_real_distribution<double>::param_type::param_type(double, double)
+  0.00    737.39     0.00        2     0.00     0.00  std::uniform_real_distribution<double>::uniform_real_distribution(double, double)
+  0.00    737.39     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00    737.39     0.00        1     0.00     0.00  rng_t::seed(unsigned int)
+  0.00    737.39     0.00        1     0.00     0.00  rng_t::rng_t()
+  0.00    737.39     0.00        1     0.00     0.00  ln_rng_t::seed(unsigned int, double, double)
+  0.00    737.39     0.00        1     0.00     0.00  ln_rng_t::ln_rng_t()
+  0.00    737.39     0.00        1     0.00     0.00  std::lognormal_distribution<double>::lognormal_distribution()
+  0.00    737.39     0.00        1     0.00     0.00  std::uniform_real_distribution<double>::uniform_real_distribution()
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 0.00% of 737.39 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]    100.0    0.00  737.39                 main [1]
+                1.14  731.58    4000/4000        calculate_forces(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double, double, double) [2]
+                0.11    3.39    4000/4000        move_particles(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double) [6]
+                0.03    1.13    2000/2000        shrink(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double) [7]
+                0.01    0.00    4001/19135071     std::vector<double, std::allocator<double> >::size() const [5]
+                0.00    0.00   60400/14183404272     std::vector<double, std::allocator<double> >::operator[](unsigned long) [4]
+                0.00    0.00   12000/12000       rng_t::grnd() [20]
+                0.00    0.00    4000/4000        ln_rng_t::grnd() [24]
+                0.00    0.00      10/10          std::allocator<double>::allocator() [48]
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::vector(unsigned long, std::allocator<double> const&) [65]
+                0.00    0.00      10/30          std::allocator<double>::~allocator() [39]
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::~vector() [66]
+                0.00    0.00       1/1           rng_t::rng_t() [93]
+                0.00    0.00       1/1           rng_t::seed(unsigned int) [92]
+                0.00    0.00       1/1           ln_rng_t::ln_rng_t() [95]
+                0.00    0.00       1/1           ln_rng_t::seed(unsigned int, double, double) [94]
+-----------------------------------------------
+                1.14  731.58    4000/4000        main [1]
+[2]     99.4    1.14  731.58    4000         calculate_forces(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double, double, double) [2]
+              375.60  353.35 19121070/19121070     pbc_loop(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double&, double&, double, double, double, double, double, double, double, double) [3]
+                2.63    0.00 112000000/14183404272     std::vector<double, std::allocator<double> >::operator[](unsigned long) [4]
+                0.01    0.00    4000/19135071     std::vector<double, std::allocator<double> >::size() const [5]
+-----------------------------------------------
+              375.60  353.35 19121070/19121070     calculate_forces(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double, double, double) [2]
+[3]     98.9  375.60  353.35 19121070         pbc_loop(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double&, double&, double, double, double, double, double, double, double, double) [3]
+              325.99    0.00 13879343872/14183404272     std::vector<double, std::allocator<double> >::operator[](unsigned long) [4]
+               27.35    0.00 19121070/19135071     std::vector<double, std::allocator<double> >::size() const [5]
+-----------------------------------------------
+                0.00    0.00   60400/14183404272     main [1]
+                1.13    0.00 48000000/14183404272     shrink(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double) [7]
+                2.63    0.00 112000000/14183404272     calculate_forces(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double, double, double) [2]
+                3.38    0.00 144000000/14183404272     move_particles(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double) [6]
+              325.99    0.00 13879343872/14183404272     pbc_loop(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double&, double&, double, double, double, double, double, double, double, double) [3]
+[4]     45.2  333.13    0.00 14183404272         std::vector<double, std::allocator<double> >::operator[](unsigned long) [4]
+-----------------------------------------------
+                0.00    0.00    2000/19135071     shrink(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double) [7]
+                0.01    0.00    4000/19135071     calculate_forces(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double, double, double) [2]
+                0.01    0.00    4000/19135071     move_particles(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double) [6]
+                0.01    0.00    4001/19135071     main [1]
+               27.35    0.00 19121070/19135071     pbc_loop(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double&, double&, double, double, double, double, double, double, double, double) [3]
+[5]      3.7   27.38    0.00 19135071         std::vector<double, std::allocator<double> >::size() const [5]
+-----------------------------------------------
+                0.11    3.39    4000/4000        main [1]
+[6]      0.5    0.11    3.39    4000         move_particles(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double) [6]
+                3.38    0.00 144000000/14183404272     std::vector<double, std::allocator<double> >::operator[](unsigned long) [4]
+                0.01    0.00    4000/19135071     std::vector<double, std::allocator<double> >::size() const [5]
+-----------------------------------------------
+                0.03    1.13    2000/2000        main [1]
+[7]      0.2    0.03    1.13    2000         shrink(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double) [7]
+                1.13    0.00 48000000/14183404272     std::vector<double, std::allocator<double> >::operator[](unsigned long) [4]
+                0.00    0.00    2000/19135071     std::vector<double, std::allocator<double> >::size() const [5]
+-----------------------------------------------
+                0.00    0.00   34148/34148       double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [18]
+[14]     0.0    0.00    0.00   34148         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::min() [14]
+-----------------------------------------------
+                0.00    0.00   34148/34148       double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [18]
+[15]     0.0    0.00    0.00   34148         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::operator()() [15]
+                0.00    0.00      56/56          std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::_M_gen_rand() [37]
+-----------------------------------------------
+                0.00    0.00   24000/24000       double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_real_distribution<double>::param_type const&) [23]
+[16]     0.0    0.00    0.00   24000         std::uniform_real_distribution<double>::param_type::a() const [16]
+-----------------------------------------------
+                0.00    0.00    5074/17074       double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::normal_distribution<double>::param_type const&) [30]
+                0.00    0.00   12000/17074       double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_real_distribution<double>::param_type const&) [23]
+[17]     0.0    0.00    0.00   17074         std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double>::operator()() [17]
+                0.00    0.00   17074/17074       double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [18]
+-----------------------------------------------
+                0.00    0.00   17074/17074       std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double>::operator()() [17]
+[18]     0.0    0.00    0.00   17074         double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [18]
+                0.00    0.00   34148/34148       std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::operator()() [15]
+                0.00    0.00   34148/34148       std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::min() [14]
+-----------------------------------------------
+                0.00    0.00    4000/16000       double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::normal_distribution<double>::param_type const&) [30]
+                0.00    0.00   12000/16000       double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_real_distribution<double>::param_type const&) [23]
+[19]     0.0    0.00    0.00   16000         std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double>::_Adaptor(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [19]
+-----------------------------------------------
+                0.00    0.00   12000/12000       main [1]
+[20]     0.0    0.00    0.00   12000         rng_t::grnd() [20]
+                0.00    0.00   12000/12000       double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [22]
+-----------------------------------------------
+                0.00    0.00   12000/12000       double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_real_distribution<double>::param_type const&) [23]
+[21]     0.0    0.00    0.00   12000         std::uniform_real_distribution<double>::param_type::b() const [21]
+-----------------------------------------------
+                0.00    0.00   12000/12000       rng_t::grnd() [20]
+[22]     0.0    0.00    0.00   12000         double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [22]
+                0.00    0.00   12000/12000       double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_real_distribution<double>::param_type const&) [23]
+-----------------------------------------------
+                0.00    0.00   12000/12000       double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [22]
+[23]     0.0    0.00    0.00   12000         double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_real_distribution<double>::param_type const&) [23]
+                0.00    0.00   24000/24000       std::uniform_real_distribution<double>::param_type::a() const [16]
+                0.00    0.00   12000/16000       std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double>::_Adaptor(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [19]
+                0.00    0.00   12000/17074       std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double>::operator()() [17]
+                0.00    0.00   12000/12000       std::uniform_real_distribution<double>::param_type::b() const [21]
+-----------------------------------------------
+                0.00    0.00    4000/4000        main [1]
+[24]     0.0    0.00    0.00    4000         ln_rng_t::grnd() [24]
+                0.00    0.00    4000/4000        double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [31]
+-----------------------------------------------
+                0.00    0.00    4000/4000        double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::normal_distribution<double>::param_type const&) [30]
+[25]     0.0    0.00    0.00    4000         std::normal_distribution<double>::param_type::mean() const [25]
+-----------------------------------------------
+                0.00    0.00    4000/4000        double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::normal_distribution<double>::param_type const&) [30]
+[26]     0.0    0.00    0.00    4000         std::normal_distribution<double>::param_type::stddev() const [26]
+-----------------------------------------------
+                0.00    0.00    4000/4000        double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::lognormal_distribution<double>::param_type const&) [32]
+[27]     0.0    0.00    0.00    4000         std::lognormal_distribution<double>::param_type::m() const [27]
+-----------------------------------------------
+                0.00    0.00    4000/4000        double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::lognormal_distribution<double>::param_type const&) [32]
+[28]     0.0    0.00    0.00    4000         std::lognormal_distribution<double>::param_type::s() const [28]
+-----------------------------------------------
+                0.00    0.00    4000/4000        double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::lognormal_distribution<double>::param_type const&) [32]
+[29]     0.0    0.00    0.00    4000         double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [29]
+                0.00    0.00    4000/4000        double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::normal_distribution<double>::param_type const&) [30]
+-----------------------------------------------
+                0.00    0.00    4000/4000        double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [29]
+[30]     0.0    0.00    0.00    4000         double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::normal_distribution<double>::param_type const&) [30]
+                0.00    0.00    5074/17074       std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double>::operator()() [17]
+                0.00    0.00    4000/16000       std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double>::_Adaptor(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [19]
+                0.00    0.00    4000/4000        std::normal_distribution<double>::param_type::stddev() const [26]
+                0.00    0.00    4000/4000        std::normal_distribution<double>::param_type::mean() const [25]
+-----------------------------------------------
+                0.00    0.00    4000/4000        ln_rng_t::grnd() [24]
+[31]     0.0    0.00    0.00    4000         double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [31]
+                0.00    0.00    4000/4000        double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::lognormal_distribution<double>::param_type const&) [32]
+-----------------------------------------------
+                0.00    0.00    4000/4000        double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [31]
+[32]     0.0    0.00    0.00    4000         double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::lognormal_distribution<double>::param_type const&) [32]
+                0.00    0.00    4000/4000        std::lognormal_distribution<double>::param_type::s() const [28]
+                0.00    0.00    4000/4000        double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [29]
+                0.00    0.00    4000/4000        std::lognormal_distribution<double>::param_type::m() const [27]
+-----------------------------------------------
+                0.00    0.00    2496/2496        unsigned long std::__detail::__mod<unsigned long, 4294967296ul, 1ul, 0ul>(unsigned long) [34]
+[33]     0.0    0.00    0.00    2496         std::__detail::_Mod<unsigned long, 4294967296ul, 1ul, 0ul, true, true>::__calc(unsigned long) [33]
+-----------------------------------------------
+                0.00    0.00    2496/2496        std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [81]
+[34]     0.0    0.00    0.00    2496         unsigned long std::__detail::__mod<unsigned long, 4294967296ul, 1ul, 0ul>(unsigned long) [34]
+                0.00    0.00    2496/2496        std::__detail::_Mod<unsigned long, 4294967296ul, 1ul, 0ul, true, true>::__calc(unsigned long) [33]
+-----------------------------------------------
+                0.00    0.00    2492/2492        unsigned long std::__detail::__mod<unsigned long, 624ul, 1ul, 0ul>(unsigned long) [36]
+[35]     0.0    0.00    0.00    2492         std::__detail::_Mod<unsigned long, 624ul, 1ul, 0ul, true, true>::__calc(unsigned long) [35]
+-----------------------------------------------
+                0.00    0.00    2492/2492        std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [81]
+[36]     0.0    0.00    0.00    2492         unsigned long std::__detail::__mod<unsigned long, 624ul, 1ul, 0ul>(unsigned long) [36]
+                0.00    0.00    2492/2492        std::__detail::_Mod<unsigned long, 624ul, 1ul, 0ul, true, true>::__calc(unsigned long) [35]
+-----------------------------------------------
+                0.00    0.00      56/56          std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::operator()() [15]
+[37]     0.0    0.00    0.00      56         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::_M_gen_rand() [37]
+-----------------------------------------------
+                0.00    0.00      30/30          std::allocator<double>::~allocator() [39]
+[38]     0.0    0.00    0.00      30         __gnu_cxx::new_allocator<double>::~new_allocator() [38]
+-----------------------------------------------
+                0.00    0.00      10/30          main [1]
+                0.00    0.00      10/30          std::vector<double, std::allocator<double> >::_S_check_init_len(unsigned long, std::allocator<double> const&) [63]
+                0.00    0.00      10/30          std::_Vector_base<double, std::allocator<double> >::_Vector_impl::~_Vector_impl() [52]
+[39]     0.0    0.00    0.00      30         std::allocator<double>::~allocator() [39]
+                0.00    0.00      30/30          __gnu_cxx::new_allocator<double>::~new_allocator() [38]
+-----------------------------------------------
+                0.00    0.00      20/20          std::allocator<double>::allocator(std::allocator<double> const&) [42]
+[40]     0.0    0.00    0.00      20         __gnu_cxx::new_allocator<double>::new_allocator(__gnu_cxx::new_allocator<double> const&) [40]
+-----------------------------------------------
+                0.00    0.00      10/20          __gnu_cxx::new_allocator<double>::max_size() const [47]
+                0.00    0.00      10/20          __gnu_cxx::new_allocator<double>::allocate(unsigned long, void const*) [45]
+[41]     0.0    0.00    0.00      20         __gnu_cxx::new_allocator<double>::_M_max_size() const [41]
+-----------------------------------------------
+                0.00    0.00      10/20          std::vector<double, std::allocator<double> >::_S_check_init_len(unsigned long, std::allocator<double> const&) [63]
+                0.00    0.00      10/20          std::_Vector_base<double, std::allocator<double> >::_Vector_impl::_Vector_impl(std::allocator<double> const&) [51]
+[42]     0.0    0.00    0.00      20         std::allocator<double>::allocator(std::allocator<double> const&) [42]
+                0.00    0.00      20/20          __gnu_cxx::new_allocator<double>::new_allocator(__gnu_cxx::new_allocator<double> const&) [40]
+-----------------------------------------------
+                0.00    0.00      10/20          std::vector<double, std::allocator<double> >::~vector() [66]
+                0.00    0.00      10/20          std::vector<double, std::allocator<double> >::_M_default_initialize(unsigned long) [64]
+[43]     0.0    0.00    0.00      20         std::_Vector_base<double, std::allocator<double> >::_M_get_Tp_allocator() [43]
+-----------------------------------------------
+                0.00    0.00      10/10          std::allocator_traits<std::allocator<double> >::deallocate(std::allocator<double>&, double*, unsigned long) [58]
+[44]     0.0    0.00    0.00      10         __gnu_cxx::new_allocator<double>::deallocate(double*, unsigned long) [44]
+-----------------------------------------------
+                0.00    0.00      10/10          std::allocator_traits<std::allocator<double> >::allocate(std::allocator<double>&, unsigned long) [59]
+[45]     0.0    0.00    0.00      10         __gnu_cxx::new_allocator<double>::allocate(unsigned long, void const*) [45]
+                0.00    0.00      10/20          __gnu_cxx::new_allocator<double>::_M_max_size() const [41]
+-----------------------------------------------
+                0.00    0.00      10/10          std::allocator<double>::allocator() [48]
+[46]     0.0    0.00    0.00      10         __gnu_cxx::new_allocator<double>::new_allocator() [46]
+-----------------------------------------------
+                0.00    0.00      10/10          std::allocator_traits<std::allocator<double> >::max_size(std::allocator<double> const&) [60]
+[47]     0.0    0.00    0.00      10         __gnu_cxx::new_allocator<double>::max_size() const [47]
+                0.00    0.00      10/20          __gnu_cxx::new_allocator<double>::_M_max_size() const [41]
+-----------------------------------------------
+                0.00    0.00      10/10          main [1]
+[48]     0.0    0.00    0.00      10         std::allocator<double>::allocator() [48]
+                0.00    0.00      10/10          __gnu_cxx::new_allocator<double>::new_allocator() [46]
+-----------------------------------------------
+                0.00    0.00      10/10          void std::_Destroy<double*>(double*, double*) [76]
+[49]     0.0    0.00    0.00      10         void std::_Destroy_aux<true>::__destroy<double*>(double*, double*) [49]
+-----------------------------------------------
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_M_create_storage(unsigned long) [54]
+[50]     0.0    0.00    0.00      10         std::_Vector_base<double, std::allocator<double> >::_M_allocate(unsigned long) [50]
+                0.00    0.00      10/10          std::allocator_traits<std::allocator<double> >::allocate(std::allocator<double>&, unsigned long) [59]
+-----------------------------------------------
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_Vector_base(unsigned long, std::allocator<double> const&) [56]
+[51]     0.0    0.00    0.00      10         std::_Vector_base<double, std::allocator<double> >::_Vector_impl::_Vector_impl(std::allocator<double> const&) [51]
+                0.00    0.00      10/20          std::allocator<double>::allocator(std::allocator<double> const&) [42]
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_Vector_impl_data::_Vector_impl_data() [55]
+-----------------------------------------------
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::~_Vector_base() [57]
+[52]     0.0    0.00    0.00      10         std::_Vector_base<double, std::allocator<double> >::_Vector_impl::~_Vector_impl() [52]
+                0.00    0.00      10/30          std::allocator<double>::~allocator() [39]
+-----------------------------------------------
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::~_Vector_base() [57]
+[53]     0.0    0.00    0.00      10         std::_Vector_base<double, std::allocator<double> >::_M_deallocate(double*, unsigned long) [53]
+                0.00    0.00      10/10          std::allocator_traits<std::allocator<double> >::deallocate(std::allocator<double>&, double*, unsigned long) [58]
+-----------------------------------------------
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_Vector_base(unsigned long, std::allocator<double> const&) [56]
+[54]     0.0    0.00    0.00      10         std::_Vector_base<double, std::allocator<double> >::_M_create_storage(unsigned long) [54]
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_M_allocate(unsigned long) [50]
+-----------------------------------------------
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_Vector_impl::_Vector_impl(std::allocator<double> const&) [51]
+[55]     0.0    0.00    0.00      10         std::_Vector_base<double, std::allocator<double> >::_Vector_impl_data::_Vector_impl_data() [55]
+-----------------------------------------------
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::vector(unsigned long, std::allocator<double> const&) [65]
+[56]     0.0    0.00    0.00      10         std::_Vector_base<double, std::allocator<double> >::_Vector_base(unsigned long, std::allocator<double> const&) [56]
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_Vector_impl::_Vector_impl(std::allocator<double> const&) [51]
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_M_create_storage(unsigned long) [54]
+-----------------------------------------------
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::~vector() [66]
+[57]     0.0    0.00    0.00      10         std::_Vector_base<double, std::allocator<double> >::~_Vector_base() [57]
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_M_deallocate(double*, unsigned long) [53]
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_Vector_impl::~_Vector_impl() [52]
+-----------------------------------------------
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_M_deallocate(double*, unsigned long) [53]
+[58]     0.0    0.00    0.00      10         std::allocator_traits<std::allocator<double> >::deallocate(std::allocator<double>&, double*, unsigned long) [58]
+                0.00    0.00      10/10          __gnu_cxx::new_allocator<double>::deallocate(double*, unsigned long) [44]
+-----------------------------------------------
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_M_allocate(unsigned long) [50]
+[59]     0.0    0.00    0.00      10         std::allocator_traits<std::allocator<double> >::allocate(std::allocator<double>&, unsigned long) [59]
+                0.00    0.00      10/10          __gnu_cxx::new_allocator<double>::allocate(unsigned long, void const*) [45]
+-----------------------------------------------
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::_S_max_size(std::allocator<double> const&) [62]
+[60]     0.0    0.00    0.00      10         std::allocator_traits<std::allocator<double> >::max_size(std::allocator<double> const&) [60]
+                0.00    0.00      10/10          __gnu_cxx::new_allocator<double>::max_size() const [47]
+-----------------------------------------------
+                0.00    0.00      10/10          double* std::__uninitialized_default_n<double*, unsigned long>(double*, unsigned long) [72]
+[61]     0.0    0.00    0.00      10         double* std::__uninitialized_default_n_1<true>::__uninit_default_n<double*, unsigned long>(double*, unsigned long) [61]
+                0.00    0.00      10/10          double* std::__addressof<double>(double&) [69]
+                0.00    0.00      10/10          void std::_Construct<double>(double*) [67]
+                0.00    0.00      10/10          double* std::fill_n<double*, unsigned long, double>(double*, unsigned long, double const&) [75]
+-----------------------------------------------
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::_S_check_init_len(unsigned long, std::allocator<double> const&) [63]
+[62]     0.0    0.00    0.00      10         std::vector<double, std::allocator<double> >::_S_max_size(std::allocator<double> const&) [62]
+                0.00    0.00      10/10          std::allocator_traits<std::allocator<double> >::max_size(std::allocator<double> const&) [60]
+                0.00    0.00      10/10          unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [74]
+-----------------------------------------------
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::vector(unsigned long, std::allocator<double> const&) [65]
+[63]     0.0    0.00    0.00      10         std::vector<double, std::allocator<double> >::_S_check_init_len(unsigned long, std::allocator<double> const&) [63]
+                0.00    0.00      10/20          std::allocator<double>::allocator(std::allocator<double> const&) [42]
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::_S_max_size(std::allocator<double> const&) [62]
+                0.00    0.00      10/30          std::allocator<double>::~allocator() [39]
+-----------------------------------------------
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::vector(unsigned long, std::allocator<double> const&) [65]
+[64]     0.0    0.00    0.00      10         std::vector<double, std::allocator<double> >::_M_default_initialize(unsigned long) [64]
+                0.00    0.00      10/20          std::_Vector_base<double, std::allocator<double> >::_M_get_Tp_allocator() [43]
+                0.00    0.00      10/10          double* std::__uninitialized_default_n_a<double*, unsigned long, double>(double*, unsigned long, std::allocator<double>&) [73]
+-----------------------------------------------
+                0.00    0.00      10/10          main [1]
+[65]     0.0    0.00    0.00      10         std::vector<double, std::allocator<double> >::vector(unsigned long, std::allocator<double> const&) [65]
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::_S_check_init_len(unsigned long, std::allocator<double> const&) [63]
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::_Vector_base(unsigned long, std::allocator<double> const&) [56]
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::_M_default_initialize(unsigned long) [64]
+-----------------------------------------------
+                0.00    0.00      10/10          main [1]
+[66]     0.0    0.00    0.00      10         std::vector<double, std::allocator<double> >::~vector() [66]
+                0.00    0.00      10/20          std::_Vector_base<double, std::allocator<double> >::_M_get_Tp_allocator() [43]
+                0.00    0.00      10/10          void std::_Destroy<double*, double>(double*, double*, std::allocator<double>&) [77]
+                0.00    0.00      10/10          std::_Vector_base<double, std::allocator<double> >::~_Vector_base() [57]
+-----------------------------------------------
+                0.00    0.00      10/10          double* std::__uninitialized_default_n_1<true>::__uninit_default_n<double*, unsigned long>(double*, unsigned long) [61]
+[67]     0.0    0.00    0.00      10         void std::_Construct<double>(double*) [67]
+                0.00    0.00      10/10          operator new(unsigned long, void*) [80]
+-----------------------------------------------
+                0.00    0.00      10/10          double* std::fill_n<double*, unsigned long, double>(double*, unsigned long, double const&) [75]
+[68]     0.0    0.00    0.00      10         double* std::__fill_n_a<double*, unsigned long, double>(double*, unsigned long, double const&, std::random_access_iterator_tag) [68]
+                0.00    0.00      10/10          void std::__fill_a<double*, double>(double*, double*, double const&) [78]
+-----------------------------------------------
+                0.00    0.00      10/10          double* std::__uninitialized_default_n_1<true>::__uninit_default_n<double*, unsigned long>(double*, unsigned long) [61]
+[69]     0.0    0.00    0.00      10         double* std::__addressof<double>(double&) [69]
+-----------------------------------------------
+                0.00    0.00      10/10          double* std::fill_n<double*, unsigned long, double>(double*, unsigned long, double const&) [75]
+[70]     0.0    0.00    0.00      10         std::__size_to_integer(unsigned long) [70]
+-----------------------------------------------
+                0.00    0.00      10/10          double* std::fill_n<double*, unsigned long, double>(double*, unsigned long, double const&) [75]
+[71]     0.0    0.00    0.00      10         std::iterator_traits<double*>::iterator_category std::__iterator_category<double*>(double* const&) [71]
+-----------------------------------------------
+                0.00    0.00      10/10          double* std::__uninitialized_default_n_a<double*, unsigned long, double>(double*, unsigned long, std::allocator<double>&) [73]
+[72]     0.0    0.00    0.00      10         double* std::__uninitialized_default_n<double*, unsigned long>(double*, unsigned long) [72]
+                0.00    0.00      10/10          double* std::__uninitialized_default_n_1<true>::__uninit_default_n<double*, unsigned long>(double*, unsigned long) [61]
+-----------------------------------------------
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::_M_default_initialize(unsigned long) [64]
+[73]     0.0    0.00    0.00      10         double* std::__uninitialized_default_n_a<double*, unsigned long, double>(double*, unsigned long, std::allocator<double>&) [73]
+                0.00    0.00      10/10          double* std::__uninitialized_default_n<double*, unsigned long>(double*, unsigned long) [72]
+-----------------------------------------------
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::_S_max_size(std::allocator<double> const&) [62]
+[74]     0.0    0.00    0.00      10         unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [74]
+-----------------------------------------------
+                0.00    0.00      10/10          double* std::__uninitialized_default_n_1<true>::__uninit_default_n<double*, unsigned long>(double*, unsigned long) [61]
+[75]     0.0    0.00    0.00      10         double* std::fill_n<double*, unsigned long, double>(double*, unsigned long, double const&) [75]
+                0.00    0.00      10/10          std::iterator_traits<double*>::iterator_category std::__iterator_category<double*>(double* const&) [71]
+                0.00    0.00      10/10          std::__size_to_integer(unsigned long) [70]
+                0.00    0.00      10/10          double* std::__fill_n_a<double*, unsigned long, double>(double*, unsigned long, double const&, std::random_access_iterator_tag) [68]
+-----------------------------------------------
+                0.00    0.00      10/10          void std::_Destroy<double*, double>(double*, double*, std::allocator<double>&) [77]
+[76]     0.0    0.00    0.00      10         void std::_Destroy<double*>(double*, double*) [76]
+                0.00    0.00      10/10          void std::_Destroy_aux<true>::__destroy<double*>(double*, double*) [49]
+-----------------------------------------------
+                0.00    0.00      10/10          std::vector<double, std::allocator<double> >::~vector() [66]
+[77]     0.0    0.00    0.00      10         void std::_Destroy<double*, double>(double*, double*, std::allocator<double>&) [77]
+                0.00    0.00      10/10          void std::_Destroy<double*>(double*, double*) [76]
+-----------------------------------------------
+                0.00    0.00      10/10          double* std::__fill_n_a<double*, unsigned long, double>(double*, unsigned long, double const&, std::random_access_iterator_tag) [68]
+[78]     0.0    0.00    0.00      10         void std::__fill_a<double*, double>(double*, double*, double const&) [78]
+                0.00    0.00      10/10          __gnu_cxx::__enable_if<std::__is_scalar<double>::__value, void>::__type std::__fill_a1<double*, double>(double*, double*, double const&) [79]
+-----------------------------------------------
+                0.00    0.00      10/10          void std::__fill_a<double*, double>(double*, double*, double const&) [78]
+[79]     0.0    0.00    0.00      10         __gnu_cxx::__enable_if<std::__is_scalar<double>::__value, void>::__type std::__fill_a1<double*, double>(double*, double*, double const&) [79]
+-----------------------------------------------
+                0.00    0.00      10/10          void std::_Construct<double>(double*) [67]
+[80]     0.0    0.00    0.00      10         operator new(unsigned long, void*) [80]
+-----------------------------------------------
+                0.00    0.00       1/4           rng_t::seed(unsigned int) [92]
+                0.00    0.00       1/4           ln_rng_t::seed(unsigned int, double, double) [94]
+                0.00    0.00       2/4           std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine(unsigned long) [87]
+[81]     0.0    0.00    0.00       4         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [81]
+                0.00    0.00    2496/2496        unsigned long std::__detail::__mod<unsigned long, 4294967296ul, 1ul, 0ul>(unsigned long) [34]
+                0.00    0.00    2492/2492        unsigned long std::__detail::__mod<unsigned long, 624ul, 1ul, 0ul>(unsigned long) [36]
+-----------------------------------------------
+                0.00    0.00       2/2           std::normal_distribution<double>::normal_distribution(double, double) [83]
+[82]     0.0    0.00    0.00       2         std::normal_distribution<double>::param_type::param_type(double, double) [82]
+-----------------------------------------------
+                0.00    0.00       2/2           std::normal_distribution<double>::normal_distribution() [84]
+[83]     0.0    0.00    0.00       2         std::normal_distribution<double>::normal_distribution(double, double) [83]
+                0.00    0.00       2/2           std::normal_distribution<double>::param_type::param_type(double, double) [82]
+-----------------------------------------------
+                0.00    0.00       2/2           std::lognormal_distribution<double>::lognormal_distribution(double, double) [86]
+[84]     0.0    0.00    0.00       2         std::normal_distribution<double>::normal_distribution() [84]
+                0.00    0.00       2/2           std::normal_distribution<double>::normal_distribution(double, double) [83]
+-----------------------------------------------
+                0.00    0.00       2/2           std::lognormal_distribution<double>::lognormal_distribution(double, double) [86]
+[85]     0.0    0.00    0.00       2         std::lognormal_distribution<double>::param_type::param_type(double, double) [85]
+-----------------------------------------------
+                0.00    0.00       1/2           ln_rng_t::seed(unsigned int, double, double) [94]
+                0.00    0.00       1/2           std::lognormal_distribution<double>::lognormal_distribution() [96]
+[86]     0.0    0.00    0.00       2         std::lognormal_distribution<double>::lognormal_distribution(double, double) [86]
+                0.00    0.00       2/2           std::lognormal_distribution<double>::param_type::param_type(double, double) [85]
+                0.00    0.00       2/2           std::normal_distribution<double>::normal_distribution() [84]
+-----------------------------------------------
+                0.00    0.00       2/2           std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine() [88]
+[87]     0.0    0.00    0.00       2         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine(unsigned long) [87]
+                0.00    0.00       2/4           std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [81]
+-----------------------------------------------
+                0.00    0.00       1/2           rng_t::rng_t() [93]
+                0.00    0.00       1/2           ln_rng_t::ln_rng_t() [95]
+[88]     0.0    0.00    0.00       2         std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine() [88]
+                0.00    0.00       2/2           std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine(unsigned long) [87]
+-----------------------------------------------
+                0.00    0.00       2/2           std::uniform_real_distribution<double>::uniform_real_distribution(double, double) [90]
+[89]     0.0    0.00    0.00       2         std::uniform_real_distribution<double>::param_type::param_type(double, double) [89]
+-----------------------------------------------
+                0.00    0.00       1/2           rng_t::seed(unsigned int) [92]
+                0.00    0.00       1/2           std::uniform_real_distribution<double>::uniform_real_distribution() [97]
+[90]     0.0    0.00    0.00       2         std::uniform_real_distribution<double>::uniform_real_distribution(double, double) [90]
+                0.00    0.00       2/2           std::uniform_real_distribution<double>::param_type::param_type(double, double) [89]
+-----------------------------------------------
+                0.00    0.00       1/1           _GLOBAL__sub_I__Z8pbc_loopRSt6vectorIdSaIdEES2_S2_S2_RdS3_S3_dddddddd [98]
+[91]     0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [91]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[92]     0.0    0.00    0.00       1         rng_t::seed(unsigned int) [92]
+                0.00    0.00       1/2           std::uniform_real_distribution<double>::uniform_real_distribution(double, double) [90]
+                0.00    0.00       1/4           std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [81]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[93]     0.0    0.00    0.00       1         rng_t::rng_t() [93]
+                0.00    0.00       1/2           std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine() [88]
+                0.00    0.00       1/1           std::uniform_real_distribution<double>::uniform_real_distribution() [97]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[94]     0.0    0.00    0.00       1         ln_rng_t::seed(unsigned int, double, double) [94]
+                0.00    0.00       1/2           std::lognormal_distribution<double>::lognormal_distribution(double, double) [86]
+                0.00    0.00       1/4           std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [81]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[95]     0.0    0.00    0.00       1         ln_rng_t::ln_rng_t() [95]
+                0.00    0.00       1/2           std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine() [88]
+                0.00    0.00       1/1           std::lognormal_distribution<double>::lognormal_distribution() [96]
+-----------------------------------------------
+                0.00    0.00       1/1           ln_rng_t::ln_rng_t() [95]
+[96]     0.0    0.00    0.00       1         std::lognormal_distribution<double>::lognormal_distribution() [96]
+                0.00    0.00       1/2           std::lognormal_distribution<double>::lognormal_distribution(double, double) [86]
+-----------------------------------------------
+                0.00    0.00       1/1           rng_t::rng_t() [93]
+[97]     0.0    0.00    0.00       1         std::uniform_real_distribution<double>::uniform_real_distribution() [97]
+                0.00    0.00       1/2           std::uniform_real_distribution<double>::uniform_real_distribution(double, double) [90]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2022 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+   [6] move_particles(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double) [51] std::_Vector_base<double, std::allocator<double> >::_Vector_impl::_Vector_impl(std::allocator<double> const&) [22] double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&)
+   [2] calculate_forces(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double, double, double) [52] std::_Vector_base<double, std::allocator<double> >::_Vector_impl::~_Vector_impl() [23] double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::uniform_real_distribution<double>::param_type const&)
+  [91] __static_initialization_and_destruction_0(int, int) [53] std::_Vector_base<double, std::allocator<double> >::_M_deallocate(double*, unsigned long) [61] double* std::__uninitialized_default_n_1<true>::__uninit_default_n<double*, unsigned long>(double*, unsigned long)
+   [7] shrink(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double) [54] std::_Vector_base<double, std::allocator<double> >::_M_create_storage(unsigned long) [62] std::vector<double, std::allocator<double> >::_S_max_size(std::allocator<double> const&)
+   [3] pbc_loop(std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, std::vector<double, std::allocator<double> >&, double&, double&, double&, double, double, double, double, double, double, double, double) [55] std::_Vector_base<double, std::allocator<double> >::_Vector_impl_data::_Vector_impl_data() [63] std::vector<double, std::allocator<double> >::_S_check_init_len(unsigned long, std::allocator<double> const&)
+  [20] rng_t::grnd()          [43] std::_Vector_base<double, std::allocator<double> >::_M_get_Tp_allocator() [64] std::vector<double, std::allocator<double> >::_M_default_initialize(unsigned long)
+  [92] rng_t::seed(unsigned int) [56] std::_Vector_base<double, std::allocator<double> >::_Vector_base(unsigned long, std::allocator<double> const&) [65] std::vector<double, std::allocator<double> >::vector(unsigned long, std::allocator<double> const&)
+  [93] rng_t::rng_t()         [57] std::_Vector_base<double, std::allocator<double> >::~_Vector_base() [66] std::vector<double, std::allocator<double> >::~vector()
+  [24] ln_rng_t::grnd()       [58] std::allocator_traits<std::allocator<double> >::deallocate(std::allocator<double>&, double*, unsigned long) [4] std::vector<double, std::allocator<double> >::operator[](unsigned long)
+  [94] ln_rng_t::seed(unsigned int, double, double) [59] std::allocator_traits<std::allocator<double> >::allocate(std::allocator<double>&, unsigned long) [33] std::__detail::_Mod<unsigned long, 4294967296ul, 1ul, 0ul, true, true>::__calc(unsigned long)
+  [95] ln_rng_t::ln_rng_t()   [60] std::allocator_traits<std::allocator<double> >::max_size(std::allocator<double> const&) [35] std::__detail::_Mod<unsigned long, 624ul, 1ul, 0ul, true, true>::__calc(unsigned long)
+  [44] __gnu_cxx::new_allocator<double>::deallocate(double*, unsigned long) [82] std::normal_distribution<double>::param_type::param_type(double, double) [34] unsigned long std::__detail::__mod<unsigned long, 4294967296ul, 1ul, 0ul>(unsigned long)
+  [45] __gnu_cxx::new_allocator<double>::allocate(unsigned long, void const*) [83] std::normal_distribution<double>::normal_distribution(double, double) [36] unsigned long std::__detail::__mod<unsigned long, 624ul, 1ul, 0ul>(unsigned long)
+  [40] __gnu_cxx::new_allocator<double>::new_allocator(__gnu_cxx::new_allocator<double> const&) [84] std::normal_distribution<double>::normal_distribution() [19] std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double>::_Adaptor(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&)
+  [46] __gnu_cxx::new_allocator<double>::new_allocator() [29] double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [17] std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>, double>::operator()()
+  [38] __gnu_cxx::new_allocator<double>::~new_allocator() [30] double std::normal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::normal_distribution<double>::param_type const&) [67] void std::_Construct<double>(double*)
+  [41] __gnu_cxx::new_allocator<double>::_M_max_size() const [85] std::lognormal_distribution<double>::param_type::param_type(double, double) [68] double* std::__fill_n_a<double*, unsigned long, double>(double*, unsigned long, double const&, std::random_access_iterator_tag)
+  [47] __gnu_cxx::new_allocator<double>::max_size() const [96] std::lognormal_distribution<double>::lognormal_distribution() [69] double* std::__addressof<double>(double&)
+  [25] std::normal_distribution<double>::param_type::mean() const [86] std::lognormal_distribution<double>::lognormal_distribution(double, double) [70] std::__size_to_integer(unsigned long)
+  [26] std::normal_distribution<double>::param_type::stddev() const [31] double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&) [18] double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&)
+  [27] std::lognormal_distribution<double>::param_type::m() const [32] double std::lognormal_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul> >(std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>&, std::lognormal_distribution<double>::param_type const&) [71] std::iterator_traits<double*>::iterator_category std::__iterator_category<double*>(double* const&)
+  [28] std::lognormal_distribution<double>::param_type::s() const [37] std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::_M_gen_rand() [72] double* std::__uninitialized_default_n<double*, unsigned long>(double*, unsigned long)
+  [16] std::uniform_real_distribution<double>::param_type::a() const [14] std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::min() [73] double* std::__uninitialized_default_n_a<double*, unsigned long, double>(double*, unsigned long, std::allocator<double>&)
+  [21] std::uniform_real_distribution<double>::param_type::b() const [81] std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::seed(unsigned long) [74] unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&)
+   [5] std::vector<double, std::allocator<double> >::size() const [87] std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine(unsigned long) [75] double* std::fill_n<double*, unsigned long, double>(double*, unsigned long, double const&)
+  [42] std::allocator<double>::allocator(std::allocator<double> const&) [88] std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::mersenne_twister_engine() [76] void std::_Destroy<double*>(double*, double*)
+  [48] std::allocator<double>::allocator() [15] std::mersenne_twister_engine<unsigned long, 32ul, 624ul, 397ul, 31ul, 2567483615ul, 11ul, 4294967295ul, 7ul, 2636928640ul, 15ul, 4022730752ul, 18ul, 1812433253ul>::operator()() [77] void std::_Destroy<double*, double>(double*, double*, std::allocator<double>&)
+  [39] std::allocator<double>::~allocator() [89] std::uniform_real_distribution<double>::param_type::param_type(double, double) [78] void std::__fill_a<double*, double>(double*, double*, double const&)
+  [49] void std::_Destroy_aux<true>::__destroy<double*>(double*, double*) [97] std::uniform_real_distribution<double>::uniform_real_distribution() [79] __gnu_cxx::__enable_if<std::__is_scalar<double>::__value, void>::__type std::__fill_a1<double*, double>(double*, double*, double const&)
+  [50] std::_Vector_base<double, std::allocator<double> >::_M_allocate(unsigned long) [90] std::uniform_real_distribution<double>::uniform_real_distribution(double, double) [80] operator new(unsigned long, void*)
