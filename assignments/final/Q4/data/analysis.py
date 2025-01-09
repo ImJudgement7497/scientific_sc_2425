@@ -26,6 +26,7 @@ speedup = times_1_thread / times_96_threads
 
 thread_scaling_circles = read_data_from_file("./data/thread_scaling/thread_scaling_circles.txt")
 thread_scaling_times = read_data_from_file("./data/thread_scaling/thread_scaling_times.txt")
+thread_scaling_speedup = read_data_from_file("./data/thread_scaling/thread_scaling_speedup.txt")
 thread_nums = np.array([1, 2, 3, 4, 8, 16, 32, 40, 48, 56, 64, 72, 80, 88, 96])
 ##########################
 plt.plot(r_l_ratios, speedup, "o-")
@@ -54,4 +55,13 @@ plt.title("Thread Scaling for Time")
 plt.xlabel("Threads")
 plt.ylabel("Time(s)")
 plt.savefig("./data/thread_scaling/thread_scaling_times.png")
+plt.close()
+##########################
+plt.plot(thread_nums, thread_scaling_speedup, "o-")
+plt.plot(thread_nums, thread_nums, "red")
+plt.title("Speedup from 1 -> 96 threads")
+plt.legend(["Actual Speedup", "Ideal Speedup"])
+plt.xlabel("Threads")
+plt.ylabel("Speedup")
+plt.savefig("./data/thread_scaling/thread_scaling_speedup.png")
 plt.close()
