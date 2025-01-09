@@ -6,7 +6,7 @@
 #include <omp.h>
 #include <getopt.h>
 #include "rng.h"
-/* NEED TO APPLY FORMATTING TO ALL THE FILES */
+
 using namespace std;
 
 /* ------------------------------GLOBAL VARIABlE------------------------------ */
@@ -44,7 +44,7 @@ inline Cell get_grid_cell(const Point &p)
     return {static_cast<int>(p.first / (L / grid_size)), static_cast<int>(p.second / (L / grid_size))};
 }
 
-// Check if a new circle overlaps with circles in nearby grid cells
+// Check if a new circle overlaps with circles in nearby grid cells and sets flag if so
 int check_overlap(pair<Point, bool> &trial_placement)
 {
 
@@ -71,7 +71,7 @@ int check_overlap(pair<Point, bool> &trial_placement)
 
                     if (distance_squared < r_comp)
                     {
-                        trial_placement.second = true; // If overlap, return true
+                        trial_placement.second = true; // If overlap, set flag to true
                         return 0;
                     }
                 }
@@ -82,6 +82,13 @@ int check_overlap(pair<Point, bool> &trial_placement)
     return 1;
 }
 
+/* Updates grid with circle */
+void place_circle(const Point &circle)
+{
+    Cell cell = get_grid_cell(circle);
+    grid[cell].push_back(circle);
+}
+
 /* ------------------------------I/O FUNCTIONS------------------------------ */
 
 /* Writes a vector of pairs to a binary file */
@@ -90,7 +97,6 @@ void write_coordinates(const vector<Point> &coordinates, const string &file_name
     ofstream file(file_name, ios::binary);
     if (file.is_open())
     {
-        // Write each coordinate (pair of doubles) to the file
         for (const auto &coord : coordinates)
         {
             file.write(reinterpret_cast<const char *>(&coord.first), sizeof(coord.first));
@@ -110,7 +116,6 @@ void write_vector(const vector<double> &vec, const string &file_name)
     ofstream file(file_name, ios::binary);
     if (file.is_open())
     {
-        // Write each double to the file
         for (const auto &elm : vec)
         {
             file.write(reinterpret_cast<const char *>(&elm), sizeof(elm));
@@ -139,7 +144,6 @@ void write_string_to_file(const string &data, const string &file_name)
 }
 
 /* Parses and loads the config file */
-/* CAN MAKE THIS BETTER BY NOT HAVING THE IF STATEMENTS, BUT WORK FOR NOW */
 bool load_config(const string &filename)
 {
     ifstream file(filename);
@@ -152,7 +156,6 @@ bool load_config(const string &filename)
     string line;
     while (getline(file, line))
     {
-        // Skip empty lines or lines that are comments
         if (line.empty() || line[0] == '#')
         {
             continue;
@@ -166,7 +169,6 @@ bool load_config(const string &filename)
 
             float value = stof(value_str);
 
-            // Assign the value to the corresponding parameter
             if (key == "L")
             {
                 L = value;
@@ -198,13 +200,6 @@ bool load_config(const string &filename)
 
 /* ------------------------------SIMULATION FUNCTIONS------------------------------*/
 
-/* Updates grid with circle */
-void place_circle(const Point &circle)
-{
-    Cell cell = get_grid_cell(circle);
-    grid[cell].push_back(circle);
-}
-
 /* Generates and returns a Point, within the boundaries */
 Point gen_random_pair(rng &random_gen)
 {
@@ -216,9 +211,10 @@ Point gen_random_pair(rng &random_gen)
 
 pair<size_t, double> execute_parallel()
 {
-#pragma omp parallel shared(num_of_threads)
+
+    #pragma omp parallel shared(num_of_threads)
     {
-#pragma omp single
+        #pragma omp single
         {
             num_of_threads = omp_get_num_threads();
         }
@@ -232,6 +228,7 @@ pair<size_t, double> execute_parallel()
     bool is_overlapping;
     vector<Point> circle_coords;
     vector<pair<Point, bool>> trial_placements(sampling_frequency);
+    size_t previous_size = 0;
 
     // Determine the grid size dynamically based on r
     grid_size = static_cast<int>(L / (2 * r));
@@ -241,17 +238,11 @@ pair<size_t, double> execute_parallel()
     circle_coords.push_back(first_circle);
     place_circle(first_circle);
 
-    double P;
-    double P_const = M_PI * r * r / (L * L);
-
-    size_t previous_size = 0;
-    int sample_interval = sampling_frequency / 4; // MAKE THIS A USER PARAMETER
-
     double start_time = omp_get_wtime();
 
     bool done = false;
 
-#pragma omp parallel shared(done, trial_placements, circle_coords, grid, seed)
+    #pragma omp parallel shared(done, trial_placements, circle_coords, grid, seed)
     {
         rng local_random_gen;
         int tid = omp_get_thread_num();
@@ -259,8 +250,8 @@ pair<size_t, double> execute_parallel()
 
         while (!done)
         {
-// Parallel loop to generate trials
-#pragma omp for schedule(static)
+            // Parallel loop to generate trials
+            #pragma omp for schedule(static)
             for (int i = 0; i < sampling_frequency; i++)
             {
                 if (done)
@@ -270,11 +261,11 @@ pair<size_t, double> execute_parallel()
                 trial_placements[i] = {new_circle, false};            // Store it globally
             }
 
-// Sync all threads, ensuring that trials are generated before checking overlaps
-#pragma omp barrier
+            // Sync all threads, ensuring that trials are generated before checking overlaps
+            #pragma omp barrier
 
-// **Overlap Check Between Trials and Grid**
-#pragma omp for schedule(dynamic)
+            // **Overlap Check Between Trials and Grid**
+            #pragma omp for schedule(dynamic)
             for (int i = 0; i < sampling_frequency; i++)
             {
                 if (done)
@@ -283,12 +274,12 @@ pair<size_t, double> execute_parallel()
                 check_overlap(trial_placements[i]);
             }
 
-// Sync all threads after overlap check
-#pragma omp barrier
+            // Sync all threads after overlap check
+            #pragma omp barrier
 
-// **Overlap Check Between Trials Internally**
-// All trials generated by all threads must be compared with each other.
-#pragma omp for schedule(static)
+            // **Overlap Check Between Trials Internally**
+            // All trials generated by all threads must be compared with each other.
+            #pragma omp for schedule(static)
             for (int i = 0; i < sampling_frequency; i++)
             {
                 if (done)
@@ -297,7 +288,7 @@ pair<size_t, double> execute_parallel()
                 if (trial_placements[i].second)
                     continue; // Skip raised flag already
 
-                for (int j = i + 1; j < sampling_frequency; j++) // Compare each trial with others
+                for (int j = i + 1; j < sampling_frequency; j++)
                 {
                     // Compare trial[i] with trial[j] for overlap
                     Point circle1 = trial_placements[i].first;
@@ -316,31 +307,39 @@ pair<size_t, double> execute_parallel()
                 }
             }
 
-#pragma omp barrier
+            #pragma omp barrier
 
-// #pragma omp single
-//             {
-//                 for (int i = 0; i < sampling_frequency; i++)
-//                 {
-//                     cout << trial_placements[i].second << endl;
-//                 }
-//             }
+            #ifdef DEBUG
+                #pragma omp single
+                            {
+                                for (int i = 0; i < sampling_frequency; i++)
+                                {
+                                    cout << trial_placements[i].second << endl;
+                                }
+                            }
+            #endif
 
-// Place the trials in the grid based on their flag
-#pragma omp for schedule(dynamic)
+            // Place the trials in the grid based on their flag
+            #pragma omp for schedule(dynamic)
             for (int i = 0; i < sampling_frequency; i++)
             {
                 if (done)
                     continue;
 
-                // cout << "Checking trial " << i << ": " << trial_placements[i].second << " (overlap status)\n";
+                #ifdef DEBUG
+                    cout << "Checking trial " << i << ": " << trial_placements[i].second << " (overlap status)\n";
+                #endif
 
                 if (!trial_placements[i].second) // No overlap
                 {
-                    // cout << "Placing trial " << i << " into grid\n";
+                    #ifdef DEBUG
+                    
+                        cout << "Placing trial " << i << " into grid\n";
+                    
+                    #endif 
 
-// Enter critical section to update shared resources
-#pragma omp critical
+                    // Enter critical section to update shared resources
+                    #pragma omp critical
                     {
                         Point new_circle = trial_placements[i].first;
                         circle_coords.push_back(new_circle); // Add to circle coordinates
@@ -349,21 +348,22 @@ pair<size_t, double> execute_parallel()
                 }
             }
 
-#pragma omp barrier
+            #pragma omp barrier
 
-// Only one thread performs the convergence check
-#pragma omp single
+            // Only one thread performs the convergence check
+            #pragma omp single
             {
                 size_t current_size = circle_coords.size();
-#ifdef VIS
+                #ifdef VIS
 
-                printf("\rNumber of Circles: %zu", current_size);
-                fflush(stdout);
-#endif // VIS
+                    printf("\rNumber of Circles: %zu", current_size);
+                    fflush(stdout);
+
+                #endif // VIS      
+
                 if (current_size == previous_size)
                 {
                     // If no progress, we can stop the simulation (convergence reached)
-                    P = current_size * P_const;
                     done = true; // Signal threads to stop
                 }
                 else
@@ -374,6 +374,7 @@ pair<size_t, double> execute_parallel()
             }
         }
     }
+
     double end_time = omp_get_wtime();
     double elpased_time = end_time - start_time;
     size_t current_size = circle_coords.size();
@@ -382,20 +383,9 @@ pair<size_t, double> execute_parallel()
     return {current_size, elpased_time};
 }
 
-#include <iostream>
-#include <string>
-#include <getopt.h> // for handling command-line arguments
-
-using namespace std;
-
-// Assuming load_config and other necessary functions are defined elsewhere in the program
-extern bool load_config(const string &path);
-extern pair<size_t, double> execute_parallel();
-extern void write_string_to_file(const string &str, const string &filename);
-
-// Main function
 int main(int argc, char **argv)
 {
+    /* Handles the parsing of command line arguments */
     string config_path = "./config/config.txt"; // Default config path
     string file_add_on = "";                    // File add-on string, empty by default
 
@@ -420,7 +410,7 @@ int main(int argc, char **argv)
     }
 
     // Ensure file_add_on argument if VIK is defined
-#ifdef VIK
+    #ifdef VIK
     if (argc <= optind)
     { // No file add-on argument given
         cerr << "Error: Missing required file add-on argument when VIK is defined." << endl;
@@ -428,7 +418,7 @@ int main(int argc, char **argv)
         return -1;
     }
     file_add_on = argv[optind]; // Capture file add-on from command line
-#endif                          // VIK
+    #endif
 
     // Load the configuration from the specified path
     if (!load_config(config_path))
@@ -439,28 +429,27 @@ int main(int argc, char **argv)
 
     cout << "Running with L = " << L << ", r = " << r << ", and sf = " << sampling_frequency << endl;
 
-#ifdef VIK
-    // If VIK is defined, use the file add-on for file names
-    pair<size_t, double> temp = execute_parallel();
-    write_string_to_file(to_string(temp.first), "./num_of_circles_" + file_add_on + ".txt");
-    write_string_to_file(to_string(temp.second), "./times_" + file_add_on + ".txt");
+    #ifdef VIK
 
-#endif // VIK
+        pair<size_t, double> temp = execute_parallel();
+        write_string_to_file(to_string(temp.first), "./num_of_circles_" + file_add_on + ".txt");
+        write_string_to_file(to_string(temp.second), "./times_" + file_add_on + ".txt");
 
-#ifndef VIK
-    // If VIK is not defined, proceed with the default behavior
-    pair<size_t, double> temp = execute_parallel();
-    double P = temp.first * M_PI * r * r / (L * L);
+    #endif 
 
-    string message = "Number of circles: " + to_string(temp.first) + ", Packing Fraction = " + to_string(P) + ", Time = " + to_string(temp.second);
-    cout << endl;
-    cout << message << endl;
+    #ifndef VIK
+        pair<size_t, double> temp = execute_parallel();
+        double P = temp.first * M_PI * r * r / (L * L);
 
-    write_string_to_file(message, "./data.txt");
-    write_string_to_file(to_string(temp.first), "./num_of_circles.txt");
-    write_string_to_file(to_string(temp.second), "./time.txt");
+        string message = "Number of circles: " + to_string(temp.first) + ", Packing Fraction = " + to_string(P) + ", Time = " + to_string(temp.second);
+        cout << endl;
+        cout << message << endl;
 
-#endif // !VIK
+        write_string_to_file(message, "./data.txt");
+        write_string_to_file(to_string(temp.first), "./num_of_circles.txt");
+        write_string_to_file(to_string(temp.second), "./time.txt");
+
+    #endif
 
     return 0;
 }

@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include "vtimer_t.h"
 #include "rng.h"
-/* NEED TO APPLY FORMATTING TO ALL THE FILES */
+
 using namespace std;
 
 /* ------------------------------GLOBAL VARIABlE------------------------------ */
@@ -47,6 +47,7 @@ bool check_overlap(const Point &new_circle)
 {
     Cell cell = get_grid_cell(new_circle);
 
+    // Pre-define list for caching purposes
     const vector<Cell> neighbours = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 0}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
 
     // Check nearby neighbour cells
@@ -76,6 +77,13 @@ bool check_overlap(const Point &new_circle)
     return false; // No overlap found
 }
 
+/* Updates grid with circle */
+void place_circle(const Point &circle)
+{
+    Cell cell = get_grid_cell(circle);
+    grid[cell].push_back(circle);
+}
+
 /* ------------------------------I/O FUNCTIONS------------------------------ */
 
 /* Writes a vector of pairs to a binary file */
@@ -84,7 +92,6 @@ void write_coordinates(const vector<Point> &coordinates, const string &file_name
     ofstream file(file_name, ios::binary);
     if (file.is_open())
     {
-        // Write each coordinate (pair of doubles) to the file
         for (const auto &coord : coordinates)
         {
             file.write(reinterpret_cast<const char *>(&coord.first), sizeof(coord.first));
@@ -104,7 +111,6 @@ void write_vector(const vector<double> &vec, const string &file_name)
     ofstream file(file_name, ios::binary);
     if (file.is_open())
     {
-        // Write each double to the file
         for (const auto &elm : vec)
         {
             file.write(reinterpret_cast<const char *>(&elm), sizeof(elm));
@@ -133,7 +139,6 @@ void write_string_to_file(const string &data, const string &file_name)
 }
 
 /* Parses and loads the config file */
-/* CAN MAKE THIS BETTER BY NOT HAVING THE IF STATEMENTS, BUT WORK FOR NOW */
 bool load_config(const string &filename)
 {
     ifstream file(filename);
@@ -146,7 +151,6 @@ bool load_config(const string &filename)
     string line;
     while (getline(file, line))
     {
-        // Skip empty lines or lines that are comments
         if (line.empty() || line[0] == '#')
         {
             continue;
@@ -160,7 +164,6 @@ bool load_config(const string &filename)
 
             float value = stof(value_str);
 
-            // Assign the value to the corresponding parameter
             if (key == "L")
             {
                 L = value;
@@ -192,13 +195,6 @@ bool load_config(const string &filename)
 
 /* ------------------------------SIMULATION FUNCTIONS------------------------------*/
 
-/* Updates grid with circle */
-void place_circle(const Point &circle)
-{
-    Cell cell = get_grid_cell(circle);
-    grid[cell].push_back(circle);
-}
-
 /* Generates and returns a Point, within the boundaries */
 Point gen_random_pair(rng &random_gen)
 {
@@ -216,9 +212,9 @@ int main()
         return -1;
     }
 
-#ifdef DEBUG
-    cout << "DEBUGGING ENABLED" << endl;
-#endif
+    #ifdef DEBUG
+        cout << "DEBUGGING ENABLED" << endl;
+    #endif
 
     cout << "Running with L = " << L << " and r = " << r << " and sf = " << sampling_frequency << endl;
 
@@ -246,7 +242,6 @@ int main()
     size_t current_size = circle_coords.size();
     double P;
     double P_const = M_PI * r * r / (L * L);
-    // p_fractions.push_back(P);
 
     size_t previous_size = 0;
     int k = 0;
@@ -256,17 +251,17 @@ int main()
     {
         for (int i = 0; i < sampling_frequency; i++)
         {
-#ifdef VIS
-            if (k < p_fractions.size())
-            {
-                printf("\r k = %d, i = %d, size = %zu, P = %f", k, i, circle_coords.size(), p_fractions[k]);
-            }
-            else
-            {
-                printf("\r k = %d, i = %d, size = %zu", k, i, circle_coords.size());
-            }
-            fflush(stdout);
-#endif
+            #ifdef VIS
+                        if (k < p_fractions.size())
+                        {
+                            printf("\r k = %d, i = %d, size = %zu, P = %f", k, i, circle_coords.size(), p_fractions[k]);
+                        }
+                        else
+                        {
+                            printf("\r k = %d, i = %d, size = %zu", k, i, circle_coords.size());
+                        }
+                        fflush(stdout);
+            #endif
             Point new_circle = gen_random_pair(random_gen);
 
             // Check for overlaps in the grid

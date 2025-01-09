@@ -68,8 +68,8 @@ void calculate_forces(std::vector<double> &x,
    double fx, fy, fz;                 // force components
    bool bpx, bmx, bpy, bmy, bpz, bmz; // boolean tests
 
-// loop over all particles and calculate total force
-#pragma omp parallel for default(shared) private(rix, riy, riz, rir, fx, fy, fz, bpx, bmx, bpy, bmy, bpz, bmz)
+   // loop over all particles and calculate total force
+   #pragma omp parallel for default(shared) private(rix, riy, riz, rir, fx, fy, fz, bpx, bmx, bpy, bmy, bpz, bmz)
    for (int i = 0; i < np; i++)
    {
       riz = z[i];
@@ -168,8 +168,8 @@ void move_particles(std::vector<double> &x,
    const double mass = 1.0;
    const int np = x.size();
 
-// relaxation algorithm - simply move particles along direction of force
-#pragma omp parallel for default(shared)
+   // relaxation algorithm - simply move particles along direction of force
+   #pragma omp parallel for default(shared)
    for (int i = 0; i < np; i++)
    {
       x[i] = x[i] + fx[i] * dt;
@@ -190,8 +190,8 @@ void shrink(std::vector<double> &x,
    const double shrink_factor = (L - dL) / L;
    const int np = x.size();
 
-// relaxation algorithm - simply move particles along direction of force
-#pragma omp parallel for default(shared)
+   // relaxation algorithm - simply move particles along direction of force
+   #pragma omp parallel for default(shared)
    for (int i = 0; i < np; i++)
    {
       x[i] = x[i] * shrink_factor;
